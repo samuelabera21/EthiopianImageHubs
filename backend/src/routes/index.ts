@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import authRoutes from "./auth.routes";
+
 const router = Router();
 
 router.get("/", (_, res) => {
@@ -17,5 +19,10 @@ router.get("/health", (_, res) => {
     timestamp: new Date(),
   });
 });
+
+/**
+ * Authentication
+ */
+router.use("/auth", authRoutes);
 
 export default router;
