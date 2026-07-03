@@ -125,4 +125,13 @@ export class AuthRepository {
   }
 }
 
+/**
+ * Execute database transaction
+ */
+// async transaction<T>(
+//   callback: (tx: typeof prisma) => Promise<T>,
+// ): Promise<T> {
+//   return prisma.$transaction(callback);
+// }
+
 export const authRepository = new AuthRepository();
