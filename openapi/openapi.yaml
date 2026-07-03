@@ -1,0 +1,632 @@
+openapi: 3.1.0
+
+info:
+  title: EthiopiaHub Images API
+  version: 1.0.0
+  description: |
+    REST API for EthiopiaHub Images.
+
+    Sprint 1:
+      Authentication Module
+
+    This API follows:
+      - REST Architecture
+      - JSON Request/Response
+      - JWT Authentication
+      - OpenAPI 3.1 Specification
+
+  contact:
+    name: EthiopiaHub Images Team
+    email: support@ethiopiahub.local
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Local Development Server
+
+tags:
+  - name: Authentication
+    description: User Authentication APIs
+
+security:
+  - BearerAuth: []
+
+paths:
+
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+
+      summary: Register a new user
+      description: Creates a new user account.
+
+      operationId: registerUser
+
+      security: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+
+      responses:
+        '201':
+          description: User registered successfully
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+        '400':
+          description: Validation failed
+          $ref: '#/components/responses/ValidationError'
+
+        '409':
+          description: Email already exists
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+
+      summary: Login
+
+      description: Authenticate user and return JWT tokens.
+
+      operationId: loginUser
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+
+      responses:
+
+        '200':
+          description: Login successful
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+        '401':
+          description: Invalid credentials
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '403':
+          description: Email not verified
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '423':
+          description: Account suspended
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/logout:
+    post:
+      tags:
+        - Authentication
+
+      summary: Logout
+
+      description: Invalidate the current authenticated session.
+
+      operationId: logoutUser
+
+      security:
+        - BearerAuth: []
+
+      responses:
+
+        '200':
+          description: Logout successful
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /auth/refresh:
+    post:
+      tags:
+        - Authentication
+
+      summary: Refresh Access Token
+
+      description: Exchange a valid refresh token for a new access token.
+
+      operationId: refreshAccessToken
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              type: object
+
+              required:
+                - refreshToken
+
+              properties:
+
+                refreshToken:
+                  type: string
+
+      responses:
+
+        '200':
+          description: New access token generated
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+            /auth/forgot-password:
+    post:
+      tags:
+        - Authentication
+
+      summary: Request password reset
+
+      description: Generate a password reset request.
+
+      operationId: forgotPassword
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+
+      responses:
+
+        '200':
+          description: Password reset request created
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+
+  /auth/reset-password:
+    post:
+      tags:
+        - Authentication
+
+      summary: Reset password
+
+      description: Complete the password reset process.
+
+      operationId: resetPassword
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+
+      responses:
+
+        '200':
+          description: Password reset successful
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          description: Invalid or expired reset token
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+
+  /auth/verify-email:
+    post:
+      tags:
+        - Authentication
+
+      summary: Verify email
+
+      description: Verify the user's email address.
+
+      operationId: verifyEmail
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailRequest'
+
+      responses:
+
+        '200':
+          description: Email verified successfully
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          description: Invalid verification token
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /auth/me:
+    get:
+      tags:
+        - Authentication
+
+      summary: Get current user
+
+      description: Return the currently authenticated user's profile.
+
+      operationId: getCurrentUser
+
+      security:
+        - BearerAuth: []
+
+      responses:
+
+        '200':
+          description: Current authenticated user
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+
+          components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    ApiResponse:
+      type: object
+      required:
+        - success
+        - message
+
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Request completed successfully
+
+    ErrorResponse:
+      type: object
+
+      required:
+        - success
+        - message
+
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+
+        errors:
+          type: array
+          items:
+            type: string
+
+    UserSummary:
+      type: object
+
+      properties:
+
+        id:
+          type: string
+          format: uuid
+
+        firstName:
+          type: string
+
+        lastName:
+          type: string
+
+        email:
+          type: string
+          format: email
+
+        role:
+          type: string
+          example: USER
+
+        emailVerified:
+          type: boolean
+
+    TokenResponse:
+      type: object
+
+      required:
+        - accessToken
+        - refreshToken
+
+      properties:
+
+        accessToken:
+          type: string
+
+        refreshToken:
+          type: string
+
+        expiresIn:
+          type: integer
+          example: 900
+
+    AuthResponse:
+      allOf:
+
+        - $ref: '#/components/schemas/ApiResponse'
+
+        - type: object
+
+          properties:
+
+            data:
+              type: object
+
+              properties:
+
+                user:
+                  $ref: '#/components/schemas/UserSummary'
+
+                tokens:
+                  $ref: '#/components/schemas/TokenResponse'
+
+    RegisterRequest:
+      type: object
+
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+
+      properties:
+
+        firstName:
+          type: string
+          minLength: 2
+          maxLength: 50
+
+        lastName:
+          type: string
+          minLength: 2
+          maxLength: 50
+
+        email:
+          type: string
+          format: email
+
+        password:
+          type: string
+          format: password
+          minLength: 8
+
+    LoginRequest:
+      type: object
+
+      required:
+        - email
+        - password
+
+      properties:
+
+        email:
+          type: string
+          format: email
+
+        password:
+          type: string
+          format: password
+
+    ForgotPasswordRequest:
+      type: object
+
+      required:
+        - email
+
+      properties:
+
+        email:
+          type: string
+          format: email
+
+    ResetPasswordRequest:
+      type: object
+
+      required:
+        - token
+        - password
+
+      properties:
+
+        token:
+          type: string
+
+        password:
+          type: string
+          format: password
+          minLength: 8
+
+    VerifyEmailRequest:
+      type: object
+
+      required:
+        - token
+
+      properties:
+
+        token:
+          type: string
+
+
+  responses:
+
+    ValidationError:
+      description: Request validation failed
+
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    UnauthorizedError:
+      description: Authentication required
+
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InvalidCredentials:
+      description: Invalid email or password
+
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    EmailAlreadyExists:
+      description: Email address is already registered
+
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    EmailNotVerified:
+      description: Email address has not been verified
+
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    AccountSuspended:
+      description: User account has been suspended
+
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Requested resource was not found
+
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error
+
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+
+            
