@@ -47,7 +47,7 @@ export class AuthService {
     //------------------------------------
 
     const role =
-      await authRepository.findRoleByName("User");
+      await authRepository.findRoleByName("USER");
 
     if (!role) {
       throw new Error(
