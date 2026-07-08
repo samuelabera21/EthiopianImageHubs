@@ -12,4 +12,6 @@ app.listen(PORT, () => {
  Port        : ${PORT}
 =========================================
 `);
+
+console.log(env.backendUrl);
 });

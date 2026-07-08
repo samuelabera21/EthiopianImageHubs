@@ -91,7 +91,8 @@ model EmailVerification {
   userId String @db.Uuid
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  tokenHash String @db.VarChar(255)
+
+  tokenHash String @unique @db.VarChar(255)
 
   expiresAt  DateTime
   verifiedAt DateTime?
@@ -108,7 +109,8 @@ model PasswordReset {
   userId String @db.Uuid
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  tokenHash String @db.VarChar(255)
+ 
+  tokenHash String @unique @db.VarChar(255)
 
   expiresAt DateTime
   usedAt    DateTime?
