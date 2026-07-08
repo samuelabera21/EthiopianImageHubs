@@ -1,0 +1,776 @@
+openapi: 3.1.0
+
+info:
+  title: EthiopiaHub Images API
+  version: 1.0.0
+  description: |
+    REST API for EthiopiaHub Images.
+
+    Sprint 1 implements the complete Authentication Module.
+
+    Features:
+      - User Registration
+      - User Login
+      - Email Verification
+      - Forgot Password
+      - Reset Password
+      - Current User
+      - Refresh Access Token
+      - Logout
+
+    Authentication uses JWT Access Tokens and Refresh Tokens.
+
+  contact:
+    name: EthiopiaHub Images Team
+    email: support@ethiopiahub.local
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Local Development Server
+
+tags:
+  - name: Authentication
+    description: Authentication APIs
+
+security:
+  - BearerAuth: []
+
+components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    ########################################
+    # Common Responses
+    ########################################
+
+    ApiResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+          example: Request completed successfully
+
+    ErrorResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+          example: Something went wrong
+
+        errors:
+          type: array
+
+          items:
+            type: object
+
+            properties:
+
+              field:
+                type: string
+
+              message:
+                type: string
+
+    ########################################
+    # User
+    ########################################
+
+    UserSummary:
+      type: object
+
+      properties:
+
+        id:
+          type: string
+          format: uuid
+
+        username:
+          type: string
+          example: samuel
+
+        email:
+          type: string
+          format: email
+
+        role:
+          type: string
+          example: USER
+
+        emailVerified:
+          type: boolean
+
+    CurrentUser:
+      type: object
+
+      properties:
+
+        id:
+          type: string
+          format: uuid
+
+        username:
+          type: string
+
+        email:
+          type: string
+
+        role:
+          type: string
+
+        emailVerified:
+          type: boolean
+
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - PENDING
+            - SUSPENDED
+            - DELETED
+
+        createdAt:
+          type: string
+          format: date-time
+
+    ########################################
+    # Tokens
+    ########################################
+
+    Tokens:
+      type: object
+
+      properties:
+
+        accessToken:
+          type: string
+
+        refreshToken:
+          type: string
+
+    AccessTokenResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        data:
+
+          type: object
+
+          properties:
+
+            accessToken:
+              type: string
+
+    ########################################
+    # Authentication Response
+    ########################################
+
+    AuthResponse:
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+
+        data:
+
+          type: object
+
+          properties:
+
+            user:
+              $ref: '#/components/schemas/UserSummary'
+
+            tokens:
+              $ref: '#/components/schemas/Tokens'
+
+    ########################################
+    # Requests
+    ########################################
+
+    RegisterRequest:
+      type: object
+
+      required:
+        - username
+        - email
+        - password
+
+      properties:
+
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+
+        email:
+          type: string
+          format: email
+
+        password:
+          type: string
+          format: password
+          minLength: 8
+
+    LoginRequest:
+      type: object
+
+      required:
+        - email
+        - password
+
+      properties:
+
+        email:
+          type: string
+          format: email
+
+        password:
+          type: string
+          format: password
+
+    ForgotPasswordRequest:
+      type: object
+
+      required:
+        - email
+
+      properties:
+
+        email:
+          type: string
+          format: email
+
+    ResetPasswordRequest:
+      type: object
+
+      required:
+        - token
+        - password
+
+      properties:
+
+        token:
+          type: string
+
+        password:
+          type: string
+          format: password
+          minLength: 8
+
+    RefreshTokenRequest:
+      type: object
+
+      required:
+        - refreshToken
+
+      properties:
+
+        refreshToken:
+          type: string
+
+  responses:
+
+    ValidationError:
+      description: Validation failed
+
+      content:
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Unauthorized
+
+      content:
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal Server Error
+
+      content:
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+
+      summary: Register a new user
+
+      description: |
+        Creates a new user account.
+
+        A verification email is sent after successful registration.
+
+      operationId: registerUser
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+
+            example:
+              username: samuel
+              email: samuel@example.com
+              password: Password123!
+
+      responses:
+
+        "201":
+          description: User registered successfully
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+        "409":
+          description: Email or username already exists
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+              example:
+                success: false
+                message: Email already exists
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+
+      summary: Login
+
+      description: |
+        Authenticates a user and returns
+        Access Token and Refresh Token.
+
+      operationId: loginUser
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+
+            example:
+              email: samuel@example.com
+              password: Password123!
+
+      responses:
+
+        "200":
+          description: Login successful
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+        "401":
+          description: Invalid credentials
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+              example:
+                success: false
+                message: Invalid email or password
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /auth/verify-email:
+    get:
+      tags:
+        - Authentication
+
+      summary: Verify email
+
+      description: |
+        Verifies a user's email address using
+        the verification token received by email.
+
+      operationId: verifyEmail
+
+      security: []
+
+      parameters:
+        - in: query
+
+          name: token
+
+          required: true
+
+          schema:
+            type: string
+
+          description: Email verification token
+
+      responses:
+
+        "200":
+          description: Email verified successfully
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+              example:
+                success: true
+                message: Email verified successfully
+
+        "400":
+          description: Invalid verification token
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+              example:
+                success: false
+                message: Invalid verification token
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /auth/forgot-password:
+    post:
+      tags:
+        - Authentication
+
+      summary: Request password reset
+
+      description: |
+        Generates a password reset token and sends
+        a password reset email if the account exists.
+
+      operationId: forgotPassword
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+
+            example:
+              email: samuel@example.com
+
+      responses:
+
+        "200":
+          description: Password reset email sent (or accepted silently)
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+              example:
+                success: true
+                message: If the email exists, a password reset link has been sent.
+
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /auth/reset-password:
+    post:
+      tags:
+        - Authentication
+
+      summary: Reset password
+
+      description: |
+        Resets the user's password using
+        the password reset token.
+
+      operationId: resetPassword
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+
+            example:
+              token: 9be662ae1e1f299c31983834345e50b593f86e58eb3bbdd8d2d7acaa2494dde2
+              password: NewPassword123!
+
+      responses:
+
+        "200":
+          description: Password reset successful
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+              example:
+                success: true
+                message: Password reset successfully. Please login again.
+
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+        "401":
+          description: Invalid, expired or used reset token
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+              example:
+                success: false
+                message: Invalid reset token
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /auth/me:
+    get:
+      tags:
+        - Authentication
+
+      summary: Get current authenticated user
+
+      description: |
+        Returns information about the currently
+        authenticated user.
+
+      operationId: getCurrentUser
+
+      security:
+        - BearerAuth: []
+
+      responses:
+
+        "200":
+          description: Current authenticated user
+
+          content:
+            application/json:
+
+              schema:
+                type: object
+
+                properties:
+
+                  success:
+                    type: boolean
+
+                  data:
+                    $ref: "#/components/schemas/CurrentUser"
+
+              example:
+                success: true
+                data:
+                  id: d2a69a84-9456-4a8f-a5cb-883f35d169a4
+                  username: but
+                  email: samuelabera.dev@gmail.com
+                  role: USER
+                  emailVerified: true
+                  status: ACTIVE
+                  createdAt: "2026-07-06T08:48:38.352Z"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /auth/refresh:
+    post:
+      tags:
+        - Authentication
+
+      summary: Refresh access token
+
+      description: |
+        Exchanges a valid refresh token for a new access token.
+
+      operationId: refreshAccessToken
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: "#/components/schemas/RefreshTokenRequest"
+
+            example:
+              refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+      responses:
+
+        "200":
+          description: Access token refreshed successfully
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/AccessTokenResponse"
+
+              example:
+                success: true
+                data:
+                  accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+        "401":
+          description: Invalid or expired refresh token
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+              example:
+                success: false
+                message: Invalid refresh token
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /auth/logout:
+    post:
+      tags:
+        - Authentication
+
+      summary: Logout
+
+      description: |
+        Revokes the current refresh token session.
+        The access token becomes unusable after it expires.
+
+      operationId: logoutUser
+
+      security: []
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: "#/components/schemas/RefreshTokenRequest"
+
+            example:
+              refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+      responses:
+
+        "200":
+          description: Logout successful
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
+
+              example:
+                success: true
+                message: Logout successful
+
+        "401":
+          description: Invalid refresh token
+
+          content:
+            application/json:
+
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"

@@ -67,6 +67,24 @@ export const verifyEmailSchema = z.object({
     .min(1, "Token is required"),
 });
 
+
+/**
+ * Refresh Token Validation
+ */
+export const refreshTokenSchema = z.object({
+  refreshToken: z
+    .string()
+    .min(1, "Refresh token is required"),
+});
+
+
+export const logoutSchema = z.object({
+  refreshToken: z
+    .string()
+    .min(1, "Refresh token is required"),
+});
+
+
 /**
  * Types
  */
@@ -79,3 +97,7 @@ export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 
 export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;
+
+export type RefreshTokenInput = z.infer<typeof refreshTokenSchema>;
+
+export type LogoutInput =  z.infer<typeof logoutSchema>;
