@@ -5,6 +5,7 @@ import swaggerUi from "swagger-ui-express";
 const swaggerDocument = YAML.load(
   path.join(
     process.cwd(),
+    "..",
     "openapi",
     "sprint1OpenAPI.yaml",
   ),
