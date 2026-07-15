@@ -1,0 +1,1335 @@
+openapi: 3.1.0
+
+info:
+  title: EthiopiaHub Images API
+  version: 2.0.0
+  description: |
+    Sprint 2 - Image Management API
+
+    Features:
+      - Image Upload
+      - Image Listing
+      - Image Details
+      - Image Update
+      - Soft Delete
+      - Categories
+      - Tags
+      - Filtering
+      - Pagination
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Local Development
+
+tags:
+  - name: Images
+    description: Image Management
+
+  - name: Categories
+    description: Image Categories
+
+  - name: Tags
+    description: Image Tags
+
+security:
+  - BearerAuth: []
+
+paths:
+
+  /images:
+
+    post:
+      tags:
+        - Images
+
+      summary: Upload Image
+
+      description: Upload a new image with metadata.
+
+      security:
+        - BearerAuth: []
+
+      requestBody:
+        required: true
+
+        content:
+
+          multipart/form-data:
+
+            schema:
+
+              $ref: '#/components/schemas/CreateImageRequest'
+
+      responses:
+
+        '201':
+          description: Image uploaded successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/ImageResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    get:
+
+      tags:
+        - Images
+
+      summary: Get Images
+
+      description: Retrieve paginated images.
+
+      parameters:
+
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+
+        - name: categoryId
+          in: query
+          schema:
+            type: string
+            format: uuid
+
+        - name: ownerId
+          in: query
+          schema:
+            type: string
+            format: uuid
+
+        - name: visibility
+          in: query
+          schema:
+            $ref: '#/components/schemas/ImageVisibility'
+
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/ImageStatus'
+
+      responses:
+
+        '200':
+
+          description: Images retrieved successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/ImageListResponse'
+  /images/{imageId}:
+
+    get:
+
+      tags:
+        - Images
+
+      summary: Get Image Details
+
+      description: Retrieve a single image by its ID.
+
+      parameters:
+
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+
+        '200':
+          description: Image retrieved successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/ImageResponse'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    patch:
+
+      tags:
+        - Images
+
+      summary: Update Image
+
+      description: Update image metadata.
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      requestBody:
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/UpdateImageRequest'
+
+      responses:
+
+        '200':
+
+          description: Image updated successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/ImageResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+
+      tags:
+        - Images
+
+      summary: Delete Image
+
+      description: Soft delete an image.
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+
+        '200':
+
+          description: Image deleted successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /categories:
+
+    get:
+
+      tags:
+        - Categories
+
+      summary: Get Categories
+
+      description: Retrieve all image categories.
+
+      responses:
+
+        '200':
+
+          description: Categories retrieved successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/CategoryListResponse'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+
+      tags:
+        - Categories
+
+      summary: Create Category
+
+      description: Create a new image category.
+
+      security:
+        - BearerAuth: []
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/CreateCategoryRequest'
+
+      responses:
+
+        '201':
+
+          description: Category created successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/CategoryResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /categories/{categoryId}:
+
+    get:
+
+      tags:
+        - Categories
+
+      summary: Get Category
+
+      description: Retrieve a category by its ID.
+
+      parameters:
+
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+
+        '200':
+
+          description: Category retrieved successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/CategoryResponse'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    patch:
+
+      tags:
+        - Categories
+
+      summary: Update Category
+
+      description: Update an existing category.
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/UpdateCategoryRequest'
+
+      responses:
+
+        '200':
+
+          description: Category updated successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/CategoryResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+
+      tags:
+        - Categories
+
+      summary: Delete Category
+
+      description: Delete a category.
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+
+        '200':
+
+          description: Category deleted successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /tags:
+
+    get:
+
+      tags:
+        - Tags
+
+      summary: Get Tags
+
+      description: Retrieve all image tags.
+
+      responses:
+
+        '200':
+
+          description: Tags retrieved successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TagListResponse'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+
+      tags:
+        - Tags
+
+      summary: Create Tag
+
+      description: Create a new image tag.
+
+      security:
+        - BearerAuth: []
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/CreateTagRequest'
+
+      responses:
+
+        '201':
+
+          description: Tag created successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TagResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /tags/{tagId}:
+
+    get:
+
+      tags:
+        - Tags
+
+      summary: Get Tag
+
+      description: Retrieve a tag by its ID.
+
+      parameters:
+
+        - name: tagId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+
+        '200':
+
+          description: Tag retrieved successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TagResponse'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    patch:
+
+      tags:
+        - Tags
+
+      summary: Update Tag
+
+      description: Update an existing tag.
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+
+        - name: tagId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/UpdateTagRequest'
+
+      responses:
+
+        '200':
+
+          description: Tag updated successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/TagResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+
+      tags:
+        - Tags
+
+      summary: Delete Tag
+
+      description: Delete a tag.
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+
+        - name: tagId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+
+        '200':
+
+          description: Tag deleted successfully
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/SuccessResponse'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  components:
+
+    securitySchemes:
+
+      BearerAuth:
+
+        type: http
+
+        scheme: bearer
+
+        bearerFormat: JWT
+
+    schemas:
+
+      SuccessResponse:
+
+        type: object
+
+        properties:
+
+          success:
+            type: boolean
+            example: true
+
+          message:
+            type: string
+            example: Request completed successfully.
+
+      ErrorResponse:
+
+        type: object
+
+        properties:
+
+          success:
+            type: boolean
+            example: false
+
+          message:
+            type: string
+            example: Validation failed.
+
+          errors:
+
+            type: array
+
+            items:
+
+              $ref: '#/components/schemas/ValidationError'
+
+      ValidationError:
+
+        type: object
+
+        properties:
+
+          field:
+            type: string
+            example: title
+
+          message:
+            type: string
+            example: Title is required.
+
+      Pagination:
+
+        type: object
+
+        properties:
+
+          page:
+            type: integer
+            example: 1
+
+          limit:
+            type: integer
+            example: 20
+
+          totalItems:
+            type: integer
+            example: 150
+
+          totalPages:
+            type: integer
+            example: 8
+
+          hasNext:
+            type: boolean
+            example: true
+
+          hasPrevious:
+            type: boolean
+            example: false
+
+      UserSummary:
+
+        type: object
+
+        properties:
+
+          id:
+            type: string
+            format: uuid
+
+          username:
+            type: string
+
+          email:
+            type: string
+            format: email
+
+      Category:
+
+        type: object
+
+        properties:
+
+          id:
+            type: string
+            format: uuid
+
+          name:
+            type: string
+
+          slug:
+            type: string
+
+          description:
+            type: string
+            nullable: true
+
+          createdAt:
+            type: string
+            format: date-time
+
+          updatedAt:
+            type: string
+            format: date-time
+
+      Tag:
+
+        type: object
+
+        properties:
+
+          id:
+            type: string
+            format: uuid
+
+          name:
+            type: string
+
+          slug:
+            type: string
+
+          createdAt:
+            type: string
+            format: date-time
+
+          updatedAt:
+            type: string
+            format: date-time
+
+      Image:
+
+        type: object
+
+        properties:
+
+          id:
+            type: string
+            format: uuid
+
+          owner:
+            $ref: '#/components/schemas/UserSummary'
+
+          category:
+            $ref: '#/components/schemas/Category'
+
+          title:
+            type: string
+
+          description:
+            type: string
+            nullable: true
+
+          location:
+            type: string
+            nullable: true
+
+          storageProvider:
+            type: string
+            enum:
+              - LOCAL
+              - CLOUDINARY
+
+          originalFilename:
+            type: string
+
+          storedFilename:
+            type: string
+
+          storageKey:
+            type: string
+
+          mimeType:
+            type: string
+
+          extension:
+            type: string
+
+          fileSize:
+            type: integer
+            format: int64
+
+          width:
+            type: integer
+
+          height:
+            type: integer
+
+          checksum:
+            type: string
+            nullable: true
+
+          dominantColor:
+            type: string
+            nullable: true
+
+          cameraModel:
+            type: string
+            nullable: true
+
+          visibility:
+            type: string
+            enum:
+              - PUBLIC
+              - PRIVATE
+              - UNLISTED
+
+          status:
+            type: string
+            enum:
+              - ACTIVE
+              - DELETED
+
+          tags:
+
+            type: array
+
+            items:
+
+              $ref: '#/components/schemas/Tag'
+
+          createdAt:
+            type: string
+            format: date-time
+
+          updatedAt:
+            type: string
+            format: date-time
+
+          deletedAt:
+            type: string
+            format: date-time
+            nullable: true
+      ImageVisibility:
+        type: string
+        enum:
+          - PUBLIC
+          - PRIVATE
+          - UNLISTED
+
+      ImageStatus:
+        type: string
+        enum:
+          - ACTIVE
+          - DELETED
+      CreateImageRequest:
+        type: object
+
+        required:
+          - file
+          - categoryId
+          - title
+          - visibility
+
+        properties:
+
+          file:
+            type: string
+            format: binary
+
+          categoryId:
+            type: string
+            format: uuid
+
+          title:
+            type: string
+            maxLength: 200
+
+          description:
+            type: string
+
+          location:
+            type: string
+
+          visibility:
+            $ref: '#/components/schemas/ImageVisibility'
+
+          tagIds:
+            type: array
+            items:
+              type: string
+              format: uuid
+      UpdateImageRequest:
+
+        type: object
+
+        properties:
+
+          categoryId:
+            type: string
+            format: uuid
+
+          title:
+            type: string
+            maxLength: 200
+
+          description:
+            type: string
+
+          location:
+            type: string
+
+          visibility:
+            type: string
+            enum:
+              - PUBLIC
+              - PRIVATE
+              - UNLISTED
+
+          tagIds:
+
+            type: array
+
+            items:
+              type: string
+              format: uuid
+
+      ImageResponse:
+
+        type: object
+
+        properties:
+
+          success:
+            type: boolean
+            example: true
+
+          message:
+            type: string
+            example: Image retrieved successfully.
+
+          data:
+
+            $ref: '#/components/schemas/Image'
+
+      ImageListResponse:
+
+        type: object
+
+        properties:
+
+          success:
+            type: boolean
+
+          message:
+            type: string
+
+          data:
+
+            type: array
+
+            items:
+
+              $ref: '#/components/schemas/Image'
+
+          pagination:
+
+            $ref: '#/components/schemas/Pagination'
+
+      CreateCategoryRequest:
+
+        type: object
+
+        required:
+          - name
+
+        properties:
+
+          name:
+            type: string
+            maxLength: 100
+
+          slug:
+            type: string
+            maxLength: 120
+
+          description:
+            type: string
+
+      UpdateCategoryRequest:
+
+        type: object
+
+        properties:
+
+          name:
+            type: string
+            maxLength: 100
+
+          slug:
+            type: string
+            maxLength: 120
+
+          description:
+            type: string
+
+      CategoryResponse:
+
+        type: object
+
+        properties:
+
+          success:
+            type: boolean
+
+          message:
+            type: string
+
+          data:
+
+            $ref: '#/components/schemas/Category'
+
+      CategoryListResponse:
+
+        type: object
+
+        properties:
+
+          success:
+            type: boolean
+
+          message:
+            type: string
+
+          data:
+
+            type: array
+
+            items:
+
+              $ref: '#/components/schemas/Category'
+
+      CreateTagRequest:
+
+        type: object
+
+        required:
+          - name
+
+        properties:
+
+          name:
+            type: string
+            maxLength: 80
+
+          slug:
+            type: string
+            maxLength: 100
+
+      UpdateTagRequest:
+
+        type: object
+
+        properties:
+
+          name:
+            type: string
+            maxLength: 80
+
+          slug:
+            type: string
+            maxLength: 100
+
+      TagResponse:
+
+        type: object
+
+        properties:
+
+          success:
+            type: boolean
+
+          message:
+            type: string
+
+          data:
+
+            $ref: '#/components/schemas/Tag'
+
+      TagListResponse:
+
+        type: object
+
+        properties:
+
+          success:
+            type: boolean
+
+          message:
+            type: string
+
+          data:
+
+            type: array
+
+            items:
+
+              $ref: '#/components/schemas/Tag'
+      responses:
+
+      ValidationError:
+
+        description: Validation failed.
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/ErrorResponse'
+
+      Unauthorized:
+
+        description: Authentication required.
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/ErrorResponse'
+
+      ForbiddenError:
+
+        description: Access denied.
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/ErrorResponse'
+
+      NotFoundError:
+
+        description: Resource not found.
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/ErrorResponse'
+
+      ConflictError:
+
+        description: Resource already exists.
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/ErrorResponse'
+
+      InternalServerError:
+
+        description: Internal server error.
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/ErrorResponse'
