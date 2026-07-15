@@ -1262,7 +1262,7 @@ paths:
               $ref: '#/components/schemas/Tag'
       responses:
 
-      ValidationError:
+       ValidationError:
 
         description: Validation failed.
 
