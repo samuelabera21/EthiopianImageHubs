@@ -6,17 +6,7 @@ import {
 
 import { verifyAccessToken } from "../utils/jwt";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        userId: string;
-        email: string;
-        role: string;
-      };
-    }
-  }
-}
+
 
 /**
  * Require Authentication
