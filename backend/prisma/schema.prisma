@@ -1,16 +1,23 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// =======================================================
+// EthiopiaHub Images
+// Prisma Schema
+// Version: 2.1
+// Sprint 1 + Sprint 2
+// Status: Approved
+// =======================================================
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
+
+// =======================================================
+// Enums
+// =======================================================
 
 enum UserStatus {
   ACTIVE
@@ -24,11 +31,32 @@ enum SessionStatus {
   REVOKED
 }
 
+enum ImageVisibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
+}
+
+enum ImageStatus {
+  ACTIVE
+  DELETED
+}
+
+enum StorageProvider {
+  LOCAL
+  CLOUDINARY
+}
+
+// =======================================================
+// Authentication
+// =======================================================
+
 model Role {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @unique @db.VarChar(50)
-  description String?  @db.Text
-  createdAt   DateTime @default(now())
+  id          String  @id @default(uuid()) @db.Uuid
+  name        String  @unique @db.VarChar(50)
+  description String? @db.Text
+
+  createdAt DateTime @default(now())
 
   users User[]
 
@@ -51,9 +79,19 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  //---------------------------------------
+  // Relations
+  //---------------------------------------
+
   sessions           UserSession[]
   emailVerifications EmailVerification[]
   passwordResets     PasswordReset[]
+
+  images Image[]
+
+  //---------------------------------------
+  // Indexes
+  //---------------------------------------
 
   @@index([email])
   @@index([username])
@@ -65,7 +103,8 @@ model UserSession {
   id String @id @default(uuid()) @db.Uuid
 
   userId String @db.Uuid
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   refreshTokenHash String @db.VarChar(255)
 
@@ -74,6 +113,7 @@ model UserSession {
   userAgent  String? @db.Text
 
   expiresAt DateTime
+
   revokedAt DateTime?
 
   status SessionStatus @default(ACTIVE)
@@ -89,12 +129,13 @@ model EmailVerification {
   id String @id @default(uuid()) @db.Uuid
 
   userId String @db.Uuid
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   tokenHash String @unique @db.VarChar(255)
 
-  expiresAt  DateTime
+  expiresAt DateTime
+
   verifiedAt DateTime?
 
   createdAt DateTime @default(now())
@@ -107,16 +148,168 @@ model PasswordReset {
   id String @id @default(uuid()) @db.Uuid
 
   userId String @db.Uuid
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
- 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   tokenHash String @unique @db.VarChar(255)
 
   expiresAt DateTime
-  usedAt    DateTime?
+
+  usedAt DateTime?
 
   createdAt DateTime @default(now())
 
   @@index([userId])
   @@map("password_resets")
+}
+
+// =======================================================
+// Image Management
+// Sprint 2
+// =======================================================
+
+model Category {
+  id          String  @id @default(uuid()) @db.Uuid
+  name        String  @unique @db.VarChar(100)
+  slug        String  @unique @db.VarChar(120)
+  description String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images Image[]
+
+  @@map("categories")
+}
+
+model Tag {
+  id String @id @default(uuid()) @db.Uuid
+
+  name String @unique @db.VarChar(80)
+
+  slug String @unique @db.VarChar(100)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  imageTags ImageTag[]
+
+  @@map("tags")
+}
+
+model Image {
+  id String @id @default(uuid()) @db.Uuid
+
+  //---------------------------------------
+  // Ownership
+  //---------------------------------------
+
+  ownerId String @db.Uuid
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  //---------------------------------------
+  // Category
+  //---------------------------------------
+
+  categoryId String @db.Uuid
+
+  category Category @relation(fields: [categoryId], references: [id])
+
+  //---------------------------------------
+  // Basic Information
+  //---------------------------------------
+
+  title String @db.VarChar(200)
+
+  description String? @db.Text
+
+  location String? @db.VarChar(200)
+
+  //---------------------------------------
+  // Storage
+  //---------------------------------------
+
+  storageProvider StorageProvider @default(LOCAL)
+
+  originalFilename String @db.VarChar(255)
+
+  storedFilename String @db.VarChar(255)
+
+  storageKey String @db.VarChar(500)
+
+  //---------------------------------------
+  // File Information
+  //---------------------------------------
+
+  mimeType String @db.VarChar(100)
+
+  extension String @db.VarChar(20)
+
+  fileSize BigInt
+
+  width Int
+
+  height Int
+
+  checksum String? @db.VarChar(128)
+
+  //---------------------------------------
+  // Metadata
+  //---------------------------------------
+
+  dominantColor String? @db.VarChar(30)
+
+  cameraModel String? @db.VarChar(150)
+
+  //---------------------------------------
+  // Visibility
+  //---------------------------------------
+
+  visibility ImageVisibility @default(PUBLIC)
+
+  status ImageStatus @default(ACTIVE)
+
+  //---------------------------------------
+  // Audit
+  //---------------------------------------
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  deletedAt DateTime?
+
+  //---------------------------------------
+  // Relations
+  //---------------------------------------
+
+  tags ImageTag[]
+
+  //---------------------------------------
+  // Indexes
+  //---------------------------------------
+
+  @@index([ownerId])
+  @@index([ownerId, createdAt])
+  @@index([categoryId])
+  @@index([visibility])
+  @@index([status])
+  @@index([visibility, status])
+  @@index([createdAt])
+  @@map("images")
+}
+
+model ImageTag {
+  imageId String @db.Uuid
+
+  tagId String @db.Uuid
+
+  image Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([imageId, tagId])
+  @@index([tagId])
+  @@map("image_tags")
 }
