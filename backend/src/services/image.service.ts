@@ -326,6 +326,61 @@ export class ImageService {
       message: "Image deleted successfully",
     };
   }
+
+/**
+ * Restore image
+ */
+async restoreImage(
+  imageId: string,
+  userId: string,
+) {
+  //------------------------------------
+  // Find image
+  //------------------------------------
+
+  const image =
+    await imageRepository.findById(imageId);
+
+  if (!image) {
+    throw new Error("Image not found");
+  }
+
+  //------------------------------------
+  // Ownership
+  //------------------------------------
+
+  if (image.ownerId !== userId) {
+    throw new Error(
+      "You are not allowed to restore this image",
+    );
+  }
+
+  //------------------------------------
+  // Already active
+  //------------------------------------
+
+  if (image.status === "ACTIVE") {
+    throw new Error(
+      "Image is not deleted",
+    );
+  }
+
+  //------------------------------------
+  // Restore
+  //------------------------------------
+
+  await imageRepository.restore(imageId);
+
+  //------------------------------------
+  // Response
+  //------------------------------------
+
+  return {
+    success: true,
+    message: "Image restored successfully",
+  };
+}
+
 }
 
 export const imageService = new ImageService();
