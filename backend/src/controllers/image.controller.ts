@@ -91,6 +91,28 @@ async updateImage(
       next(error);
     }
   }
+
+/**
+ * Restore image
+ */
+async restoreImage(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const result =
+      await imageService.restoreImage(
+        req.params.imageId as string,
+        req.user.userId,
+      );
+
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
 }
 
 export const imageController = new ImageController();
