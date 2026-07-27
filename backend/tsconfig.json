@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "strict": true,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "skipLibCheck": true,
+
+    "types": ["node", "express", "multer"],
+
+    "resolveJsonModule": true
+  },
+
+ "include": [
+  "src/**/*.ts",
+  "src/**/*.d.ts"
+],
+
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

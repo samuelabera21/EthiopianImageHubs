@@ -3,22 +3,16 @@ import { Request, Response, NextFunction } from "express";
 import { imageService } from "../services/image.service";
 
 export class ImageController {
-
   /**
    * Upload image
    */
-  async uploadImage(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async uploadImage(req: Request, res: Response, next: NextFunction) {
     try {
-      const image =
-        await imageService.uploadImage(
-         req.user.userId,
-          req.file!,
-          req.body,
-        );
+      const image = await imageService.uploadImage(
+        req.user.userId,
+        req.file!,
+        req.body,
+      );
 
       return res.status(201).json(image);
     } catch (error) {
@@ -26,45 +20,94 @@ export class ImageController {
     }
   }
 
+  /**
+   * Get images
+   */
+  async getImages(req: Request, res: Response, next: NextFunction) {
+    try {
+      const images = await imageService.getImages({
+        page: req.query.page ? Number(req.query.page) : undefined,
 
-/**
- * Get images
- */
-async getImages(
+        limit: req.query.limit ? Number(req.query.limit) : undefined,
+
+        categoryId: req.query.categoryId as string,
+
+        ownerId: req.query.ownerId as string,
+
+        visibility: req.query.visibility as "PUBLIC" | "PRIVATE" | "UNLISTED",
+
+        status: req.query.status as "ACTIVE" | "DELETED",
+      });
+
+      return res.json(images);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Get image by ID
+   */
+  async getImageById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const image = await imageService.getImageById(
+        req.params.imageId as string,
+      );
+
+      return res.json(image);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+async updateImage(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   try {
-    const images =
-      await imageService.getImages({
-        page: req.query.page
-          ? Number(req.query.page)
-          : undefined,
+    const result =
+      await imageService.updateImage(
+        req.params.imageId as string,
+        req.user.userId,
+        req.body,
+      );
 
-        limit: req.query.limit
-          ? Number(req.query.limit)
-          : undefined,
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
+}
 
-        categoryId:
-          req.query.categoryId as string,
+  async deleteImage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await imageService.deleteImage(
+        req.params.imageId as string,
+        req.user.userId,
+      );
 
-        ownerId:
-          req.query.ownerId as string,
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-        visibility:
-          req.query.visibility as
-            | "PUBLIC"
-            | "PRIVATE"
-            | "UNLISTED",
+/**
+ * Restore image
+ */
+async restoreImage(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const result =
+      await imageService.restoreImage(
+        req.params.imageId as string,
+        req.user.userId,
+      );
 
-        status:
-          req.query.status as
-            | "ACTIVE"
-            | "DELETED",
-      });
-
-    return res.json(images);
+    return res.json(result);
   } catch (error) {
     next(error);
   }
@@ -72,5 +115,4 @@ async getImages(
 
 }
 
-export const imageController =
-  new ImageController();
+export const imageController = new ImageController();

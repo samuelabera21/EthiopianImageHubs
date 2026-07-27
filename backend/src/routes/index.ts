@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import authRoutes from "./auth.routes";
+import imageRoutes from "./image.routes";
 
 const router = Router();
 
@@ -24,5 +25,9 @@ router.get("/health", (_, res) => {
  * Authentication
  */
 router.use("/auth", authRoutes);
+/**
+ * Images
+ */
+router.use("/images", imageRoutes);
 
 export default router;
