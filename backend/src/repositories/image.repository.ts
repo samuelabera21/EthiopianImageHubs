@@ -297,6 +297,21 @@ async softDelete(imageId: string) {
   });
 }
 
+/**
+ * Restore image
+ */
+async restore(imageId: string) {
+  return prisma.image.update({
+    where: {
+      id: imageId,
+    },
+
+    data: {
+      status: "ACTIVE",
+      deletedAt: null,
+    },
+  });
+}
 
 }
 
