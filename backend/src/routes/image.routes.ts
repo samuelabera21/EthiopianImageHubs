@@ -56,4 +56,12 @@ router.delete(
   imageController.deleteImage.bind(imageController),
 );
 
+router.patch(
+  "/:imageId/restore",
+  authenticate,
+  imageController.restoreImage.bind(
+    imageController,
+  ),
+);
+
 export default router;
