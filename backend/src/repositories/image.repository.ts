@@ -160,22 +160,77 @@ async findMany(options: {
 
   categoryId?: string;
   ownerId?: string;
+
   visibility?: "PUBLIC" | "PRIVATE" | "UNLISTED";
+
   status?: "ACTIVE" | "DELETED";
+
+  search?: string;
+
+  location?: string;
+
+  tagId?: string;
+
+  sortBy?: "createdAt" | "title" | "fileSize";
+
+  sortOrder?: "asc" | "desc";
 }) {
   return prisma.image.findMany({
     where: {
       categoryId: options.categoryId,
+
       ownerId: options.ownerId,
+
       visibility: options.visibility,
+
       status: options.status,
+
+      location: options.location
+        ? {
+            contains: options.location,
+            mode: "insensitive",
+          }
+        : undefined,
+
+      OR: options.search
+        ? [
+            {
+              title: {
+                contains: options.search,
+                mode: "insensitive",
+              },
+            },
+            {
+              description: {
+                contains: options.search,
+                mode: "insensitive",
+              },
+            },
+            {
+              location: {
+                contains: options.search,
+                mode: "insensitive",
+              },
+            },
+          ]
+        : undefined,
+
+      tags: options.tagId
+        ? {
+            some: {
+              tagId: options.tagId,
+            },
+          }
+        : undefined,
     },
 
     skip: options.skip,
+
     take: options.take,
 
     orderBy: {
-      createdAt: "desc",
+      [options.sortBy ?? "createdAt"]:
+        options.sortOrder ?? "desc",
     },
 
     include: {
@@ -204,15 +259,64 @@ async findMany(options: {
 async count(options: {
   categoryId?: string;
   ownerId?: string;
+
   visibility?: "PUBLIC" | "PRIVATE" | "UNLISTED";
+
   status?: "ACTIVE" | "DELETED";
+
+  search?: string;
+
+  location?: string;
+
+  tagId?: string;
 }) {
   return prisma.image.count({
     where: {
       categoryId: options.categoryId,
+
       ownerId: options.ownerId,
+
       visibility: options.visibility,
+
       status: options.status,
+
+      location: options.location
+        ? {
+            contains: options.location,
+            mode: "insensitive",
+          }
+        : undefined,
+
+      OR: options.search
+        ? [
+            {
+              title: {
+                contains: options.search,
+                mode: "insensitive",
+              },
+            },
+            {
+              description: {
+                contains: options.search,
+                mode: "insensitive",
+              },
+            },
+            {
+              location: {
+                contains: options.search,
+                mode: "insensitive",
+              },
+            },
+          ]
+        : undefined,
+
+      tags: options.tagId
+        ? {
+            some: {
+              tagId: options.tagId,
+            },
+          }
+        : undefined,
     },
   });
 }
@@ -293,6 +397,20 @@ async softDelete(imageId: string) {
     data: {
       status: "DELETED",
       deletedAt: new Date(),
+    },
+  });
+}
+
+
+/**
+ * Permanent delete image
+ */
+async deletePermanently(
+  imageId: string,
+) {
+  return prisma.image.delete({
+    where: {
+      id: imageId,
     },
   });
 }
