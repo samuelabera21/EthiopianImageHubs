@@ -86,7 +86,7 @@ export type UploadImageInput =
 export type UpdateImageInput =
   z.infer<typeof updateImageSchema>;
 
-  export interface GetImagesQuery {
+export interface GetImagesQuery {
   page?: number;
   limit?: number;
 
@@ -96,4 +96,19 @@ export type UpdateImageInput =
   visibility?: "PUBLIC" | "PRIVATE" | "UNLISTED";
 
   status?: "ACTIVE" | "DELETED";
+
+  search?: string;
+
+  location?: string;
+
+  tagId?: string;
+
+  sortBy?:
+    | "createdAt"
+    | "title"
+    | "fileSize";
+
+  sortOrder?:
+    | "asc"
+    | "desc";
 }
