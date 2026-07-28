@@ -56,10 +56,25 @@ router.delete(
   imageController.deleteImage.bind(imageController),
 );
 
+router.delete(
+  "/:imageId/permanent",
+  authenticate,
+  imageController.permanentlyDeleteImage.bind(
+    imageController,
+  ),
+);
+
 router.patch(
   "/:imageId/restore",
   authenticate,
   imageController.restoreImage.bind(
+    imageController,
+  ),
+);
+
+router.get(
+  "/",
+  imageController.getImages.bind(
     imageController,
   ),
 );
