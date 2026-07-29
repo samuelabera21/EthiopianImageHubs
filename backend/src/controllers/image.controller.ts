@@ -79,7 +79,6 @@ async getImages(
             | "asc"
             | "desc",
       });
-
     return res.json(images);
   } catch (error) {
     next(error);
@@ -91,9 +90,16 @@ async getImages(
    */
   async getImageById(req: Request, res: Response, next: NextFunction) {
     try {
-      const image = await imageService.getImageById(
-        req.params.imageId as string,
-      );
+      const imageId = req.params.imageId as string;
+
+      if (!imageId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(imageId)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid image ID",
+        });
+      }
+
+      const image = await imageService.getImageById(imageId);
 
       return res.json(image);
     } catch (error) {

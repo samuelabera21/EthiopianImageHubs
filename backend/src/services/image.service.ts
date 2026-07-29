@@ -227,7 +227,7 @@ async getImages(query: GetImagesQuery) {
     //------------------------------------
 
     if (!image || image.status === "DELETED") {
-      throw new Error("Image not found");
+      throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
     //------------------------------------
@@ -254,7 +254,7 @@ async getImages(query: GetImagesQuery) {
     const image = await imageRepository.findById(imageId);
 
     if (!image || image.status === "DELETED") {
-      throw new Error("Image not found");
+      throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
     //------------------------------------
@@ -262,7 +262,7 @@ async getImages(query: GetImagesQuery) {
     //------------------------------------
 
     if (image.ownerId !== userId) {
-      throw new Error("You are not allowed to update this image");
+      throw Object.assign(new Error("You are not allowed to update this image"), { status: 403 });
     }
 
     //------------------------------------
@@ -317,7 +317,7 @@ async getImages(query: GetImagesQuery) {
     const image = await imageRepository.findById(imageId);
 
     if (!image) {
-      throw new Error("Image not found");
+      throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
     //------------------------------------
@@ -325,7 +325,7 @@ async getImages(query: GetImagesQuery) {
     //------------------------------------
 
     if (image.ownerId !== userId) {
-      throw new Error("You are not allowed to delete this image");
+      throw Object.assign(new Error("You are not allowed to delete this image"), { status: 403 });
     }
 
     //------------------------------------
@@ -333,7 +333,7 @@ async getImages(query: GetImagesQuery) {
     //------------------------------------
 
     if (image.status === "DELETED") {
-      throw new Error("Image already deleted");
+      throw Object.assign(new Error("Image already deleted"), { status: 400 });
     }
 
     //------------------------------------
@@ -363,7 +363,7 @@ async getImages(query: GetImagesQuery) {
     const image = await imageRepository.findById(imageId);
 
     if (!image) {
-      throw new Error("Image not found");
+      throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
     //------------------------------------
@@ -371,7 +371,7 @@ async getImages(query: GetImagesQuery) {
     //------------------------------------
 
     if (image.ownerId !== userId) {
-      throw new Error("You are not allowed to permanently delete this image");
+      throw Object.assign(new Error("You are not allowed to permanently delete this image"), { status: 403 });
     }
 
     //------------------------------------
@@ -379,7 +379,7 @@ async getImages(query: GetImagesQuery) {
     //------------------------------------
 
     if (image.status !== "DELETED") {
-      throw new Error("Image must be soft deleted before permanent deletion");
+      throw Object.assign(new Error("Image must be soft deleted before permanent deletion"), { status: 400 });
     }
 
     //------------------------------------
@@ -415,7 +415,7 @@ async getImages(query: GetImagesQuery) {
     const image = await imageRepository.findById(imageId);
 
     if (!image) {
-      throw new Error("Image not found");
+      throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
     //------------------------------------
@@ -423,7 +423,7 @@ async getImages(query: GetImagesQuery) {
     //------------------------------------
 
     if (image.ownerId !== userId) {
-      throw new Error("You are not allowed to restore this image");
+      throw Object.assign(new Error("You are not allowed to restore this image"), { status: 403 });
     }
 
     //------------------------------------
@@ -431,7 +431,7 @@ async getImages(query: GetImagesQuery) {
     //------------------------------------
 
     if (image.status === "ACTIVE") {
-      throw new Error("Image is not deleted");
+      throw Object.assign(new Error("Image is not deleted"), { status: 400 });
     }
 
     //------------------------------------

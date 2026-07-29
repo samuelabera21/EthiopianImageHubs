@@ -44,6 +44,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 import routes from "./routes";
 
@@ -69,6 +70,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Cookies
 app.use(cookieParser());
+
+/**
+ * Static uploads
+ */
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 /**
  * Swagger UI
