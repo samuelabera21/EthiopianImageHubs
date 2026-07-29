@@ -34,7 +34,7 @@ export function ImageDetails({
     <div className={cn("space-y-8", className)}>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <div className="relative overflow-hidden rounded-2xl bg-muted">
+          <div className="relative aspect-video overflow-hidden rounded-2xl bg-muted">
             {isLocalBackend ? (
               <BackendImage
                 alt={image.title}

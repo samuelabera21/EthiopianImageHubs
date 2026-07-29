@@ -36,7 +36,7 @@ export function GalleryImageCard({ image, onClick, className }: GalleryImageCard
       role={onClick ? "button" : undefined}
       aria-label={onClick ? `View ${image.title}` : undefined}
     >
-      <div className="relative overflow-hidden">
+      <div className="relative aspect-video overflow-hidden">
         {isLocalBackend ? (
           <BackendImage
             alt={image.title}
