@@ -1,0 +1,9 @@
+<svg width="1200" height="1600" viewBox="0 0 1200 1600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1600" rx="72" fill="#F8F7F2"/>
+  <rect x="90" y="120" width="420" height="420" rx="56" fill="#DCEFE4"/>
+  <rect x="490" y="220" width="620" height="300" rx="56" fill="#EACAA3"/>
+  <rect x="170" y="610" width="860" height="300" rx="56" fill="#B7DEC4"/>
+  <rect x="110" y="980" width="960" height="420" rx="56" fill="#86C69A" opacity="0.82"/>
+  <rect x="120" y="104" width="310" height="64" rx="32" fill="#FFFFFF" fill-opacity="0.72"/>
+  <text x="148" y="146" fill="#256F46" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Market Rhythm</text>
+</svg>

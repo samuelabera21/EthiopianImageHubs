@@ -120,72 +120,97 @@ export class ImageService {
     };
   }
 
-  async getImages(query: GetImagesQuery) {
-    //------------------------------------
-    // Pagination
-    //------------------------------------
+async getImages(query: GetImagesQuery) {
+  //------------------------------------
+  // Pagination
+  //------------------------------------
 
-    const page = query.page ?? 1;
-    const limit = query.limit ?? 20;
+  const page = query.page ?? 1;
+  const limit = query.limit ?? 20;
 
-    const skip = (page - 1) * limit;
+  const skip = (page - 1) * limit;
 
-    //------------------------------------
-    // Total
-    //------------------------------------
+  //------------------------------------
+  // Total
+  //------------------------------------
 
-    const totalItems = await imageRepository.count({
+  const totalItems =
+    await imageRepository.count({
       categoryId: query.categoryId,
+
       ownerId: query.ownerId,
+
       visibility: query.visibility,
+
       status: query.status ?? "ACTIVE",
+
+      search: query.search,
+
+      location: query.location,
+
+      tagId: query.tagId,
     });
 
-    //------------------------------------
-    // Images
-    //------------------------------------
+  //------------------------------------
+  // Images
+  //------------------------------------
 
-    const images = await imageRepository.findMany({
+  const images =
+    await imageRepository.findMany({
       skip,
       take: limit,
 
       categoryId: query.categoryId,
+
       ownerId: query.ownerId,
+
       visibility: query.visibility,
+
       status: query.status ?? "ACTIVE",
+
+      search: query.search,
+
+      location: query.location,
+
+      tagId: query.tagId,
+
+      sortBy: query.sortBy,
+
+      sortOrder: query.sortOrder,
     });
 
-    //------------------------------------
-    // Pagination metadata
-    //------------------------------------
+  //------------------------------------
+  // Pagination metadata
+  //------------------------------------
 
-    const totalPages = Math.ceil(totalItems / limit);
+  const totalPages =
+    Math.ceil(totalItems / limit);
 
-    //------------------------------------
-    // Response
-    //------------------------------------
+  //------------------------------------
+  // Response
+  //------------------------------------
 
-    return {
-      success: true,
+  return {
+    success: true,
 
-      message: "Images retrieved successfully",
+    message: "Images retrieved successfully",
 
-      data: serializeBigInt(images),
+    data: serializeBigInt(images),
 
-      pagination: {
-        page,
-        limit,
+    pagination: {
+      page,
+      limit,
 
-        totalItems,
+      totalItems,
 
-        totalPages,
+      totalPages,
 
-        hasNext: page < totalPages,
+      hasNext: page < totalPages,
 
-        hasPrevious: page > 1,
-      },
-    };
-  }
+      hasPrevious: page > 1,
+    },
+  };
+}
 
   /**
    * Get image by ID
@@ -202,7 +227,7 @@ export class ImageService {
     //------------------------------------
 
     if (!image || image.status === "DELETED") {
-      throw new Error("Image not found");
+      throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
     //------------------------------------
@@ -229,7 +254,7 @@ export class ImageService {
     const image = await imageRepository.findById(imageId);
 
     if (!image || image.status === "DELETED") {
-      throw new Error("Image not found");
+      throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
     //------------------------------------
@@ -237,7 +262,7 @@ export class ImageService {
     //------------------------------------
 
     if (image.ownerId !== userId) {
-      throw new Error("You are not allowed to update this image");
+      throw Object.assign(new Error("You are not allowed to update this image"), { status: 403 });
     }
 
     //------------------------------------
@@ -292,7 +317,7 @@ export class ImageService {
     const image = await imageRepository.findById(imageId);
 
     if (!image) {
-      throw new Error("Image not found");
+      throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
     //------------------------------------
@@ -300,7 +325,7 @@ export class ImageService {
     //------------------------------------
 
     if (image.ownerId !== userId) {
-      throw new Error("You are not allowed to delete this image");
+      throw Object.assign(new Error("You are not allowed to delete this image"), { status: 403 });
     }
 
     //------------------------------------
@@ -308,7 +333,7 @@ export class ImageService {
     //------------------------------------
 
     if (image.status === "DELETED") {
-      throw new Error("Image already deleted");
+      throw Object.assign(new Error("Image already deleted"), { status: 400 });
     }
 
     //------------------------------------
@@ -327,60 +352,103 @@ export class ImageService {
     };
   }
 
-/**
- * Restore image
- */
-async restoreImage(
-  imageId: string,
-  userId: string,
-) {
-  //------------------------------------
-  // Find image
-  //------------------------------------
+  /**
+   * Permanently delete image
+   */
+  async permanentlyDeleteImage(imageId: string, userId: string) {
+    //------------------------------------
+    // Find image
+    //------------------------------------
 
-  const image =
-    await imageRepository.findById(imageId);
+    const image = await imageRepository.findById(imageId);
 
-  if (!image) {
-    throw new Error("Image not found");
+    if (!image) {
+      throw Object.assign(new Error("Image not found"), { status: 404 });
+    }
+
+    //------------------------------------
+    // Ownership
+    //------------------------------------
+
+    if (image.ownerId !== userId) {
+      throw Object.assign(new Error("You are not allowed to permanently delete this image"), { status: 403 });
+    }
+
+    //------------------------------------
+    // Must already be soft deleted
+    //------------------------------------
+
+    if (image.status !== "DELETED") {
+      throw Object.assign(new Error("Image must be soft deleted before permanent deletion"), { status: 400 });
+    }
+
+    //------------------------------------
+    // Delete physical file
+    //------------------------------------
+
+    await storage.delete(image.storageKey);
+
+    //------------------------------------
+    // Delete database record
+    //------------------------------------
+
+    await imageRepository.deletePermanently(imageId);
+
+    //------------------------------------
+    // Response
+    //------------------------------------
+
+    return {
+      success: true,
+      message: "Image permanently deleted successfully",
+    };
   }
 
-  //------------------------------------
-  // Ownership
-  //------------------------------------
+  /**
+   * Restore image
+   */
+  async restoreImage(imageId: string, userId: string) {
+    //------------------------------------
+    // Find image
+    //------------------------------------
 
-  if (image.ownerId !== userId) {
-    throw new Error(
-      "You are not allowed to restore this image",
-    );
+    const image = await imageRepository.findById(imageId);
+
+    if (!image) {
+      throw Object.assign(new Error("Image not found"), { status: 404 });
+    }
+
+    //------------------------------------
+    // Ownership
+    //------------------------------------
+
+    if (image.ownerId !== userId) {
+      throw Object.assign(new Error("You are not allowed to restore this image"), { status: 403 });
+    }
+
+    //------------------------------------
+    // Already active
+    //------------------------------------
+
+    if (image.status === "ACTIVE") {
+      throw Object.assign(new Error("Image is not deleted"), { status: 400 });
+    }
+
+    //------------------------------------
+    // Restore
+    //------------------------------------
+
+    await imageRepository.restore(imageId);
+
+    //------------------------------------
+    // Response
+    //------------------------------------
+
+    return {
+      success: true,
+      message: "Image restored successfully",
+    };
   }
-
-  //------------------------------------
-  // Already active
-  //------------------------------------
-
-  if (image.status === "ACTIVE") {
-    throw new Error(
-      "Image is not deleted",
-    );
-  }
-
-  //------------------------------------
-  // Restore
-  //------------------------------------
-
-  await imageRepository.restore(imageId);
-
-  //------------------------------------
-  // Response
-  //------------------------------------
-
-  return {
-    success: true,
-    message: "Image restored successfully",
-  };
-}
-
 }
 
 export const imageService = new ImageService();

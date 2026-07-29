@@ -40,7 +40,7 @@ export class LocalStorage implements Storage {
       `${crypto.randomUUID()}${extension}`;
 
     const storageKey =
-      path.join("uploads", filename);
+      path.join("uploads", filename).split(path.sep).join("/");
 
     const destination =
       path.join(uploadDir, filename);

@@ -23,36 +23,83 @@ export class ImageController {
   /**
    * Get images
    */
-  async getImages(req: Request, res: Response, next: NextFunction) {
-    try {
-      const images = await imageService.getImages({
-        page: req.query.page ? Number(req.query.page) : undefined,
+/**
+ * Get images
+ */
+async getImages(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const images =
+      await imageService.getImages({
+        page: req.query.page
+          ? Number(req.query.page)
+          : undefined,
 
-        limit: req.query.limit ? Number(req.query.limit) : undefined,
+        limit: req.query.limit
+          ? Number(req.query.limit)
+          : undefined,
 
-        categoryId: req.query.categoryId as string,
+        categoryId:
+          req.query.categoryId as string,
 
-        ownerId: req.query.ownerId as string,
+        ownerId:
+          req.query.ownerId as string,
 
-        visibility: req.query.visibility as "PUBLIC" | "PRIVATE" | "UNLISTED",
+        visibility:
+          req.query.visibility as
+            | "PUBLIC"
+            | "PRIVATE"
+            | "UNLISTED",
 
-        status: req.query.status as "ACTIVE" | "DELETED",
+        status:
+          req.query.status as
+            | "ACTIVE"
+            | "DELETED",
+
+        search:
+          req.query.search as string,
+
+        location:
+          req.query.location as string,
+
+        tagId:
+          req.query.tagId as string,
+
+        sortBy:
+          req.query.sortBy as
+            | "createdAt"
+            | "title"
+            | "fileSize",
+
+        sortOrder:
+          req.query.sortOrder as
+            | "asc"
+            | "desc",
       });
-
-      return res.json(images);
-    } catch (error) {
-      next(error);
-    }
+    return res.json(images);
+  } catch (error) {
+    next(error);
   }
+}
 
   /**
    * Get image by ID
    */
   async getImageById(req: Request, res: Response, next: NextFunction) {
     try {
-      const image = await imageService.getImageById(
-        req.params.imageId as string,
-      );
+      const imageId = req.params.imageId as string;
+
+      if (!imageId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(imageId)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid image ID",
+        });
+      }
+
+      const image = await imageService.getImageById(imageId);
 
       return res.json(image);
     } catch (error) {
@@ -91,6 +138,26 @@ async updateImage(
       next(error);
     }
   }
+
+
+async permanentlyDeleteImage(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const result =
+      await imageService.permanentlyDeleteImage(
+        req.params.imageId as string,
+        req.user.userId,
+      );
+
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
 
 /**
  * Restore image

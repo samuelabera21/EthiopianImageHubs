@@ -1,0 +1,10 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" rx="72" fill="#FFF8F2"/>
+  <circle cx="610" cy="560" r="270" fill="#EACAA3"/>
+  <circle cx="610" cy="560" r="190" fill="#BE7A3C" opacity="0.88"/>
+  <path d="M430 730C430 622.961 517.961 535 625 535H835V708C835 814.509 748.509 901 642 901H430V730Z" fill="#8B5A2B"/>
+  <rect x="750" y="575" width="170" height="300" rx="80" fill="#D7A46E"/>
+  <rect x="250" y="250" width="220" height="96" rx="48" fill="#FFFFFF" fill-opacity="0.72"/>
+  <text x="280" y="311" fill="#72461F" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Coffee Ceremony</text>
+  <path d="M380 370C380 352.327 394.327 338 412 338C429.673 338 444 352.327 444 370V442C444 459.673 429.673 474 412 474C394.327 474 380 459.673 380 442V370Z" fill="#2F1B0A" opacity="0.34"/>
+</svg>
