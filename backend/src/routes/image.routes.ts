@@ -67,14 +67,8 @@ router.delete(
 router.patch(
   "/:imageId/restore",
   authenticate,
+  validate(updateImageSchema),
   imageController.restoreImage.bind(
-    imageController,
-  ),
-);
-
-router.get(
-  "/",
-  imageController.getImages.bind(
     imageController,
   ),
 );
