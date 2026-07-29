@@ -1,0 +1,10 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1500" rx="72" fill="#F8F7F2"/>
+  <path d="M0 1020L150 920L300 960L450 840L600 900L750 780L900 860L1050 760L1200 820V1500H0V1020Z" fill="#DCEFE4"/>
+  <path d="M0 1180L180 1080L340 1130L490 1020L650 1070L810 980L980 1035L1200 950V1500H0V1180Z" fill="#B7DEC4"/>
+  <path d="M0 870L140 760L260 820L390 700L530 770L660 650L820 720L960 620L1200 700V1500H0V870Z" fill="#86C69A" opacity="0.76"/>
+  <circle cx="920" cy="260" r="150" fill="#FFF8F2"/>
+  <circle cx="920" cy="260" r="96" fill="#EACAA3"/>
+  <rect x="88" y="104" width="284" height="56" rx="28" fill="#FFFFFF" fill-opacity="0.7"/>
+  <text x="116" y="140" fill="#256F46" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Ethiopia Highlands</text>
+</svg>
