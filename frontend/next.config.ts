@@ -1,8 +1,9 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   turbopack: {
-    root: __dirname,
+    root: path.resolve(),
   },
   images: {
     remotePatterns: [
@@ -10,6 +11,13 @@ const nextConfig: NextConfig = {
         protocol: "http",
         hostname: "localhost",
         port: "5000",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "5000",
+        pathname: "/uploads/**",
       },
     ],
   },

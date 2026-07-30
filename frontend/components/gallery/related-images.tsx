@@ -20,9 +20,11 @@ export function RelatedImages({ images, onImageClick, className }: RelatedImages
         title="You might also like"
         description="More images from the same category."
       />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="columns-1 gap-4.5 sm:columns-2 lg:columns-4 space-y-4.5">
         {images.map((image) => (
-          <GalleryImageCard key={image.id} image={image} onClick={onImageClick} />
+          <div key={image.id} className="break-inside-avoid">
+            <GalleryImageCard image={image} onClick={onImageClick} />
+          </div>
         ))}
       </div>
     </div>

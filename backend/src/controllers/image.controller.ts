@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
+import { getImagesQuerySchema, imageIdParamsSchema } from "./image.schema";
 import { imageService } from "../services/image.service";
 
 export class ImageController {
@@ -32,54 +33,23 @@ async getImages(
   next: NextFunction,
 ) {
   try {
-    const images =
-      await imageService.getImages({
-        page: req.query.page
-          ? Number(req.query.page)
-          : undefined,
+    // Validate and parse query parameters
+    const query = getImagesQuerySchema.parse(req.query);
 
-        limit: req.query.limit
-          ? Number(req.query.limit)
-          : undefined,
+    const result = await imageService.getImages(query);
 
-        categoryId:
-          req.query.categoryId as string,
-
-        ownerId:
-          req.query.ownerId as string,
-
-        visibility:
-          req.query.visibility as
-            | "PUBLIC"
-            | "PRIVATE"
-            | "UNLISTED",
-
-        status:
-          req.query.status as
-            | "ACTIVE"
-            | "DELETED",
-
-        search:
-          req.query.search as string,
-
-        location:
-          req.query.location as string,
-
-        tagId:
-          req.query.tagId as string,
-
-        sortBy:
-          req.query.sortBy as
-            | "createdAt"
-            | "title"
-            | "fileSize",
-
-        sortOrder:
-          req.query.sortOrder as
-            | "asc"
-            | "desc",
-      });
-    return res.json(images);
+    // Normalize image paths and tags for web compatibility
+    const normalizedImages = result.data.map(image => ({
+      ...image,
+      storageKey: image.storageKey ? image.storageKey.replace(/\\/g, "/") : image.storageKey,
+      tags: Array.isArray(image.tags)
+        ? image.tags.map((t: any) => (t.tag ? t.tag : t))
+        : [],
+    }));
+    return res.json({
+      ...result,
+      data: normalizedImages,
+    });
   } catch (error) {
     next(error);
   }
@@ -90,18 +60,47 @@ async getImages(
    */
   async getImageById(req: Request, res: Response, next: NextFunction) {
     try {
-      const imageId = req.params.imageId as string;
+      // Validate and parse path parameters
+      const { imageId } = imageIdParamsSchema.parse(req.params);
 
-      if (!imageId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(imageId)) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid image ID",
-        });
+      const result = await imageService.getImageById(imageId);
+
+      if (!result || !result.data) {
+        return res.status(404).json({ success: false, message: "Image not found" });
       }
 
-      const image = await imageService.getImageById(imageId);
+      // Normalize image path and tags for web compatibility
+      if (result.data.storageKey) {
+        result.data.storageKey = result.data.storageKey.replace(/\\/g, "/");
+      }
+      if (Array.isArray(result.data.tags)) {
+        result.data.tags = result.data.tags.map((t: any) => (t.tag ? t.tag : t));
+      }
 
-      return res.json(image);
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Download image file as attachment
+   */
+  async downloadImage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { imageId } = imageIdParamsSchema.parse(req.params);
+      const result = await imageService.getImageById(imageId);
+
+      if (!result || !result.data) {
+        return res.status(404).json({ success: false, message: "Image not found" });
+      }
+
+      const image = result.data;
+      const pathModule = await import("path");
+      const filePath = pathModule.join(process.cwd(), image.storageKey);
+      const filename = image.originalFilename || `${image.title}.${image.extension || "jpg"}`;
+
+      return res.download(filePath, filename);
     } catch (error) {
       next(error);
     }
@@ -115,7 +114,7 @@ async updateImage(
   try {
     const result =
       await imageService.updateImage(
-        req.params.imageId as string,
+        imageIdParamsSchema.parse(req.params).imageId, // imageId is already a UUID here
         req.user.userId,
         req.body,
       );
@@ -129,7 +128,7 @@ async updateImage(
   async deleteImage(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await imageService.deleteImage(
-        req.params.imageId as string,
+        imageIdParamsSchema.parse(req.params).imageId, // imageId is already a UUID here
         req.user.userId,
       );
 
@@ -148,7 +147,7 @@ async permanentlyDeleteImage(
   try {
     const result =
       await imageService.permanentlyDeleteImage(
-        req.params.imageId as string,
+        imageIdParamsSchema.parse(req.params).imageId, // imageId is already a UUID here
         req.user.userId,
       );
 
@@ -170,7 +169,7 @@ async restoreImage(
   try {
     const result =
       await imageService.restoreImage(
-        req.params.imageId as string,
+        imageIdParamsSchema.parse(req.params).imageId, // imageId is already a UUID here
         req.user.userId,
       );
 

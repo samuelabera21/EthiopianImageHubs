@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { ErrorState } from "@/components/ui/error-state";
 import { useImage, useRelatedImages } from "@/hooks/useImage";
-import { getImageUrl } from "@/lib/media";
+import { getImageUrl, getImageFilename, downloadImageFile } from "@/lib/media";
 import type { Image } from "@/types/image";
 
 interface ImageDetailsClientProps {
@@ -27,7 +27,8 @@ export function ImageDetailsClient({ imageId }: ImageDetailsClientProps) {
   const handleDownload = useCallback(() => {
     if (!image) return;
     const url = getImageUrl(image);
-    window.open(url, "_blank");
+    const filename = getImageFilename(image);
+    downloadImageFile(url, filename);
   }, [image]);
 
   const handleLike = useCallback(() => {

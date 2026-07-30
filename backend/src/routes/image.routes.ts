@@ -33,6 +33,16 @@ router.get(
 );
 
 /**
+ * GET /images/:imageId/download
+ */
+router.get(
+  "/:imageId/download",
+  imageController.downloadImage.bind(
+    imageController,
+  ),
+);
+
+/**
  * POST /images
  */
 router.post(
@@ -67,14 +77,8 @@ router.delete(
 router.patch(
   "/:imageId/restore",
   authenticate,
+  validate(updateImageSchema),
   imageController.restoreImage.bind(
-    imageController,
-  ),
-);
-
-router.get(
-  "/",
-  imageController.getImages.bind(
     imageController,
   ),
 );

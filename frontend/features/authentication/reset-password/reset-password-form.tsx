@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, ShieldCheck, Sparkles, ArrowLeft } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,8 +36,15 @@ export function ResetPasswordForm() {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors, isSubmitting },
   } = form;
+
+  useEffect(() => {
+    if (token) {
+      setValue("token", token);
+    }
+  }, [token, setValue]);
 
   const submitLabel = useMemo(() => {
     if (isSubmitting) {
@@ -55,8 +62,14 @@ export function ResetPasswordForm() {
     setApiError(null);
     setSuccessResponse(false);
 
+    const activeToken = token || values.token;
+    if (!activeToken) {
+      setApiError("Invalid or missing password reset token. Please request a new password reset link.");
+      return;
+    }
+
     try {
-      await resetPasswordUser(values);
+      await resetPasswordUser({ ...values, token: activeToken });
       setSuccessResponse(true);
     } catch (error) {
       if (error instanceof AuthServiceError) {

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { authService } from "../services/auth.service";
+import { env } from "../config/env";
 
 export class AuthController {
   /**
@@ -53,8 +54,18 @@ async verifyEmail(
         token,
       );
 
+    if (req.headers.accept?.includes("text/html")) {
+      const frontendUrl = env.frontendUrl || "http://localhost:3001";
+      return res.redirect(`${frontendUrl}/verify-email?token=${encodeURIComponent(token)}`);
+    }
+
     return res.status(200).json(result);
-  } catch (error) {
+  } catch (error: any) {
+    if (req.headers.accept?.includes("text/html")) {
+      const frontendUrl = env.frontendUrl || "http://localhost:3001";
+      const token = (req.query.token as string) || "";
+      return res.redirect(`${frontendUrl}/verify-email?token=${encodeURIComponent(token)}`);
+    }
     next(error);
   }
 }

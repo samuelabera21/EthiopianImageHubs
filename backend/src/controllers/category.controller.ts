@@ -10,11 +10,7 @@ export class CategoryController {
     try {
       const categories = await categoryRepository.findAll();
 
-      return res.json({
-        success: true,
-        message: "Categories retrieved successfully",
-        data: categories,
-      });
+      return res.json({ success: true, data: categories });
     } catch (error) {
       next(error);
     }
