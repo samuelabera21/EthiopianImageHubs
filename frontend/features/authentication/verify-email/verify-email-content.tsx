@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ErrorState } from "@/components/ui/error-state";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { AuthServiceError } from "@/services/auth.service";
+import { AuthServiceError } from "@/services/auth-errors";
 import { verifyEmailUser } from "@/services/verify-email.service";
 
 type VerificationState = "loading" | "success" | "invalid" | "error";
@@ -37,7 +37,14 @@ export function VerifyEmailContent() {
         const response = await verifyEmailUser(token);
         setState("success");
         setMessage(response.message || "Your email has been verified successfully.");
-      } catch (error) {
+      } catch (error: unknown) {
+        const errMsg = error instanceof Error ? error.message : String(error);
+        if (errMsg.toLowerCase().includes("already verified")) {
+          setState("success");
+          setMessage("Your email address is already verified.");
+          return;
+        }
+
         if (error instanceof AuthServiceError) {
           if (error.status === 400) {
             setState("invalid");
