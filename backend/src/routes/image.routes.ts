@@ -33,6 +33,16 @@ router.get(
 );
 
 /**
+ * GET /images/:imageId/download
+ */
+router.get(
+  "/:imageId/download",
+  imageController.downloadImage.bind(
+    imageController,
+  ),
+);
+
+/**
  * POST /images
  */
 router.post(
