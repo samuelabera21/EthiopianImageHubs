@@ -1,9 +1,10 @@
 "use client";
 
 import NextImage from "next/image";
-import { Eye, Download, Share2, Bookmark } from "lucide-react";
+import { Download, Bookmark, Eye } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { getImageUrl } from "@/lib/media";
+import { getImageUrl, getImageFilename, downloadImageFile } from "@/lib/media";
+import { formatFileSize } from "@/lib/utils";
 import { BackendImage } from "@/components/ui/backend-image";
 import { Button } from "@/components/ui/button";
 import type { Image } from "@/types/image";
@@ -16,12 +17,28 @@ interface GalleryImageCardProps {
 
 export function GalleryImageCard({ image, onClick, className }: GalleryImageCardProps) {
   const imageUrl = getImageUrl(image);
-  const isLocalBackend = imageUrl.includes("localhost:5000");
+  const isLocalBackend = imageUrl.includes("localhost") || imageUrl.includes("127.0.0.1");
+
+  const handleDownload = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const filename = getImageFilename(image);
+    downloadImageFile(imageUrl, filename);
+  };
+
+  const handleSave = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    alert("Save to collection coming soon");
+  };
+
+  // Calculate raw aspect ratio and clamp to balanced bounds (0.72 min portrait limit, 1.65 max landscape limit)
+  const rawRatio =
+    image.width && image.height ? image.width / image.height : 1;
+  const clampedRatio = Math.max(0.72, Math.min(1.65, rawRatio));
 
   return (
     <article
       className={cn(
-        "group overflow-hidden rounded-[var(--radius-card)] border border-border bg-surface shadow-card transition-all duration-250 ease-out hover:-translate-y-1 hover:shadow-elevated",
+        "group relative overflow-hidden rounded-2xl border border-border/50 bg-surface shadow-card transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         onClick && "cursor-pointer",
         className,
       )}
@@ -34,13 +51,16 @@ export function GalleryImageCard({ image, onClick, className }: GalleryImageCard
       }}
       tabIndex={0}
       role={onClick ? "button" : undefined}
-      aria-label={onClick ? `View ${image.title}` : undefined}
+      aria-label={onClick ? `View ${image.title} by ${image.owner.username}` : undefined}
     >
-      <div className="relative aspect-video overflow-hidden">
+      <div
+        className="relative w-full overflow-hidden bg-muted/40"
+        style={{ aspectRatio: clampedRatio }}
+      >
         {isLocalBackend ? (
           <BackendImage
             alt={image.title}
-            className="object-cover transition-transform duration-350 ease-out group-hover:scale-[1.03]"
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             src={imageUrl}
@@ -48,52 +68,74 @@ export function GalleryImageCard({ image, onClick, className }: GalleryImageCard
         ) : (
           <NextImage
             alt={image.title}
-            className="object-cover transition-transform duration-350 ease-out group-hover:scale-[1.03]"
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             src={imageUrl}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/45 via-foreground/0 to-transparent opacity-0 transition-opacity duration-250 group-hover:opacity-100" />
-        <div className="absolute left-3 top-3 flex gap-2">
-          <span className="rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-foreground shadow-card backdrop-blur-sm">
-            {image.category.name}
-          </span>
-          <span className={cn(
-            "rounded-full px-3 py-1 text-xs font-semibold shadow-card backdrop-blur-sm",
-            image.visibility === "PUBLIC" && "bg-emerald-100 text-emerald-700",
-            image.visibility === "PRIVATE" && "bg-amber-100 text-amber-700",
-            image.visibility === "UNLISTED" && "bg-blue-100 text-blue-700",
-          )}>
-            {image.visibility}
-          </span>
-        </div>
-        <div className="absolute right-3 top-3 flex gap-2 opacity-0 transition-opacity duration-250 group-hover:opacity-100">
-          <Button size="icon" variant="ghost" className="h-8 w-8 rounded-full bg-background/90 text-foreground hover:bg-background" aria-label="Download">
-            <Download className="h-4 w-4" aria-hidden="true" />
-          </Button>
-          <Button size="icon" variant="ghost" className="h-8 w-8 rounded-full bg-background/90 text-foreground hover:bg-background" aria-label="Save">
-            <Bookmark className="h-4 w-4" aria-hidden="true" />
-          </Button>
-          <Button size="icon" variant="ghost" className="h-8 w-8 rounded-full bg-background/90 text-foreground hover:bg-background" aria-label="Share">
-            <Share2 className="h-4 w-4" aria-hidden="true" />
-          </Button>
-        </div>
-      </div>
-      <div className="space-y-3 p-4">
-        <h3 className="text-base font-semibold tracking-tight text-foreground line-clamp-1">
-          {image.title}
-        </h3>
-        <p className="text-sm text-muted-foreground">
-          by {image.owner.username}
-        </p>
-        <div className="flex items-center justify-between gap-3 border-t border-border pt-3 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1.5">
-            <Eye className="h-4 w-4" aria-hidden="true" />
-            <span>{image.fileSize}</span>
+
+        {/* Professional Unsplash / Pexels Hover Overlay */}
+        <div className="absolute inset-0 flex flex-col justify-between bg-gradient-to-t from-black/85 via-black/30 to-black/40 p-4 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 group-focus-within:opacity-100">
+          {/* Top Row: Category & Visibility badges (left), Action buttons (right) */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="rounded-full bg-black/40 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md border border-white/20 shadow-sm">
+                {image.category.name}
+              </span>
+              <span
+                className={cn(
+                  "rounded-full px-2 py-0.5 text-[10px] font-bold shadow-sm backdrop-blur-md",
+                  image.visibility === "PUBLIC" && "bg-emerald-500/80 text-white",
+                  image.visibility === "PRIVATE" && "bg-amber-500/80 text-white",
+                  image.visibility === "UNLISTED" && "bg-blue-500/80 text-white",
+                )}
+              >
+                {image.visibility}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-9 w-9 rounded-full bg-white/20 text-white border border-white/30 backdrop-blur-md transition-all hover:bg-white hover:text-black hover:scale-105 active:scale-95 shadow-sm"
+                onClick={handleDownload}
+                aria-label={`Download ${image.title}`}
+                title="Download image"
+                type="button"
+              >
+                <Download className="h-4 w-4" aria-hidden="true" />
+              </Button>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-9 w-9 rounded-full bg-white/20 text-white border border-white/30 backdrop-blur-md transition-all hover:bg-white hover:text-black hover:scale-105 active:scale-95 shadow-sm"
+                onClick={handleSave}
+                aria-label={`Bookmark ${image.title}`}
+                title="Save to collection"
+                type="button"
+              >
+                <Bookmark className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span>{image.width} x {image.height}</span>
+
+          {/* Bottom Row: Metadata info */}
+          <div className="space-y-1 text-white">
+            <h3 className="text-base font-semibold tracking-tight text-white line-clamp-1 drop-shadow-sm">
+              {image.title}
+            </h3>
+            <p className="text-xs font-medium text-white/85 line-clamp-1">
+              by {image.owner.username}
+            </p>
+            <div className="flex items-center justify-between gap-3 border-t border-white/20 pt-2 text-[11px] text-white/75 font-mono">
+              <span>{image.width} × {image.height} px</span>
+              <div className="flex items-center gap-1">
+                <Eye className="h-3 w-3" aria-hidden="true" />
+                <span>{formatFileSize(image.fileSize)}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
