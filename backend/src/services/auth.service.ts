@@ -125,7 +125,7 @@ export class AuthService {
 //------------------------------------
 
 const verificationUrl =
-  `${env.backendUrl}/api/v1/auth/verify-email?token=${verificationToken}`;
+  `${env.frontendUrl}/verify-email?token=${verificationToken}`;
 
 //------------------------------------
 // Email HTML
