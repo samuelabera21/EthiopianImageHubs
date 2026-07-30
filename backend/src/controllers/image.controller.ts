@@ -38,10 +38,13 @@ async getImages(
 
     const result = await imageService.getImages(query);
 
-    // Normalize image paths for web compatibility
+    // Normalize image paths and tags for web compatibility
     const normalizedImages = result.data.map(image => ({
       ...image,
       storageKey: image.storageKey ? image.storageKey.replace(/\\/g, "/") : image.storageKey,
+      tags: Array.isArray(image.tags)
+        ? image.tags.map((t: any) => (t.tag ? t.tag : t))
+        : [],
     }));
     return res.json({
       ...result,
@@ -66,12 +69,38 @@ async getImages(
         return res.status(404).json({ success: false, message: "Image not found" });
       }
 
-      // Normalize image path for web compatibility
+      // Normalize image path and tags for web compatibility
       if (result.data.storageKey) {
         result.data.storageKey = result.data.storageKey.replace(/\\/g, "/");
       }
+      if (Array.isArray(result.data.tags)) {
+        result.data.tags = result.data.tags.map((t: any) => (t.tag ? t.tag : t));
+      }
 
       return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Download image file as attachment
+   */
+  async downloadImage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { imageId } = imageIdParamsSchema.parse(req.params);
+      const result = await imageService.getImageById(imageId);
+
+      if (!result || !result.data) {
+        return res.status(404).json({ success: false, message: "Image not found" });
+      }
+
+      const image = result.data;
+      const pathModule = await import("path");
+      const filePath = pathModule.join(process.cwd(), image.storageKey);
+      const filename = image.originalFilename || `${image.title}.${image.extension || "jpg"}`;
+
+      return res.download(filePath, filename);
     } catch (error) {
       next(error);
     }
