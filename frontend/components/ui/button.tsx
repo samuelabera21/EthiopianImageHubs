@@ -13,6 +13,8 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit" | "reset";
   ariaLabel?: string;
+  "aria-label"?: string;
+  title?: string;
   disabled?: boolean;
   isLoading?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -43,10 +45,14 @@ export function Button({
   className,
   type = "button",
   ariaLabel,
+  "aria-label": ariaLabelAttr,
+  title,
   disabled = false,
   isLoading = false,
   onClick,
 }: ButtonProps) {
+  const effectiveAriaLabel = ariaLabel || ariaLabelAttr;
+
   const classes = cn(
     "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40",
     variantClasses[variant],
@@ -63,7 +69,8 @@ export function Button({
     return (
       <Link
         aria-disabled={disabled || isLoading}
-        aria-label={ariaLabel}
+        aria-label={effectiveAriaLabel}
+        title={title}
         className={linkClasses}
         href={href}
       >
@@ -75,7 +82,8 @@ export function Button({
   return (
     <button
       aria-busy={isLoading}
-      aria-label={ariaLabel}
+      aria-label={effectiveAriaLabel}
+      title={title}
       className={classes}
       disabled={disabled || isLoading}
       onClick={onClick}
