@@ -10,9 +10,9 @@ interface BackendImageProps {
 }
 
 export function BackendImage({ src, alt, className, fill, sizes, priority }: BackendImageProps) {
-  const combinedClassName = fill
-    ? "object-cover " + (className || "")
-    : className;
+  const hasObjectFit = Boolean(className && /object-(cover|contain|fill|none|scale-down)/.test(className));
+  const defaultFit = fill && !hasObjectFit ? "object-cover " : "";
+  const combinedClassName = `${defaultFit}${className || ""}`;
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
