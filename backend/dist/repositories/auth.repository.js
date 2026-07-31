@@ -226,6 +226,22 @@ class AuthRepository {
         });
     }
     /**
+     * Update user role
+     */
+    async updateUserRole(userId, roleId) {
+        return database_1.prisma.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                roleId,
+            },
+            include: {
+                role: true,
+            },
+        });
+    }
+    /**
      * Find authenticated user
      */
     async findAuthenticatedUser(userId) {
