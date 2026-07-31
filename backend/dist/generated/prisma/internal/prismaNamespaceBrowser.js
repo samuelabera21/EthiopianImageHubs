@@ -48,7 +48,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.ImageTagScalarFieldEnum = exports.ImageScalarFieldEnum = exports.TagScalarFieldEnum = exports.CategoryScalarFieldEnum = exports.PasswordResetScalarFieldEnum = exports.EmailVerificationScalarFieldEnum = exports.UserSessionScalarFieldEnum = exports.UserScalarFieldEnum = exports.RoleScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
+exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.ImageTagScalarFieldEnum = exports.ImageScalarFieldEnum = exports.TagScalarFieldEnum = exports.CategoryScalarFieldEnum = exports.PasswordResetScalarFieldEnum = exports.EmailVerificationScalarFieldEnum = exports.UserSessionScalarFieldEnum = exports.ContributorApplicationScalarFieldEnum = exports.UserScalarFieldEnum = exports.RoleScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/index-browser"));
 exports.Decimal = runtime.Decimal;
 exports.NullTypes = {
@@ -77,6 +77,7 @@ exports.AnyNull = runtime.AnyNull;
 exports.ModelName = {
     Role: 'Role',
     User: 'User',
+    ContributorApplication: 'ContributorApplication',
     UserSession: 'UserSession',
     EmailVerification: 'EmailVerification',
     PasswordReset: 'PasswordReset',
@@ -111,6 +112,17 @@ exports.UserScalarFieldEnum = {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt'
+};
+exports.ContributorApplicationScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    message: 'message',
+    status: 'status',
+    reviewedById: 'reviewedById',
+    reviewedAt: 'reviewedAt',
+    adminNote: 'adminNote',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.UserSessionScalarFieldEnum = {
     id: 'id',
