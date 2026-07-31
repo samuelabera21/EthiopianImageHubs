@@ -3,6 +3,7 @@ import { Router } from "express";
 import { imageController } from "../controllers/image.controller";
 
 import { authenticate } from "../middlewares/auth.middleware";
+import { authorize } from "../middlewares/authorize.middleware";
 
 import { uploadSingleImage } from "../middlewares/upload.middleware";
 
@@ -48,6 +49,7 @@ router.get(
 router.post(
   "/",
   authenticate,
+  authorize(["CONTRIBUTOR", "ADMIN"]),
   uploadSingleImage,
   validate(uploadImageSchema),
   imageController.uploadImage.bind(imageController),
@@ -56,6 +58,7 @@ router.post(
 router.patch(
   "/:imageId",
   authenticate,
+  authorize(["CONTRIBUTOR", "ADMIN"]),
   validate(updateImageSchema),
   imageController.updateImage.bind(imageController),
 );
@@ -63,12 +66,14 @@ router.patch(
 router.delete(
   "/:imageId",
   authenticate,
+  authorize(["CONTRIBUTOR", "ADMIN"]),
   imageController.deleteImage.bind(imageController),
 );
 
 router.delete(
   "/:imageId/permanent",
   authenticate,
+  authorize(["CONTRIBUTOR", "ADMIN"]),
   imageController.permanentlyDeleteImage.bind(
     imageController,
   ),
@@ -77,6 +82,7 @@ router.delete(
 router.patch(
   "/:imageId/restore",
   authenticate,
+  authorize(["CONTRIBUTOR", "ADMIN"]),
   validate(updateImageSchema),
   imageController.restoreImage.bind(
     imageController,
