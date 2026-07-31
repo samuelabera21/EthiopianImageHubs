@@ -1,0 +1,131 @@
+@startuml Sprint2_ImageManagement_ERD
+
+hide circle
+hide methods
+skinparam linetype ortho
+
+'==========================
+' Existing Authentication
+'==========================
+
+entity "Role" as Role {
+    * id : UUID <<PK>>
+    --
+    name : varchar(50)
+    description : text
+    createdAt : datetime
+}
+
+entity "User" as User {
+    * id : UUID <<PK>>
+    --
+    roleId : UUID <<FK>>
+    username : varchar(50)
+    email : varchar(255)
+    passwordHash : varchar(255)
+
+    emailVerified : boolean
+    status : UserStatus
+
+    createdAt : datetime
+    updatedAt : datetime
+    deletedAt : datetime?
+}
+
+'==========================
+' Sprint 2
+'==========================
+
+entity "Category" as Category {
+
+    * id : UUID <<PK>>
+
+    --
+
+    name : varchar(100)
+
+    description : text
+
+    createdAt : datetime
+
+}
+
+entity "Image" as Image {
+
+    * id : UUID <<PK>>
+
+    --
+
+    ownerId : UUID <<FK>>
+
+    categoryId : UUID <<FK>>
+
+    title : varchar(150)
+
+    description : text
+
+    visibility : ImageVisibility
+
+    license : ImageLicense
+
+    originalFilename : varchar(255)
+
+    storedFilename : varchar(255)
+
+    storagePath : varchar(500)
+
+    mimeType : varchar(100)
+
+    fileSize : bigint
+
+    width : integer
+
+    height : integer
+
+    checksum : varchar(128)
+
+    status : ImageStatus
+
+    createdAt : datetime
+
+    updatedAt : datetime
+
+    deletedAt : datetime?
+
+}
+
+entity "Tag" as Tag {
+
+    * id : UUID <<PK>>
+
+    --
+
+    name : varchar(100)
+
+    createdAt : datetime
+
+}
+
+entity "ImageTag" as ImageTag {
+
+    * imageId : UUID <<FK>>
+
+    * tagId : UUID <<FK>>
+
+}
+
+'==========================
+' Relationships
+'==========================
+
+Role ||--o{ User
+
+User ||--o{ Image
+
+Category ||--o{ Image
+
+Image ||--o{ ImageTag
+
+Tag ||--o{ ImageTag
+
+@enduml
