@@ -16,6 +16,8 @@ import { useUpload } from "@/hooks/useUpload";
 import { useCategories } from "@/hooks/useCategories";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/features/authentication/provider/AuthProvider";
+import { ErrorState } from "@/components/ui/error-state";
 
 type Step = "select" | "preview" | "metadata" | "publish";
 
@@ -27,7 +29,8 @@ const STEP_TITLES: Record<Step, string> = {
 };
 
 export default function UploadPage() {
-  useProtectedRoute();
+  const { isAuthenticated, isLoading } = useProtectedRoute();
+  const { currentUser } = useAuth();
   const router = useRouter();
   const [step, setStep] = useState<Step>("select");
 
@@ -48,16 +51,44 @@ export default function UploadPage() {
   };
 
   const handleMetadataSubmit = async (values: { categoryId: string; title: string; description?: string; location?: string; visibility: string }) => {
-    await handleUpload({
-      ...values,
-      visibility: values.visibility as "PUBLIC" | "PRIVATE" | "UNLISTED",
-    });
-    setStep("publish");
+    try {
+      await handleUpload({
+        ...values,
+        visibility: values.visibility as "PUBLIC" | "PRIVATE" | "UNLISTED",
+      });
+    } catch (err) {
+      // Error is caught here so it doesn't cause an unhandled promise rejection.
+      // The UI in the 'publish' step will display the error state from uploadMutation.
+    } finally {
+      setStep("publish");
+    }
   };
 
   const handlePublishComplete = () => {
     router.push("/gallery");
   };
+
+  if (isLoading || !isAuthenticated) {
+    return null; // Let useProtectedRoute handle the redirect to login
+  }
+
+  // Gracefully handle RBAC for upload page
+  if (currentUser && currentUser.role !== "CONTRIBUTOR" && currentUser.role !== "ADMIN") {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <AuthHeader />
+        <main className="flex flex-1 items-center justify-center">
+          <ErrorState
+            title="Access Denied"
+            message="You need to be a contributor to upload images."
+            actionLabel="Apply to be a Contributor"
+            actionHref="/contributors/apply"
+          />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const renderStepContent = () => {
     switch (step) {
