@@ -1,0 +1,589 @@
+openapi: 3.1.0
+
+info:
+  title: EthiopiaHub Images API
+  version: 2.5.0
+
+  description: |
+    Sprint 2.5 - Role Based Access Control (RBAC)
+
+    Features:
+      - Contributor Application
+      - Application Status
+      - Admin Review
+      - Approve Contributor
+      - Reject Contributor
+      - Authorization Documentation
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Local Development
+
+tags:
+  - name: Contributor Applications
+    description: Contributor application endpoints
+
+  - name: Admin
+    description: Administrative contributor approval endpoints
+
+security:
+  - BearerAuth: []
+
+components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    ####################################################
+    # Common
+    ####################################################
+
+    SuccessResponse:
+
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: true
+
+        message:
+          type: string
+
+    ErrorResponse:
+
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+          example: false
+
+        message:
+          type: string
+
+    ####################################################
+    # Contributor Application
+    ####################################################
+
+    ContributorApplication:
+
+      type: object
+
+      properties:
+
+        id:
+          type: string
+          format: uuid
+
+        userId:
+          type: string
+          format: uuid
+
+        message:
+          type: string
+          nullable: true
+
+        status:
+          type: string
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+
+        reviewedById:
+          type: string
+          format: uuid
+          nullable: true
+
+        reviewedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+        adminNote:
+          type: string
+          nullable: true
+
+        createdAt:
+          type: string
+          format: date-time
+
+        updatedAt:
+          type: string
+          format: date-time
+
+    ContributorApplicationResponse:
+
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+
+        message:
+          type: string
+
+        data:
+
+          $ref: '#/components/schemas/ContributorApplication'
+
+    ContributorApplicationListResponse:
+
+      type: object
+
+      properties:
+
+        success:
+          type: boolean
+
+        message:
+          type: string
+
+        data:
+
+          type: array
+
+          items:
+            $ref: '#/components/schemas/ContributorApplication'
+                ####################################################
+    # Requests
+    ####################################################
+
+    ApplyContributorRequest:
+
+      type: object
+
+      properties:
+
+        message:
+          type: string
+          maxLength: 1000
+
+      example:
+        message: I would like to contribute high quality Ethiopian photography.
+
+    ReviewContributorApplicationRequest:
+
+      type: object
+
+      required:
+        - status
+
+      properties:
+
+        status:
+          type: string
+          enum:
+            - APPROVED
+            - REJECTED
+
+        adminNote:
+          type: string
+          maxLength: 1000
+
+      example:
+        status: APPROVED
+        adminNote: Welcome to the contributor program.
+
+  responses:
+
+    ValidationError:
+
+      description: Validation failed.
+
+      content:
+
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+
+      description: Authentication required.
+
+      content:
+
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+
+      description: Permission denied.
+
+      content:
+
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+
+      description: Resource not found.
+
+      content:
+
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Conflict:
+
+      description: Resource already exists.
+
+      content:
+
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+
+      description: Internal server error.
+
+      content:
+
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+paths:
+
+  /contributors/apply:
+
+    post:
+
+      tags:
+        - Contributor Applications
+
+      summary: Apply to become a contributor
+
+      description: |
+        Allows an authenticated USER to submit an application
+        to become a CONTRIBUTOR.
+
+      security:
+        - BearerAuth: []
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/ApplyContributorRequest'
+
+      responses:
+
+        "201":
+
+          description: Application submitted successfully
+
+          content:
+
+            application/json:
+
+              schema:
+                $ref: '#/components/schemas/ContributorApplicationResponse'
+
+        "400":
+          $ref: '#/components/responses/ValidationError'
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+        "409":
+          $ref: '#/components/responses/Conflict'
+
+        "500":
+          $ref: '#/components/responses/InternalServerError'
+            /contributors/application:
+
+    get:
+
+      tags:
+        - Contributor Applications
+
+      summary: Get my contributor application
+
+      description: |
+        Returns the authenticated user's contributor application.
+
+      security:
+        - BearerAuth: []
+
+      responses:
+
+        "200":
+
+          description: Contributor application retrieved successfully
+
+          content:
+
+            application/json:
+
+              schema:
+                $ref: '#/components/schemas/ContributorApplicationResponse'
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+        "500":
+          $ref: '#/components/responses/InternalServerError'
+
+
+  /admin/contributor-applications:
+
+    get:
+
+      tags:
+        - Admin
+
+      summary: Get contributor applications
+
+      description: |
+        Returns contributor applications.
+
+        Authorization:
+          - ADMIN only
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+
+        - name: status
+          in: query
+
+          schema:
+            type: string
+            enum:
+              - PENDING
+              - APPROVED
+              - REJECTED
+
+        - name: page
+          in: query
+
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+
+        - name: limit
+          in: query
+
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+
+      responses:
+
+        "200":
+
+          description: Contributor applications retrieved successfully
+
+          content:
+
+            application/json:
+
+              schema:
+                $ref: '#/components/schemas/ContributorApplicationListResponse'
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+        "403":
+          $ref: '#/components/responses/Forbidden'
+
+        "500":
+          $ref: '#/components/responses/InternalServerError'
+            /admin/contributor-applications/{applicationId}:
+
+    patch:
+
+      tags:
+        - Admin
+
+      summary: Review contributor application
+
+      description: |
+        Approve or reject a contributor application.
+
+        If approved:
+
+          USER
+            ↓
+          CONTRIBUTOR
+
+        Authorization:
+          - ADMIN only
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+
+        - name: applicationId
+          in: path
+          required: true
+
+          schema:
+            type: string
+            format: uuid
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/ReviewContributorApplicationRequest'
+
+      responses:
+
+        "200":
+
+          description: Contributor application reviewed successfully
+
+          content:
+
+            application/json:
+
+              schema:
+                $ref: '#/components/schemas/ContributorApplicationResponse'
+
+        "400":
+          $ref: '#/components/responses/ValidationError'
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+        "403":
+          $ref: '#/components/responses/Forbidden'
+
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+        "500":
+          $ref: '#/components/responses/InternalServerError'
+          x-rbac:
+
+  description: |
+    Authorization rules introduced during Sprint 2.5.
+
+    Authentication verifies WHO the user is.
+
+    Authorization verifies WHAT the user is allowed to do.
+
+  roles:
+
+    USER:
+      - View public images
+      - Apply to become contributor
+      - View own contributor application
+
+    CONTRIBUTOR:
+      - Upload images
+      - Update own images
+      - Delete own images
+
+    MODERATOR:
+      - Moderate community content
+      - Review reported content
+
+    ADMIN:
+      - Full system access
+      - Review contributor applications
+      - Approve contributor applications
+      - Reject contributor applications
+      - Manage categories
+      - Manage tags
+      - Manage roles
+
+  endpointPermissions:
+
+    POST /contributors/apply:
+      roles:
+        - USER
+
+    GET /contributors/application:
+      roles:
+        - USER
+        - CONTRIBUTOR
+        - MODERATOR
+        - ADMIN
+
+    GET /admin/contributor-applications:
+      roles:
+        - ADMIN
+
+    PATCH /admin/contributor-applications/{applicationId}:
+      roles:
+        - ADMIN
+
+    POST /images:
+      roles:
+        - CONTRIBUTOR
+        - ADMIN
+
+    PATCH /images/{imageId}:
+      roles:
+        - CONTRIBUTOR
+        - ADMIN
+
+    DELETE /images/{imageId}:
+      roles:
+        - CONTRIBUTOR
+        - ADMIN
+
+    POST /categories:
+      roles:
+        - ADMIN
+
+    PATCH /categories/{categoryId}:
+      roles:
+        - ADMIN
+
+    DELETE /categories/{categoryId}:
+      roles:
+        - ADMIN
+
+    POST /tags:
+      roles:
+        - ADMIN
+
+    PATCH /tags/{tagId}:
+      roles:
+        - ADMIN
+
+    DELETE /tags/{tagId}:
+      roles:
+        - ADMIN

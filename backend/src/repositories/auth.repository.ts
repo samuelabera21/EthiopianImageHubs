@@ -282,6 +282,26 @@ async updatePassword(
   });
 }
 
+/**
+ * Update user role
+ */
+async updateUserRole(
+  userId: string,
+  roleId: string,
+) {
+  return prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      roleId,
+    },
+    include: {
+      role: true,
+    },
+  });
+}
+
 
 /**
  * Find authenticated user

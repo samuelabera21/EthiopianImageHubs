@@ -275,6 +275,7 @@ export const footerLinks = {
   community: [
     { label: "Why EthiopiaHub Images", href: "#why-ethiohub-images" },
     { label: "Community statistics", href: "#community" },
+    { label: "Become a contributor", href: "/contributors/apply" },
     { label: "Get involved", href: "#cta" },
   ],
   legal: [

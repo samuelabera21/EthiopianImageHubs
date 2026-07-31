@@ -6,6 +6,7 @@ const swaggerDocument = YAML.load(
   path.join(
     process.cwd(),
     "..",
+    "docs",
     "openapi",
     "sprint1OpenAPI.yaml",
   ),

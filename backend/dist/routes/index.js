@@ -7,6 +7,8 @@ const express_1 = require("express");
 const auth_routes_1 = __importDefault(require("./auth.routes"));
 const category_routes_1 = __importDefault(require("./category.routes"));
 const image_routes_1 = __importDefault(require("./image.routes"));
+const contributor_routes_1 = __importDefault(require("./contributor.routes"));
+const admin_routes_1 = __importDefault(require("./admin.routes"));
 const router = (0, express_1.Router)();
 router.get("/", (_, res) => {
     res.json({
@@ -34,4 +36,12 @@ router.use("/categories", category_routes_1.default);
  * Images
  */
 router.use("/images", image_routes_1.default);
+/**
+ * Contributors
+ */
+router.use("/contributors", contributor_routes_1.default);
+/**
+ * Admin
+ */
+router.use("/admin/contributor-applications", admin_routes_1.default);
 exports.default = router;
