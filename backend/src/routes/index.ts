@@ -3,6 +3,8 @@ import { Router } from "express";
 import authRoutes from "./auth.routes";
 import categoryRoutes from "./category.routes";
 import imageRoutes from "./image.routes";
+import contributorRoutes from "./contributor.routes";
+import adminRoutes from "./admin.routes";
 
 const router = Router();
 
@@ -34,5 +36,13 @@ router.use("/categories", categoryRoutes);
  * Images
  */
 router.use("/images", imageRoutes);
+/**
+ * Contributors
+ */
+router.use("/contributors", contributorRoutes);
+/**
+ * Admin
+ */
+router.use("/admin/contributor-applications", adminRoutes);
 
-export default router;
+export default router;
