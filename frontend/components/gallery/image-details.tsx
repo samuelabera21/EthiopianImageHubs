@@ -1,12 +1,13 @@
 "use client";
 
-import { Heart, Download, Share2, Bookmark, Camera, MapPin, Tag, FolderOpen, Calendar } from "lucide-react";
+import { Heart, Download, Share2, Bookmark, Camera, MapPin, Tag, FolderOpen, Calendar, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { formatDistanceToNow, formatFileSize } from "@/lib/utils";
 import { getImageUrl } from "@/lib/media";
 import { BackendImage } from "@/components/ui/backend-image";
 import { cn } from "@/lib/cn";
+import Link from "next/link";
 import type { Image as ImageType } from "@/types/image";
 
 interface ImageDetailsProps {
@@ -15,6 +16,11 @@ interface ImageDetailsProps {
   onLike?: () => void;
   onShare?: () => void;
   onSave?: () => void;
+  isLiked?: boolean;
+  isFavorited?: boolean;
+  isLiking?: boolean;
+  isFavoriting?: boolean;
+  isDownloading?: boolean;
   className?: string;
 }
 
@@ -25,6 +31,11 @@ export function ImageDetails({
   onLike,
   onShare,
   onSave,
+  isLiked = false,
+  isFavorited = false,
+  isLiking = false,
+  isFavoriting = false,
+  isDownloading = false,
   className,
 }: ImageDetailsProps) {
   const imageUrl = getImageUrl(image);
@@ -75,9 +86,11 @@ export function ImageDetails({
                   <Camera className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">
-                    {image.owner.username}
-                  </p>
+                  <Link href={`/profiles/${image.owner.username}`} className="hover:underline">
+                    <p className="text-sm font-semibold text-foreground">
+                      {image.owner.username}
+                    </p>
+                  </Link>
                   <p className="text-xs text-muted-foreground">Photographer</p>
                 </div>
               </div>
@@ -142,19 +155,41 @@ export function ImageDetails({
 
           {/* Unsplash/Pexels style Action Buttons */}
           <div className="flex items-center gap-3">
-            <Button onClick={onDownload} className="flex-1 h-11 rounded-full font-semibold shadow-md">
-              <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+            <Button onClick={onDownload} disabled={isDownloading} className="flex-1 h-11 rounded-full font-semibold shadow-md">
+              {isDownloading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+              )}
               Download
             </Button>
-            <Button variant="outline" onClick={onLike} className="flex-1 h-11 rounded-full font-semibold">
-              <Heart className="mr-2 h-4 w-4" aria-hidden="true" />
-              Like
+            <Button 
+              variant={isLiked ? "primary" : "outline"} 
+              onClick={onLike} 
+              disabled={isLiking}
+              className={cn("flex-1 h-11 rounded-full font-semibold transition-all", isLiked && "bg-rose-500 hover:bg-rose-600 text-white border-transparent")}
+            >
+              {isLiking ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Heart className={cn("mr-2 h-4 w-4", isLiked && "fill-current")} aria-hidden="true" />
+              )}
+              {isLiked ? "Liked" : "Like"}
             </Button>
-            <Button variant="outline" onClick={onShare} aria-label="Share" title="Share link" className="h-11 w-11 rounded-full p-0">
+            <Button variant="outline" size="icon" onClick={onShare} aria-label="Share" title="Share link" className="h-11 w-11 shrink-0 rounded-full transition-all hover:bg-muted">
               <Share2 className="h-4 w-4" aria-hidden="true" />
             </Button>
-            <Button variant="outline" onClick={onSave} aria-label="Save" title="Save to collection" className="h-11 w-11 rounded-full p-0">
-              <Bookmark className="h-4 w-4" aria-hidden="true" />
+            <Button 
+              variant={isFavorited ? "primary" : "outline"} 
+              size="icon"
+              onClick={onSave} 
+              disabled={isFavoriting}
+              isLoading={isFavoriting}
+              aria-label={isFavorited ? "Remove from collection" : "Save to collection"} 
+              title={isFavorited ? "Remove from collection" : "Save to collection"} 
+              className={cn("h-11 w-11 shrink-0 rounded-full transition-all", isFavorited && "bg-rose-500 hover:bg-rose-600 text-white border-transparent")}
+            >
+              {!isFavoriting && <Bookmark className={cn("h-4 w-4", isFavorited && "fill-current")} aria-hidden="true" />}
             </Button>
           </div>
         </div>
