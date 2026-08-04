@@ -60,10 +60,22 @@ async getImages(
    */
   async getImageById(req: Request, res: Response, next: NextFunction) {
     try {
-      // Validate and parse path parameters
       const { imageId } = imageIdParamsSchema.parse(req.params);
 
-      const result = await imageService.getImageById(imageId);
+      let userId: string | undefined;
+      const authHeader = req.headers.authorization;
+      if (authHeader?.startsWith("Bearer ")) {
+        try {
+          const token = authHeader.split(" ")[1];
+          const { verifyAccessToken } = await import("../utils/jwt");
+          const payload = verifyAccessToken(token);
+          userId = payload.userId;
+        } catch (e) {
+          // Ignore invalid token for public endpoint
+        }
+      }
+
+      const result = await imageService.getImageById(imageId, userId);
 
       if (!result || !result.data) {
         return res.status(404).json({ success: false, message: "Image not found" });
