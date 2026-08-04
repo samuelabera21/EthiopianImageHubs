@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import { getImagesQuerySchema, imageIdParamsSchema } from "./image.schema";
 import { imageService } from "../services/image.service";
+import { verifyAccessToken } from "../utils/jwt";
 
 export class ImageController {
   /**
@@ -67,7 +68,6 @@ async getImages(
       if (authHeader?.startsWith("Bearer ")) {
         try {
           const token = authHeader.split(" ")[1];
-          const { verifyAccessToken } = await import("../utils/jwt");
           const payload = verifyAccessToken(token);
           userId = payload.userId;
         } catch (e) {

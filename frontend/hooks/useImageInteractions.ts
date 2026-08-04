@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { interactionService } from "@/services/interaction.service";
 import { useAuth } from "@/features/authentication/provider/AuthProvider";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 export function useImageInteractions(imageId: string, initialIsLiked = false, initialIsFavorited = false) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   // Optimistic UI state for likes and favorites
   const [isLiked, setIsLiked] = useState(initialIsLiked);
@@ -39,6 +40,9 @@ export function useImageInteractions(imageId: string, initialIsLiked = false, in
     onError: (error: any) => {
       setIsLiked(false);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["image", imageId] });
+    },
   });
 
   const unlikeMutation = useMutation({
@@ -48,6 +52,9 @@ export function useImageInteractions(imageId: string, initialIsLiked = false, in
     },
     onError: () => {
       setIsLiked(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["image", imageId] });
     },
   });
 
@@ -59,6 +66,9 @@ export function useImageInteractions(imageId: string, initialIsLiked = false, in
     onError: (error: any) => {
       setIsFavorited(false);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["image", imageId] });
+    },
   });
 
   const unfavoriteMutation = useMutation({
@@ -68,6 +78,9 @@ export function useImageInteractions(imageId: string, initialIsLiked = false, in
     },
     onError: () => {
       setIsFavorited(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["image", imageId] });
     },
   });
 

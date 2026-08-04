@@ -1,7 +1,7 @@
 "use client";
 
 import NextImage from "next/image";
-import { Download, Bookmark, Eye } from "lucide-react";
+import { Download, Bookmark, Eye, Heart } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { getImageUrl, getImageFilename, downloadImageFile } from "@/lib/media";
 import { formatFileSize } from "@/lib/utils";
@@ -126,9 +126,27 @@ export function GalleryImageCard({ image, onClick, className }: GalleryImageCard
             <h3 className="text-base font-semibold tracking-tight text-white line-clamp-1 drop-shadow-sm">
               {image.title}
             </h3>
-            <p className="text-xs font-medium text-white/85 line-clamp-1">
-              by {image.owner.profile?.displayName || image.owner.username}
-            </p>
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-medium text-white/85 line-clamp-1">
+                by {image.owner.profile?.displayName || image.owner.username}
+              </p>
+              {image._count && (
+                <div className="flex items-center gap-2 text-[11px] font-semibold text-white/90">
+                  <div className="flex items-center gap-0.5" title={`${image._count.downloads} Downloads`}>
+                    <Download className="h-3 w-3" />
+                    <span>{image._count.downloads}</span>
+                  </div>
+                  <div className="flex items-center gap-0.5" title={`${image._count.likes} Likes`}>
+                    <Heart className="h-3 w-3" />
+                    <span>{image._count.likes}</span>
+                  </div>
+                  <div className="flex items-center gap-0.5" title={`${image._count.favorites} Favorites`}>
+                    <Bookmark className="h-3 w-3" />
+                    <span>{image._count.favorites}</span>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="flex items-center justify-between gap-3 border-t border-white/20 pt-2 text-[11px] text-white/75 font-mono">
               <span>{image.width} × {image.height} px</span>
               <div className="flex items-center gap-1">

@@ -52,6 +52,11 @@ export interface Image {
   tags: Tag[];
   isLiked?: boolean;
   isFavorited?: boolean;
+  _count?: {
+    likes: number;
+    favorites: number;
+    downloads: number;
+  };
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
