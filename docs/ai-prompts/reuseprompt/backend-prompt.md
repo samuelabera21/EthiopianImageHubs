@@ -11,7 +11,7 @@ docs/ai-prompts/Backend-Agent-Prompt.md
 
 Read the project Software Requirements Specification:
 
-SRS.docx
+SRS.pdf
 
 Use the SRS as the primary source of business requirements and domain behavior.
 
