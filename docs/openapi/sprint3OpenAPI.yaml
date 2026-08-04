@@ -1,0 +1,200 @@
+openapi: 3.1.0
+
+info:
+  title: EthiopiaHub Images API
+  version: 1.3.0
+  description: |
+    Sprint 3 Community & User Content API.
+
+    This sprint introduces:
+
+      • Image Likes
+      • Image Favorites
+      • Download Tracking
+      • Contributor Public Profile
+      • Contributor Portfolio
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Local Development
+
+tags:
+  - name: Likes
+    description: Image like operations
+
+  - name: Favorites
+    description: Image favorite operations
+
+  - name: Downloads
+    description: Download tracking
+
+  - name: Profiles
+    description: Contributor public profile
+
+security:
+  - bearerAuth: []
+
+paths:
+  /images/{imageId}/likes:
+
+    post:
+      tags:
+        - Likes
+
+      summary: Like an image
+
+      operationId: likeImage
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/ImageId'
+
+      responses:
+        "201":
+          description: Image liked successfully
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+        "404":
+          $ref: '#/components/responses/ImageNotFound'
+
+        "409":
+          description: Image already liked
+
+    delete:
+      tags:
+        - Likes
+
+      summary: Remove image like
+
+      operationId: unlikeImage
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/ImageId'
+
+      responses:
+        "204":
+          description: Like removed
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+        "404":
+          description: Like not found
+            /images/{imageId}/favorites:
+
+    post:
+      tags:
+        - Favorites
+
+      summary: Add image to favorites
+
+      operationId: favoriteImage
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/ImageId'
+
+      responses:
+        "201":
+          description: Image added to favorites
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+        "404":
+          $ref: '#/components/responses/ImageNotFound'
+
+        "409":
+          description: Image already favorited
+
+    delete:
+      tags:
+        - Favorites
+
+      summary: Remove image from favorites
+
+      operationId: unfavoriteImage
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/ImageId'
+
+      responses:
+        "204":
+          description: Favorite removed
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+        "404":
+          description: Favorite not found
+            /downloads/{imageId}:
+
+    post:
+      tags:
+        - Downloads
+
+      summary: Download an image
+
+      operationId: downloadImage
+
+      security: []
+
+      parameters:
+        - $ref: '#/components/parameters/ImageId'
+
+      responses:
+        "200":
+          description: Download successful
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadResponse'
+
+        "403":
+          description: Download not permitted
+
+        "404":
+          $ref: '#/components/responses/ImageNotFound'
+
+  /downloads/history:
+
+    get:
+      tags:
+        - Downloads
+
+      summary: Get authenticated user's download history
+
+      operationId: getDownloadHistory
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+
+      responses:
+        "200":
+          description: Download history
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadHistoryResponse'
+
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+          
