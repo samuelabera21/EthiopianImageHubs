@@ -197,4 +197,346 @@ paths:
 
         "401":
           $ref: '#/components/responses/Unauthorized'
-          
+            /profiles/{username}:
+
+    get:
+      tags:
+        - Profiles
+
+      summary: Get public contributor profile
+
+      operationId: getContributorProfile
+
+      security: []
+
+      parameters:
+        - $ref: '#/components/parameters/Username'
+
+      responses:
+        "200":
+          description: Contributor profile
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicProfileResponse'
+
+        "404":
+          description: Contributor not found
+
+  /profiles/{username}/images:
+
+    get:
+      tags:
+        - Profiles
+
+      summary: Get contributor portfolio
+
+      operationId: getContributorPortfolio
+
+      security: []
+
+      parameters:
+        - $ref: '#/components/parameters/Username'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+
+      responses:
+        "200":
+          description: Contributor portfolio
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioResponse'
+
+        "404":
+          description: Contributor not found
+          components:
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+
+    ImageId:
+      name: imageId
+      in: path
+      required: true
+
+      schema:
+        type: string
+        format: uuid
+
+    Username:
+      name: username
+      in: path
+      required: true
+
+      schema:
+        type: string
+
+    Page:
+      name: page
+      in: query
+
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+
+    PageSize:
+      name: pageSize
+      in: query
+
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+          schemas:
+
+    ApiResponse:
+      type: object
+
+      properties:
+
+        status:
+          type: string
+          example: success
+
+        message:
+          type: string
+
+        data:
+          type: object
+
+        metadata:
+          type: object
+
+    ErrorResponse:
+      type: object
+
+      properties:
+
+        status:
+          type: string
+          example: error
+
+        errorCode:
+          type: string
+
+        message:
+          type: string
+
+        requestId:
+          type: string
+
+        timestamp:
+          type: string
+          format: date-time
+
+    Pagination:
+
+      type: object
+
+      properties:
+
+        page:
+          type: integer
+
+        pageSize:
+          type: integer
+
+        totalItems:
+          type: integer
+
+        totalPages:
+          type: integer
+
+        hasNextPage:
+          type: boolean
+
+        hasPreviousPage:
+          type: boolean
+
+    DownloadResponse:
+
+      type: object
+
+      properties:
+
+        downloadUrl:
+          type: string
+          format: uri
+
+        fileName:
+          type: string
+
+        expiresAt:
+          type: string
+          format: date-time
+
+    DownloadHistoryItem:
+
+      type: object
+
+      properties:
+
+        id:
+          type: string
+          format: uuid
+
+        imageId:
+          type: string
+          format: uuid
+
+        title:
+          type: string
+
+        downloadedAt:
+          type: string
+          format: date-time
+
+    DownloadHistoryResponse:
+
+      type: object
+
+      properties:
+
+        items:
+
+          type: array
+
+          items:
+            $ref: '#/components/schemas/DownloadHistoryItem'
+
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    PublicProfile:
+
+      type: object
+
+      properties:
+
+        id:
+          type: string
+          format: uuid
+
+        username:
+          type: string
+
+        displayName:
+          type: string
+
+        bio:
+          type: string
+
+        avatarUrl:
+          type: string
+          format: uri
+
+        joinedAt:
+          type: string
+          format: date-time
+
+        statistics:
+
+          type: object
+
+          properties:
+
+            totalUploads:
+              type: integer
+
+            totalDownloads:
+              type: integer
+
+            totalLikes:
+              type: integer
+
+            totalFavorites:
+              type: integer
+
+    PublicProfileResponse:
+
+      type: object
+
+      properties:
+
+        profile:
+          $ref: '#/components/schemas/PublicProfile'
+
+    PortfolioImage:
+
+      type: object
+
+      properties:
+
+        id:
+          type: string
+          format: uuid
+
+        title:
+          type: string
+
+        thumbnailUrl:
+          type: string
+          format: uri
+
+        category:
+          type: string
+
+        likes:
+          type: integer
+
+        downloads:
+          type: integer
+
+        createdAt:
+          type: string
+          format: date-time
+
+    PortfolioResponse:
+
+      type: object
+
+      properties:
+
+        items:
+
+          type: array
+
+          items:
+            $ref: '#/components/schemas/PortfolioImage'
+
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+            responses:
+
+    Unauthorized:
+
+      description: Authentication required
+
+      content:
+
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ImageNotFound:
+
+      description: Image not found
+
+      content:
+
+        application/json:
+
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
