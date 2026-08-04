@@ -261,6 +261,50 @@ async function main() {
 
   console.log("✅ Tags seeded");
 
+  //--------------------------------------------------
+  // Seed Developer Users
+  //--------------------------------------------------
+
+  const bcrypt = await import("bcrypt");
+  const passwordHash = await bcrypt.hash("Password123!", 10);
+
+  const seedUsers = [
+    { username: "admin", email: "admin@test.com", roleName: "ADMIN" },
+    { username: "moderator", email: "moderator@test.com", roleName: "MODERATOR" },
+    { username: "contributor", email: "contributor@test.com", roleName: "CONTRIBUTOR" },
+    { username: "user", email: "user@test.com", roleName: "USER" },
+  ];
+
+  for (const u of seedUsers) {
+    const role = await prisma.role.findUnique({ where: { name: u.roleName } });
+    if (role) {
+      await prisma.user.upsert({
+        where: { email: u.email },
+        update: {
+          passwordHash,
+          status: "ACTIVE",
+          emailVerified: true,
+          roleId: role.id
+        },
+        create: {
+          username: u.username,
+          email: u.email,
+          passwordHash,
+          status: "ACTIVE",
+          emailVerified: true,
+          roleId: role.id,
+          profile: {
+            create: {
+              displayName: `${u.username.charAt(0).toUpperCase()}${u.username.slice(1)} Test`,
+            }
+          }
+        },
+      });
+    }
+  }
+
+  console.log("✅ Developer seed users created (Password: Password123!)");
+
   console.log(
     "\n🎉 Database seeding completed successfully.",
   );

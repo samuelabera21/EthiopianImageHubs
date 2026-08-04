@@ -127,7 +127,7 @@ export function GalleryImageCard({ image, onClick, className }: GalleryImageCard
               {image.title}
             </h3>
             <p className="text-xs font-medium text-white/85 line-clamp-1">
-              by {image.owner.username}
+              by {image.owner.profile?.displayName || image.owner.username}
             </p>
             <div className="flex items-center justify-between gap-3 border-t border-white/20 pt-2 text-[11px] text-white/75 font-mono">
               <span>{image.width} × {image.height} px</span>

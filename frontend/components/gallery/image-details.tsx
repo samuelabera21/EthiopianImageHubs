@@ -82,16 +82,27 @@ export function ImageDetails({
                 </p>
               )}
               <div className="flex items-center gap-3 pt-3 border-t border-border/40">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
-                  <Camera className="h-5 w-5" aria-hidden="true" />
-                </div>
+                {image.owner.profile?.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img 
+                    src={image.owner.profile.avatarUrl} 
+                    alt={image.owner.username}
+                    className="h-11 w-11 rounded-full object-cover border border-border"
+                  />
+                ) : (
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
+                    <Camera className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                )}
                 <div>
                   <Link href={`/profiles/${image.owner.username}`} className="hover:underline">
                     <p className="text-sm font-semibold text-foreground">
-                      {image.owner.username}
+                      {image.owner.profile?.displayName || image.owner.username}
                     </p>
                   </Link>
-                  <p className="text-xs text-muted-foreground">Photographer</p>
+                  <p className="text-xs text-muted-foreground">
+                    {image.owner.profile?.displayName ? `@${image.owner.username}` : "Photographer"}
+                  </p>
                 </div>
               </div>
             </div>
