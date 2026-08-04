@@ -152,6 +152,13 @@ export class ImageRepository {
             tag: true,
           },
         },
+        _count: {
+          select: {
+            likes: true,
+            favorites: true,
+            downloads: true,
+          },
+        },
       },
     });
   }
@@ -259,6 +266,14 @@ async findMany(options: {
       tags: {
         include: {
           tag: true,
+        },
+      },
+
+      _count: {
+        select: {
+          likes: true,
+          favorites: true,
+          downloads: true,
         },
       },
     },
