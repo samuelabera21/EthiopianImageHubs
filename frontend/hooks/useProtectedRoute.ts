@@ -1,18 +1,35 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/authentication/provider/AuthProvider";
 
-export function useProtectedRoute() {
-  const { isAuthenticated, isLoading } = useAuth();
+interface UseProtectedRouteOptions {
+  allowedRoles?: string[];
+}
+
+export function useProtectedRoute(options?: UseProtectedRouteOptions) {
+  const { isAuthenticated, isLoading, currentUser } = useAuth();
   const router = useRouter();
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isLoading, isAuthenticated, router]);
+    if (isLoading) return;
 
-  return { isAuthenticated, isLoading };
+    if (!isAuthenticated) {
+      router.push("/login");
+      return;
+    }
+
+    if (options?.allowedRoles && currentUser) {
+      if (!options.allowedRoles.includes(currentUser.role)) {
+        router.push("/");
+        return;
+      }
+    }
+
+    setIsAuthorized(true);
+  }, [isLoading, isAuthenticated, currentUser, options?.allowedRoles, router]);
+
+  return { isAuthenticated, isLoading, isAuthorized };
 }

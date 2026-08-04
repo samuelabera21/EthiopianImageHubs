@@ -11,9 +11,10 @@ interface HeaderProps {
   className?: string;
   variant?: "default" | "minimal";
   user?: { username: string; href?: string };
+  isAdmin?: boolean;
 }
 
-export function Header({ className, variant = "default", user }: HeaderProps) {
+export function Header({ className, variant = "default", user, isAdmin = false }: HeaderProps) {
   const isMinimal = variant === "minimal";
 
   return (
@@ -54,6 +55,14 @@ export function Header({ className, variant = "default", user }: HeaderProps) {
               <div className="ml-auto flex items-center gap-2">
                 {user ? (
                   <div className="flex items-center gap-2">
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        className="rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted hover:text-secondary"
+                      >
+                        Admin
+                      </Link>
+                    )}
                     <Link
                       href={user.href || "/profile"}
                       className="flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-surface"
