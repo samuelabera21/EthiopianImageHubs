@@ -45,7 +45,7 @@ router.use("/contributors", contributorRoutes);
 /**
  * Admin
  */
-router.use("/admin/contributor-applications", adminRoutes);
+router.use("/admin", adminRoutes);
 
 /**
  * Downloads

@@ -5,6 +5,10 @@ export interface UserSummary {
   id: string;
   username: string;
   email: string;
+  profile?: {
+    displayName: string | null;
+    avatarUrl: string | null;
+  } | null;
 }
 
 export interface Category {

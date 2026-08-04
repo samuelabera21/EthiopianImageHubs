@@ -138,6 +138,12 @@ export class ImageRepository {
             id: true,
             username: true,
             email: true,
+            profile: {
+              select: {
+                displayName: true,
+                avatarUrl: true,
+              },
+            },
           },
         },
         category: true,
@@ -239,6 +245,12 @@ async findMany(options: {
           id: true,
           username: true,
           email: true,
+          profile: {
+            select: {
+              displayName: true,
+              avatarUrl: true,
+            },
+          },
         },
       },
 
