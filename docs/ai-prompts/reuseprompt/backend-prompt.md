@@ -1,34 +1,37 @@
-Implement Sprint 2.5 backend.
+Implement the backend for the requested sprint.
 
 Read:
+
 docs/AI-Project-Map.md
-docs/Backend-implementation-Template.md
+docs/Backend-Implementation-Template.md
 
+docs/ai-prompts/AI-Implementation-Rules.md
+docs/ai-prompts/Sprint-Implementation-Workflow.md
+docs/ai-prompts/Backend-Agent-Prompt.md
+
+Then read ALL documentation inside:
+
+docs/Sprints/<SPRINT>/
+
+including but not limited to:
+
+• Scope
+• Requirements
+• User Stories
+• Domain Model
+• Database Changes
+• Acceptance Criteria
+• Backend Tasks (if present)
 
 Read:
-- docs/ai-prompts/AI-Implementation-Rules.md
-- docs/ai-prompts/Sprint-Implementation-Workflow.md
-- docs/ai-prompts/Backend-Agent-Prompt.md
 
-Read Sprint Documents:
+docs/openapi/<SPRINT>.yaml
 
-- docs/Sprints/sprint2.5/01-Sprint-Overview.md
-- docs/Sprints/sprint2.5/02-Implementation-Plan.md
-- docs/Sprints/sprint2.5/03-Backend-Tasks.md
-- docs/Sprints/sprint2.5/05-Acceptance-Criteria.md
-- docs/Sprints/sprint2.5/RBAC-Plan.md
-- docs/Sprints/sprint2.5/RBAC-Database-Changes.md
-- docs/Sprints/sprint2.5/Sprint2.5-DomainModel.md
+Inspect the existing backend before coding.
 
-Read:
+Implement ONLY the missing functionality required for this sprint.
 
-- docs/openapi/sprint2.5.yaml
-
-Inspect existing backend before coding.
-
-Implement only missing functionality.
-
-Preserve architecture:
+Preserve the architecture:
 
 Route
 ↓
@@ -38,22 +41,14 @@ Service
 ↓
 Repository
 
-Reuse:
+Reuse existing middleware, validation, utilities, and Prisma client.
 
-- auth middleware
-- authorize middleware
-- validators
-- response utilities
-- Prisma client
+Avoid unnecessary refactoring.
 
-Avoid large refactors.
+If implementation requires modifying existing code, make the smallest change possible.
 
-If a backend adjustment is needed, make the smallest possible change.
-
-If information is missing:
+If required information is missing or inconsistent:
 
 STOP.
 
-Ask for clarification.
-
-Begin with backend only.
+Explain exactly what is missing before writing code.
