@@ -46,6 +46,8 @@ export interface Image {
   visibility: ImageVisibility;
   status: ImageStatus;
   tags: Tag[];
+  isLiked?: boolean;
+  isFavorited?: boolean;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;

@@ -28,7 +28,7 @@ export type ContributorApplicationMinAggregateOutputType = {
   id: string | null
   userId: string | null
   message: string | null
-  status: string | null
+  status: $Enums.ContributorApplicationStatus | null
   reviewedById: string | null
   reviewedAt: Date | null
   adminNote: string | null
@@ -40,7 +40,7 @@ export type ContributorApplicationMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   message: string | null
-  status: string | null
+  status: $Enums.ContributorApplicationStatus | null
   reviewedById: string | null
   reviewedAt: Date | null
   adminNote: string | null
@@ -175,7 +175,7 @@ export type ContributorApplicationGroupByOutputType = {
   id: string
   userId: string
   message: string | null
-  status: string
+  status: $Enums.ContributorApplicationStatus
   reviewedById: string | null
   reviewedAt: Date | null
   adminNote: string | null
@@ -208,7 +208,7 @@ export type ContributorApplicationWhereInput = {
   id?: Prisma.UuidFilter<"ContributorApplication"> | string
   userId?: Prisma.UuidFilter<"ContributorApplication"> | string
   message?: Prisma.StringNullableFilter<"ContributorApplication"> | string | null
-  status?: Prisma.StringFilter<"ContributorApplication"> | string
+  status?: Prisma.EnumContributorApplicationStatusFilter<"ContributorApplication"> | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.UuidNullableFilter<"ContributorApplication"> | string | null
   reviewedAt?: Prisma.DateTimeNullableFilter<"ContributorApplication"> | Date | string | null
   adminNote?: Prisma.StringNullableFilter<"ContributorApplication"> | string | null
@@ -237,7 +237,7 @@ export type ContributorApplicationWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ContributorApplicationWhereInput[]
   NOT?: Prisma.ContributorApplicationWhereInput | Prisma.ContributorApplicationWhereInput[]
   message?: Prisma.StringNullableFilter<"ContributorApplication"> | string | null
-  status?: Prisma.StringFilter<"ContributorApplication"> | string
+  status?: Prisma.EnumContributorApplicationStatusFilter<"ContributorApplication"> | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.UuidNullableFilter<"ContributorApplication"> | string | null
   reviewedAt?: Prisma.DateTimeNullableFilter<"ContributorApplication"> | Date | string | null
   adminNote?: Prisma.StringNullableFilter<"ContributorApplication"> | string | null
@@ -268,7 +268,7 @@ export type ContributorApplicationScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"ContributorApplication"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"ContributorApplication"> | string
   message?: Prisma.StringNullableWithAggregatesFilter<"ContributorApplication"> | string | null
-  status?: Prisma.StringWithAggregatesFilter<"ContributorApplication"> | string
+  status?: Prisma.EnumContributorApplicationStatusWithAggregatesFilter<"ContributorApplication"> | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.UuidNullableWithAggregatesFilter<"ContributorApplication"> | string | null
   reviewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ContributorApplication"> | Date | string | null
   adminNote?: Prisma.StringNullableWithAggregatesFilter<"ContributorApplication"> | string | null
@@ -279,7 +279,7 @@ export type ContributorApplicationScalarWhereWithAggregatesInput = {
 export type ContributorApplicationCreateInput = {
   id?: string
   message?: string | null
-  status?: string
+  status?: $Enums.ContributorApplicationStatus
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   adminNote?: string | null
@@ -292,7 +292,7 @@ export type ContributorApplicationUncheckedCreateInput = {
   id?: string
   userId: string
   message?: string | null
-  status?: string
+  status?: $Enums.ContributorApplicationStatus
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   adminNote?: string | null
@@ -303,7 +303,7 @@ export type ContributorApplicationUncheckedCreateInput = {
 export type ContributorApplicationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContributorApplicationStatusFieldUpdateOperationsInput | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -316,7 +316,7 @@ export type ContributorApplicationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContributorApplicationStatusFieldUpdateOperationsInput | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -328,7 +328,7 @@ export type ContributorApplicationCreateManyInput = {
   id?: string
   userId: string
   message?: string | null
-  status?: string
+  status?: $Enums.ContributorApplicationStatus
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   adminNote?: string | null
@@ -339,7 +339,7 @@ export type ContributorApplicationCreateManyInput = {
 export type ContributorApplicationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContributorApplicationStatusFieldUpdateOperationsInput | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -351,7 +351,7 @@ export type ContributorApplicationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContributorApplicationStatusFieldUpdateOperationsInput | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -432,10 +432,14 @@ export type ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ContributorApplicationUpdateToOneWithWhereWithoutUserInput, Prisma.ContributorApplicationUpdateWithoutUserInput>, Prisma.ContributorApplicationUncheckedUpdateWithoutUserInput>
 }
 
+export type EnumContributorApplicationStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ContributorApplicationStatus
+}
+
 export type ContributorApplicationCreateWithoutUserInput = {
   id?: string
   message?: string | null
-  status?: string
+  status?: $Enums.ContributorApplicationStatus
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   adminNote?: string | null
@@ -446,7 +450,7 @@ export type ContributorApplicationCreateWithoutUserInput = {
 export type ContributorApplicationUncheckedCreateWithoutUserInput = {
   id?: string
   message?: string | null
-  status?: string
+  status?: $Enums.ContributorApplicationStatus
   reviewedById?: string | null
   reviewedAt?: Date | string | null
   adminNote?: string | null
@@ -473,7 +477,7 @@ export type ContributorApplicationUpdateToOneWithWhereWithoutUserInput = {
 export type ContributorApplicationUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContributorApplicationStatusFieldUpdateOperationsInput | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -484,7 +488,7 @@ export type ContributorApplicationUpdateWithoutUserInput = {
 export type ContributorApplicationUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContributorApplicationStatusFieldUpdateOperationsInput | $Enums.ContributorApplicationStatus
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -565,7 +569,7 @@ export type $ContributorApplicationPayload<ExtArgs extends runtime.Types.Extensi
     id: string
     userId: string
     message: string | null
-    status: string
+    status: $Enums.ContributorApplicationStatus
     reviewedById: string | null
     reviewedAt: Date | null
     adminNote: string | null
@@ -998,7 +1002,7 @@ export interface ContributorApplicationFieldRefs {
   readonly id: Prisma.FieldRef<"ContributorApplication", 'String'>
   readonly userId: Prisma.FieldRef<"ContributorApplication", 'String'>
   readonly message: Prisma.FieldRef<"ContributorApplication", 'String'>
-  readonly status: Prisma.FieldRef<"ContributorApplication", 'String'>
+  readonly status: Prisma.FieldRef<"ContributorApplication", 'ContributorApplicationStatus'>
   readonly reviewedById: Prisma.FieldRef<"ContributorApplication", 'String'>
   readonly reviewedAt: Prisma.FieldRef<"ContributorApplication", 'DateTime'>
   readonly adminNote: Prisma.FieldRef<"ContributorApplication", 'String'>

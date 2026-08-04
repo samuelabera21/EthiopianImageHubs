@@ -228,6 +228,10 @@ export type UserWhereInput = {
   passwordResets?: Prisma.PasswordResetListRelationFilter
   images?: Prisma.ImageListRelationFilter
   contributorApplication?: Prisma.XOR<Prisma.ContributorApplicationNullableScalarRelationFilter, Prisma.ContributorApplicationWhereInput> | null
+  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
+  likes?: Prisma.ImageLikeListRelationFilter
+  favorites?: Prisma.FavoriteListRelationFilter
+  downloads?: Prisma.DownloadListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -247,6 +251,10 @@ export type UserOrderByWithRelationInput = {
   passwordResets?: Prisma.PasswordResetOrderByRelationAggregateInput
   images?: Prisma.ImageOrderByRelationAggregateInput
   contributorApplication?: Prisma.ContributorApplicationOrderByWithRelationInput
+  profile?: Prisma.UserProfileOrderByWithRelationInput
+  likes?: Prisma.ImageLikeOrderByRelationAggregateInput
+  favorites?: Prisma.FavoriteOrderByRelationAggregateInput
+  downloads?: Prisma.DownloadOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -269,6 +277,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   passwordResets?: Prisma.PasswordResetListRelationFilter
   images?: Prisma.ImageListRelationFilter
   contributorApplication?: Prisma.XOR<Prisma.ContributorApplicationNullableScalarRelationFilter, Prisma.ContributorApplicationWhereInput> | null
+  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
+  likes?: Prisma.ImageLikeListRelationFilter
+  favorites?: Prisma.FavoriteListRelationFilter
+  downloads?: Prisma.DownloadListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -319,6 +331,10 @@ export type UserCreateInput = {
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -337,6 +353,10 @@ export type UserUncheckedCreateInput = {
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -355,6 +375,10 @@ export type UserUpdateInput = {
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -373,6 +397,10 @@ export type UserUncheckedUpdateInput = {
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -465,6 +493,11 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type UserCreateNestedManyWithoutRoleInput = {
@@ -591,6 +624,64 @@ export type UserUpdateOneRequiredWithoutImagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutImagesInput, Prisma.UserUpdateWithoutImagesInput>, Prisma.UserUncheckedUpdateWithoutImagesInput>
 }
 
+export type UserCreateNestedOneWithoutProfileInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProfileInput
+  upsert?: Prisma.UserUpsertWithoutProfileInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfileInput, Prisma.UserUpdateWithoutProfileInput>, Prisma.UserUncheckedUpdateWithoutProfileInput>
+}
+
+export type UserCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.UserUpsertWithoutLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLikesInput, Prisma.UserUpdateWithoutLikesInput>, Prisma.UserUncheckedUpdateWithoutLikesInput>
+}
+
+export type UserCreateNestedOneWithoutFavoritesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoritesInput, Prisma.UserUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoritesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFavoritesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoritesInput, Prisma.UserUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoritesInput
+  upsert?: Prisma.UserUpsertWithoutFavoritesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFavoritesInput, Prisma.UserUpdateWithoutFavoritesInput>, Prisma.UserUncheckedUpdateWithoutFavoritesInput>
+}
+
+export type UserCreateNestedOneWithoutDownloadsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDownloadsInput, Prisma.UserUncheckedCreateWithoutDownloadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDownloadsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutDownloadsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDownloadsInput, Prisma.UserUncheckedCreateWithoutDownloadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDownloadsInput
+  upsert?: Prisma.UserUpsertWithoutDownloadsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDownloadsInput, Prisma.UserUpdateWithoutDownloadsInput>, Prisma.UserUncheckedUpdateWithoutDownloadsInput>
+}
+
 export type UserCreateWithoutRoleInput = {
   id?: string
   username: string
@@ -606,6 +697,10 @@ export type UserCreateWithoutRoleInput = {
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRoleInput = {
@@ -623,6 +718,10 @@ export type UserUncheckedCreateWithoutRoleInput = {
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRoleInput = {
@@ -682,6 +781,10 @@ export type UserCreateWithoutContributorApplicationInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContributorApplicationInput = {
@@ -699,6 +802,10 @@ export type UserUncheckedCreateWithoutContributorApplicationInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContributorApplicationInput = {
@@ -732,6 +839,10 @@ export type UserUpdateWithoutContributorApplicationInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContributorApplicationInput = {
@@ -749,6 +860,10 @@ export type UserUncheckedUpdateWithoutContributorApplicationInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -766,6 +881,10 @@ export type UserCreateWithoutSessionsInput = {
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -783,6 +902,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -816,6 +939,10 @@ export type UserUpdateWithoutSessionsInput = {
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -833,6 +960,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEmailVerificationsInput = {
@@ -850,6 +981,10 @@ export type UserCreateWithoutEmailVerificationsInput = {
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEmailVerificationsInput = {
@@ -867,6 +1002,10 @@ export type UserUncheckedCreateWithoutEmailVerificationsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEmailVerificationsInput = {
@@ -900,6 +1039,10 @@ export type UserUpdateWithoutEmailVerificationsInput = {
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
@@ -917,6 +1060,10 @@ export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetsInput = {
@@ -934,6 +1081,10 @@ export type UserCreateWithoutPasswordResetsInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
   images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetsInput = {
@@ -951,6 +1102,10 @@ export type UserUncheckedCreateWithoutPasswordResetsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
   images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetsInput = {
@@ -984,6 +1139,10 @@ export type UserUpdateWithoutPasswordResetsInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetsInput = {
@@ -1001,6 +1160,10 @@ export type UserUncheckedUpdateWithoutPasswordResetsInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutImagesInput = {
@@ -1018,6 +1181,10 @@ export type UserCreateWithoutImagesInput = {
   emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
   passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
   contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutImagesInput = {
@@ -1035,6 +1202,10 @@ export type UserUncheckedCreateWithoutImagesInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
   passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutImagesInput = {
@@ -1068,6 +1239,10 @@ export type UserUpdateWithoutImagesInput = {
   emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutImagesInput = {
@@ -1085,6 +1260,410 @@ export type UserUncheckedUpdateWithoutImagesInput = {
   emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutProfileInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  emailVerified?: boolean
+  status?: $Enums.UserStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
+  contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutProfileInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  emailVerified?: boolean
+  status?: $Enums.UserStatus
+  roleId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
+  contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutProfileInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+}
+
+export type UserUpsertWithoutProfileInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutProfileInput, Prisma.UserUncheckedUpdateWithoutProfileInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutProfileInput, Prisma.UserUncheckedCreateWithoutProfileInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutProfileInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutProfileInput, Prisma.UserUncheckedUpdateWithoutProfileInput>
+}
+
+export type UserUpdateWithoutProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
+  contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
+  contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutLikesInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  emailVerified?: boolean
+  status?: $Enums.UserStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
+  contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLikesInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  emailVerified?: boolean
+  status?: $Enums.UserStatus
+  roleId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
+  contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLikesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+}
+
+export type UserUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLikesInput, Prisma.UserUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLikesInput, Prisma.UserUncheckedCreateWithoutLikesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLikesInput, Prisma.UserUncheckedUpdateWithoutLikesInput>
+}
+
+export type UserUpdateWithoutLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
+  contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
+  contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFavoritesInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  emailVerified?: boolean
+  status?: $Enums.UserStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
+  contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFavoritesInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  emailVerified?: boolean
+  status?: $Enums.UserStatus
+  roleId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
+  contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFavoritesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFavoritesInput, Prisma.UserUncheckedCreateWithoutFavoritesInput>
+}
+
+export type UserUpsertWithoutFavoritesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFavoritesInput, Prisma.UserUncheckedUpdateWithoutFavoritesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFavoritesInput, Prisma.UserUncheckedCreateWithoutFavoritesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFavoritesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFavoritesInput, Prisma.UserUncheckedUpdateWithoutFavoritesInput>
+}
+
+export type UserUpdateWithoutFavoritesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
+  contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFavoritesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
+  contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDownloadsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  emailVerified?: boolean
+  status?: $Enums.UserStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetCreateNestedManyWithoutUserInput
+  images?: Prisma.ImageCreateNestedManyWithoutOwnerInput
+  contributorApplication?: Prisma.ContributorApplicationCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDownloadsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  emailVerified?: boolean
+  status?: $Enums.UserStatus
+  roleId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+  passwordResets?: Prisma.PasswordResetUncheckedCreateNestedManyWithoutUserInput
+  images?: Prisma.ImageUncheckedCreateNestedManyWithoutOwnerInput
+  contributorApplication?: Prisma.ContributorApplicationUncheckedCreateNestedOneWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDownloadsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDownloadsInput, Prisma.UserUncheckedCreateWithoutDownloadsInput>
+}
+
+export type UserUpsertWithoutDownloadsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDownloadsInput, Prisma.UserUncheckedUpdateWithoutDownloadsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDownloadsInput, Prisma.UserUncheckedCreateWithoutDownloadsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDownloadsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDownloadsInput, Prisma.UserUncheckedUpdateWithoutDownloadsInput>
+}
+
+export type UserUpdateWithoutDownloadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
+  images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
+  contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDownloadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  emailVerifications?: Prisma.EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+  passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
+  images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
+  contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyRoleInput = {
@@ -1114,6 +1693,10 @@ export type UserUpdateWithoutRoleInput = {
   passwordResets?: Prisma.PasswordResetUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoleInput = {
@@ -1131,6 +1714,10 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   passwordResets?: Prisma.PasswordResetUncheckedUpdateManyWithoutUserNestedInput
   images?: Prisma.ImageUncheckedUpdateManyWithoutOwnerNestedInput
   contributorApplication?: Prisma.ContributorApplicationUncheckedUpdateOneWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -1155,6 +1742,9 @@ export type UserCountOutputType = {
   emailVerifications: number
   passwordResets: number
   images: number
+  likes: number
+  favorites: number
+  downloads: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1162,6 +1752,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   emailVerifications?: boolean | UserCountOutputTypeCountEmailVerificationsArgs
   passwordResets?: boolean | UserCountOutputTypeCountPasswordResetsArgs
   images?: boolean | UserCountOutputTypeCountImagesArgs
+  likes?: boolean | UserCountOutputTypeCountLikesArgs
+  favorites?: boolean | UserCountOutputTypeCountFavoritesArgs
+  downloads?: boolean | UserCountOutputTypeCountDownloadsArgs
 }
 
 /**
@@ -1202,6 +1795,27 @@ export type UserCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.ImageWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImageLikeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FavoriteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDownloadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DownloadWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1220,6 +1834,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   passwordResets?: boolean | Prisma.User$passwordResetsArgs<ExtArgs>
   images?: boolean | Prisma.User$imagesArgs<ExtArgs>
   contributorApplication?: boolean | Prisma.User$contributorApplicationArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
+  likes?: boolean | Prisma.User$likesArgs<ExtArgs>
+  favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
+  downloads?: boolean | Prisma.User$downloadsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1272,6 +1890,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   passwordResets?: boolean | Prisma.User$passwordResetsArgs<ExtArgs>
   images?: boolean | Prisma.User$imagesArgs<ExtArgs>
   contributorApplication?: boolean | Prisma.User$contributorApplicationArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
+  likes?: boolean | Prisma.User$likesArgs<ExtArgs>
+  favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
+  downloads?: boolean | Prisma.User$downloadsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1290,6 +1912,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     passwordResets: Prisma.$PasswordResetPayload<ExtArgs>[]
     images: Prisma.$ImagePayload<ExtArgs>[]
     contributorApplication: Prisma.$ContributorApplicationPayload<ExtArgs> | null
+    profile: Prisma.$UserProfilePayload<ExtArgs> | null
+    likes: Prisma.$ImageLikePayload<ExtArgs>[]
+    favorites: Prisma.$FavoritePayload<ExtArgs>[]
+    downloads: Prisma.$DownloadPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1702,6 +2328,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   passwordResets<T extends Prisma.User$passwordResetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   images<T extends Prisma.User$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contributorApplication<T extends Prisma.User$contributorApplicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contributorApplicationArgs<ExtArgs>>): Prisma.Prisma__ContributorApplicationClient<runtime.Types.Result.GetResult<Prisma.$ContributorApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__UserProfileClient<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  likes<T extends Prisma.User$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImageLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favorites<T extends Prisma.User$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  downloads<T extends Prisma.User$downloadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$downloadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DownloadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2254,6 +2884,97 @@ export type User$contributorApplicationArgs<ExtArgs extends runtime.Types.Extens
    */
   include?: Prisma.ContributorApplicationInclude<ExtArgs> | null
   where?: Prisma.ContributorApplicationWhereInput
+}
+
+/**
+ * User.profile
+ */
+export type User$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserProfile
+   */
+  select?: Prisma.UserProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserProfile
+   */
+  omit?: Prisma.UserProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserProfileInclude<ExtArgs> | null
+  where?: Prisma.UserProfileWhereInput
+}
+
+/**
+ * User.likes
+ */
+export type User$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImageLike
+   */
+  select?: Prisma.ImageLikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImageLike
+   */
+  omit?: Prisma.ImageLikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImageLikeInclude<ExtArgs> | null
+  where?: Prisma.ImageLikeWhereInput
+  orderBy?: Prisma.ImageLikeOrderByWithRelationInput | Prisma.ImageLikeOrderByWithRelationInput[]
+  cursor?: Prisma.ImageLikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImageLikeScalarFieldEnum | Prisma.ImageLikeScalarFieldEnum[]
+}
+
+/**
+ * User.favorites
+ */
+export type User$favoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Favorite
+   */
+  select?: Prisma.FavoriteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Favorite
+   */
+  omit?: Prisma.FavoriteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FavoriteInclude<ExtArgs> | null
+  where?: Prisma.FavoriteWhereInput
+  orderBy?: Prisma.FavoriteOrderByWithRelationInput | Prisma.FavoriteOrderByWithRelationInput[]
+  cursor?: Prisma.FavoriteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FavoriteScalarFieldEnum | Prisma.FavoriteScalarFieldEnum[]
+}
+
+/**
+ * User.downloads
+ */
+export type User$downloadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Download
+   */
+  select?: Prisma.DownloadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Download
+   */
+  omit?: Prisma.DownloadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DownloadInclude<ExtArgs> | null
+  where?: Prisma.DownloadWhereInput
+  orderBy?: Prisma.DownloadOrderByWithRelationInput | Prisma.DownloadOrderByWithRelationInput[]
+  cursor?: Prisma.DownloadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DownloadScalarFieldEnum | Prisma.DownloadScalarFieldEnum[]
 }
 
 /**

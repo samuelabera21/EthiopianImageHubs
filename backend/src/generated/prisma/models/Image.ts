@@ -371,6 +371,9 @@ export type ImageWhereInput = {
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   tags?: Prisma.ImageTagListRelationFilter
+  likes?: Prisma.ImageLikeListRelationFilter
+  favorites?: Prisma.FavoriteListRelationFilter
+  downloads?: Prisma.DownloadListRelationFilter
 }
 
 export type ImageOrderByWithRelationInput = {
@@ -400,6 +403,9 @@ export type ImageOrderByWithRelationInput = {
   owner?: Prisma.UserOrderByWithRelationInput
   category?: Prisma.CategoryOrderByWithRelationInput
   tags?: Prisma.ImageTagOrderByRelationAggregateInput
+  likes?: Prisma.ImageLikeOrderByRelationAggregateInput
+  favorites?: Prisma.FavoriteOrderByRelationAggregateInput
+  downloads?: Prisma.DownloadOrderByRelationAggregateInput
 }
 
 export type ImageWhereUniqueInput = Prisma.AtLeast<{
@@ -432,6 +438,9 @@ export type ImageWhereUniqueInput = Prisma.AtLeast<{
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   tags?: Prisma.ImageTagListRelationFilter
+  likes?: Prisma.ImageLikeListRelationFilter
+  favorites?: Prisma.FavoriteListRelationFilter
+  downloads?: Prisma.DownloadListRelationFilter
 }, "id">
 
 export type ImageOrderByWithAggregationInput = {
@@ -519,6 +528,9 @@ export type ImageCreateInput = {
   owner: Prisma.UserCreateNestedOneWithoutImagesInput
   category: Prisma.CategoryCreateNestedOneWithoutImagesInput
   tags?: Prisma.ImageTagCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutImageInput
 }
 
 export type ImageUncheckedCreateInput = {
@@ -546,6 +558,9 @@ export type ImageUncheckedCreateInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   tags?: Prisma.ImageTagUncheckedCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutImageInput
 }
 
 export type ImageUpdateInput = {
@@ -573,6 +588,9 @@ export type ImageUpdateInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutImagesNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutImagesNestedInput
   tags?: Prisma.ImageTagUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutImageNestedInput
 }
 
 export type ImageUncheckedUpdateInput = {
@@ -600,6 +618,9 @@ export type ImageUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tags?: Prisma.ImageTagUncheckedUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type ImageCreateManyInput = {
@@ -909,6 +930,48 @@ export type ImageUpdateOneRequiredWithoutTagsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ImageUpdateToOneWithWhereWithoutTagsInput, Prisma.ImageUpdateWithoutTagsInput>, Prisma.ImageUncheckedUpdateWithoutTagsInput>
 }
 
+export type ImageCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.ImageCreateWithoutLikesInput, Prisma.ImageUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.ImageCreateOrConnectWithoutLikesInput
+  connect?: Prisma.ImageWhereUniqueInput
+}
+
+export type ImageUpdateOneRequiredWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.ImageCreateWithoutLikesInput, Prisma.ImageUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.ImageCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.ImageUpsertWithoutLikesInput
+  connect?: Prisma.ImageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ImageUpdateToOneWithWhereWithoutLikesInput, Prisma.ImageUpdateWithoutLikesInput>, Prisma.ImageUncheckedUpdateWithoutLikesInput>
+}
+
+export type ImageCreateNestedOneWithoutFavoritesInput = {
+  create?: Prisma.XOR<Prisma.ImageCreateWithoutFavoritesInput, Prisma.ImageUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.ImageCreateOrConnectWithoutFavoritesInput
+  connect?: Prisma.ImageWhereUniqueInput
+}
+
+export type ImageUpdateOneRequiredWithoutFavoritesNestedInput = {
+  create?: Prisma.XOR<Prisma.ImageCreateWithoutFavoritesInput, Prisma.ImageUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.ImageCreateOrConnectWithoutFavoritesInput
+  upsert?: Prisma.ImageUpsertWithoutFavoritesInput
+  connect?: Prisma.ImageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ImageUpdateToOneWithWhereWithoutFavoritesInput, Prisma.ImageUpdateWithoutFavoritesInput>, Prisma.ImageUncheckedUpdateWithoutFavoritesInput>
+}
+
+export type ImageCreateNestedOneWithoutDownloadsInput = {
+  create?: Prisma.XOR<Prisma.ImageCreateWithoutDownloadsInput, Prisma.ImageUncheckedCreateWithoutDownloadsInput>
+  connectOrCreate?: Prisma.ImageCreateOrConnectWithoutDownloadsInput
+  connect?: Prisma.ImageWhereUniqueInput
+}
+
+export type ImageUpdateOneRequiredWithoutDownloadsNestedInput = {
+  create?: Prisma.XOR<Prisma.ImageCreateWithoutDownloadsInput, Prisma.ImageUncheckedCreateWithoutDownloadsInput>
+  connectOrCreate?: Prisma.ImageCreateOrConnectWithoutDownloadsInput
+  upsert?: Prisma.ImageUpsertWithoutDownloadsInput
+  connect?: Prisma.ImageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ImageUpdateToOneWithWhereWithoutDownloadsInput, Prisma.ImageUpdateWithoutDownloadsInput>, Prisma.ImageUncheckedUpdateWithoutDownloadsInput>
+}
+
 export type ImageCreateWithoutOwnerInput = {
   id?: string
   title: string
@@ -933,6 +996,9 @@ export type ImageCreateWithoutOwnerInput = {
   deletedAt?: Date | string | null
   category: Prisma.CategoryCreateNestedOneWithoutImagesInput
   tags?: Prisma.ImageTagCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutImageInput
 }
 
 export type ImageUncheckedCreateWithoutOwnerInput = {
@@ -959,6 +1025,9 @@ export type ImageUncheckedCreateWithoutOwnerInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   tags?: Prisma.ImageTagUncheckedCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutImageInput
 }
 
 export type ImageCreateOrConnectWithoutOwnerInput = {
@@ -1040,6 +1109,9 @@ export type ImageCreateWithoutCategoryInput = {
   deletedAt?: Date | string | null
   owner: Prisma.UserCreateNestedOneWithoutImagesInput
   tags?: Prisma.ImageTagCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutImageInput
 }
 
 export type ImageUncheckedCreateWithoutCategoryInput = {
@@ -1066,6 +1138,9 @@ export type ImageUncheckedCreateWithoutCategoryInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   tags?: Prisma.ImageTagUncheckedCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutImageInput
 }
 
 export type ImageCreateOrConnectWithoutCategoryInput = {
@@ -1118,6 +1193,9 @@ export type ImageCreateWithoutTagsInput = {
   deletedAt?: Date | string | null
   owner: Prisma.UserCreateNestedOneWithoutImagesInput
   category: Prisma.CategoryCreateNestedOneWithoutImagesInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutImageInput
 }
 
 export type ImageUncheckedCreateWithoutTagsInput = {
@@ -1144,6 +1222,9 @@ export type ImageUncheckedCreateWithoutTagsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutImageInput
 }
 
 export type ImageCreateOrConnectWithoutTagsInput = {
@@ -1186,6 +1267,9 @@ export type ImageUpdateWithoutTagsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.UserUpdateOneRequiredWithoutImagesNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutImagesNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutImageNestedInput
 }
 
 export type ImageUncheckedUpdateWithoutTagsInput = {
@@ -1212,6 +1296,405 @@ export type ImageUncheckedUpdateWithoutTagsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutImageNestedInput
+}
+
+export type ImageCreateWithoutLikesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  location?: string | null
+  storageProvider?: $Enums.StorageProvider
+  originalFilename: string
+  storedFilename: string
+  storageKey: string
+  mimeType: string
+  extension: string
+  fileSize: bigint | number
+  width: number
+  height: number
+  checksum?: string | null
+  dominantColor?: string | null
+  cameraModel?: string | null
+  visibility?: $Enums.ImageVisibility
+  status?: $Enums.ImageStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  owner: Prisma.UserCreateNestedOneWithoutImagesInput
+  category: Prisma.CategoryCreateNestedOneWithoutImagesInput
+  tags?: Prisma.ImageTagCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutImageInput
+}
+
+export type ImageUncheckedCreateWithoutLikesInput = {
+  id?: string
+  ownerId: string
+  categoryId: string
+  title: string
+  description?: string | null
+  location?: string | null
+  storageProvider?: $Enums.StorageProvider
+  originalFilename: string
+  storedFilename: string
+  storageKey: string
+  mimeType: string
+  extension: string
+  fileSize: bigint | number
+  width: number
+  height: number
+  checksum?: string | null
+  dominantColor?: string | null
+  cameraModel?: string | null
+  visibility?: $Enums.ImageVisibility
+  status?: $Enums.ImageStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  tags?: Prisma.ImageTagUncheckedCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutImageInput
+}
+
+export type ImageCreateOrConnectWithoutLikesInput = {
+  where: Prisma.ImageWhereUniqueInput
+  create: Prisma.XOR<Prisma.ImageCreateWithoutLikesInput, Prisma.ImageUncheckedCreateWithoutLikesInput>
+}
+
+export type ImageUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.ImageUpdateWithoutLikesInput, Prisma.ImageUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.ImageCreateWithoutLikesInput, Prisma.ImageUncheckedCreateWithoutLikesInput>
+  where?: Prisma.ImageWhereInput
+}
+
+export type ImageUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.ImageWhereInput
+  data: Prisma.XOR<Prisma.ImageUpdateWithoutLikesInput, Prisma.ImageUncheckedUpdateWithoutLikesInput>
+}
+
+export type ImageUpdateWithoutLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageProvider?: Prisma.EnumStorageProviderFieldUpdateOperationsInput | $Enums.StorageProvider
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storedFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  extension?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  width?: Prisma.IntFieldUpdateOperationsInput | number
+  height?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dominantColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
+  status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  owner?: Prisma.UserUpdateOneRequiredWithoutImagesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutImagesNestedInput
+  tags?: Prisma.ImageTagUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutImageNestedInput
+}
+
+export type ImageUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageProvider?: Prisma.EnumStorageProviderFieldUpdateOperationsInput | $Enums.StorageProvider
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storedFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  extension?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  width?: Prisma.IntFieldUpdateOperationsInput | number
+  height?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dominantColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
+  status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.ImageTagUncheckedUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutImageNestedInput
+}
+
+export type ImageCreateWithoutFavoritesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  location?: string | null
+  storageProvider?: $Enums.StorageProvider
+  originalFilename: string
+  storedFilename: string
+  storageKey: string
+  mimeType: string
+  extension: string
+  fileSize: bigint | number
+  width: number
+  height: number
+  checksum?: string | null
+  dominantColor?: string | null
+  cameraModel?: string | null
+  visibility?: $Enums.ImageVisibility
+  status?: $Enums.ImageStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  owner: Prisma.UserCreateNestedOneWithoutImagesInput
+  category: Prisma.CategoryCreateNestedOneWithoutImagesInput
+  tags?: Prisma.ImageTagCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadCreateNestedManyWithoutImageInput
+}
+
+export type ImageUncheckedCreateWithoutFavoritesInput = {
+  id?: string
+  ownerId: string
+  categoryId: string
+  title: string
+  description?: string | null
+  location?: string | null
+  storageProvider?: $Enums.StorageProvider
+  originalFilename: string
+  storedFilename: string
+  storageKey: string
+  mimeType: string
+  extension: string
+  fileSize: bigint | number
+  width: number
+  height: number
+  checksum?: string | null
+  dominantColor?: string | null
+  cameraModel?: string | null
+  visibility?: $Enums.ImageVisibility
+  status?: $Enums.ImageStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  tags?: Prisma.ImageTagUncheckedCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutImageInput
+  downloads?: Prisma.DownloadUncheckedCreateNestedManyWithoutImageInput
+}
+
+export type ImageCreateOrConnectWithoutFavoritesInput = {
+  where: Prisma.ImageWhereUniqueInput
+  create: Prisma.XOR<Prisma.ImageCreateWithoutFavoritesInput, Prisma.ImageUncheckedCreateWithoutFavoritesInput>
+}
+
+export type ImageUpsertWithoutFavoritesInput = {
+  update: Prisma.XOR<Prisma.ImageUpdateWithoutFavoritesInput, Prisma.ImageUncheckedUpdateWithoutFavoritesInput>
+  create: Prisma.XOR<Prisma.ImageCreateWithoutFavoritesInput, Prisma.ImageUncheckedCreateWithoutFavoritesInput>
+  where?: Prisma.ImageWhereInput
+}
+
+export type ImageUpdateToOneWithWhereWithoutFavoritesInput = {
+  where?: Prisma.ImageWhereInput
+  data: Prisma.XOR<Prisma.ImageUpdateWithoutFavoritesInput, Prisma.ImageUncheckedUpdateWithoutFavoritesInput>
+}
+
+export type ImageUpdateWithoutFavoritesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageProvider?: Prisma.EnumStorageProviderFieldUpdateOperationsInput | $Enums.StorageProvider
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storedFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  extension?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  width?: Prisma.IntFieldUpdateOperationsInput | number
+  height?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dominantColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
+  status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  owner?: Prisma.UserUpdateOneRequiredWithoutImagesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutImagesNestedInput
+  tags?: Prisma.ImageTagUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutImageNestedInput
+}
+
+export type ImageUncheckedUpdateWithoutFavoritesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageProvider?: Prisma.EnumStorageProviderFieldUpdateOperationsInput | $Enums.StorageProvider
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storedFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  extension?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  width?: Prisma.IntFieldUpdateOperationsInput | number
+  height?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dominantColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
+  status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.ImageTagUncheckedUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutImageNestedInput
+}
+
+export type ImageCreateWithoutDownloadsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  location?: string | null
+  storageProvider?: $Enums.StorageProvider
+  originalFilename: string
+  storedFilename: string
+  storageKey: string
+  mimeType: string
+  extension: string
+  fileSize: bigint | number
+  width: number
+  height: number
+  checksum?: string | null
+  dominantColor?: string | null
+  cameraModel?: string | null
+  visibility?: $Enums.ImageVisibility
+  status?: $Enums.ImageStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  owner: Prisma.UserCreateNestedOneWithoutImagesInput
+  category: Prisma.CategoryCreateNestedOneWithoutImagesInput
+  tags?: Prisma.ImageTagCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutImageInput
+}
+
+export type ImageUncheckedCreateWithoutDownloadsInput = {
+  id?: string
+  ownerId: string
+  categoryId: string
+  title: string
+  description?: string | null
+  location?: string | null
+  storageProvider?: $Enums.StorageProvider
+  originalFilename: string
+  storedFilename: string
+  storageKey: string
+  mimeType: string
+  extension: string
+  fileSize: bigint | number
+  width: number
+  height: number
+  checksum?: string | null
+  dominantColor?: string | null
+  cameraModel?: string | null
+  visibility?: $Enums.ImageVisibility
+  status?: $Enums.ImageStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  tags?: Prisma.ImageTagUncheckedCreateNestedManyWithoutImageInput
+  likes?: Prisma.ImageLikeUncheckedCreateNestedManyWithoutImageInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutImageInput
+}
+
+export type ImageCreateOrConnectWithoutDownloadsInput = {
+  where: Prisma.ImageWhereUniqueInput
+  create: Prisma.XOR<Prisma.ImageCreateWithoutDownloadsInput, Prisma.ImageUncheckedCreateWithoutDownloadsInput>
+}
+
+export type ImageUpsertWithoutDownloadsInput = {
+  update: Prisma.XOR<Prisma.ImageUpdateWithoutDownloadsInput, Prisma.ImageUncheckedUpdateWithoutDownloadsInput>
+  create: Prisma.XOR<Prisma.ImageCreateWithoutDownloadsInput, Prisma.ImageUncheckedCreateWithoutDownloadsInput>
+  where?: Prisma.ImageWhereInput
+}
+
+export type ImageUpdateToOneWithWhereWithoutDownloadsInput = {
+  where?: Prisma.ImageWhereInput
+  data: Prisma.XOR<Prisma.ImageUpdateWithoutDownloadsInput, Prisma.ImageUncheckedUpdateWithoutDownloadsInput>
+}
+
+export type ImageUpdateWithoutDownloadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageProvider?: Prisma.EnumStorageProviderFieldUpdateOperationsInput | $Enums.StorageProvider
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storedFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  extension?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  width?: Prisma.IntFieldUpdateOperationsInput | number
+  height?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dominantColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
+  status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  owner?: Prisma.UserUpdateOneRequiredWithoutImagesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutImagesNestedInput
+  tags?: Prisma.ImageTagUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutImageNestedInput
+}
+
+export type ImageUncheckedUpdateWithoutDownloadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storageProvider?: Prisma.EnumStorageProviderFieldUpdateOperationsInput | $Enums.StorageProvider
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storedFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  extension?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  width?: Prisma.IntFieldUpdateOperationsInput | number
+  height?: Prisma.IntFieldUpdateOperationsInput | number
+  checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dominantColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
+  status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.ImageTagUncheckedUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type ImageCreateManyOwnerInput = {
@@ -1263,6 +1746,9 @@ export type ImageUpdateWithoutOwnerInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   category?: Prisma.CategoryUpdateOneRequiredWithoutImagesNestedInput
   tags?: Prisma.ImageTagUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutImageNestedInput
 }
 
 export type ImageUncheckedUpdateWithoutOwnerInput = {
@@ -1289,6 +1775,9 @@ export type ImageUncheckedUpdateWithoutOwnerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tags?: Prisma.ImageTagUncheckedUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type ImageUncheckedUpdateManyWithoutOwnerInput = {
@@ -1365,6 +1854,9 @@ export type ImageUpdateWithoutCategoryInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.UserUpdateOneRequiredWithoutImagesNestedInput
   tags?: Prisma.ImageTagUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUpdateManyWithoutImageNestedInput
 }
 
 export type ImageUncheckedUpdateWithoutCategoryInput = {
@@ -1391,6 +1883,9 @@ export type ImageUncheckedUpdateWithoutCategoryInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tags?: Prisma.ImageTagUncheckedUpdateManyWithoutImageNestedInput
+  likes?: Prisma.ImageLikeUncheckedUpdateManyWithoutImageNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutImageNestedInput
+  downloads?: Prisma.DownloadUncheckedUpdateManyWithoutImageNestedInput
 }
 
 export type ImageUncheckedUpdateManyWithoutCategoryInput = {
@@ -1425,10 +1920,16 @@ export type ImageUncheckedUpdateManyWithoutCategoryInput = {
 
 export type ImageCountOutputType = {
   tags: number
+  likes: number
+  favorites: number
+  downloads: number
 }
 
 export type ImageCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tags?: boolean | ImageCountOutputTypeCountTagsArgs
+  likes?: boolean | ImageCountOutputTypeCountLikesArgs
+  favorites?: boolean | ImageCountOutputTypeCountFavoritesArgs
+  downloads?: boolean | ImageCountOutputTypeCountDownloadsArgs
 }
 
 /**
@@ -1446,6 +1947,27 @@ export type ImageCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
  */
 export type ImageCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ImageTagWhereInput
+}
+
+/**
+ * ImageCountOutputType without action
+ */
+export type ImageCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImageLikeWhereInput
+}
+
+/**
+ * ImageCountOutputType without action
+ */
+export type ImageCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FavoriteWhereInput
+}
+
+/**
+ * ImageCountOutputType without action
+ */
+export type ImageCountOutputTypeCountDownloadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DownloadWhereInput
 }
 
 
@@ -1476,6 +1998,9 @@ export type ImageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   tags?: boolean | Prisma.Image$tagsArgs<ExtArgs>
+  likes?: boolean | Prisma.Image$likesArgs<ExtArgs>
+  favorites?: boolean | Prisma.Image$favoritesArgs<ExtArgs>
+  downloads?: boolean | Prisma.Image$downloadsArgs<ExtArgs>
   _count?: boolean | Prisma.ImageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["image"]>
 
@@ -1566,6 +2091,9 @@ export type ImageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   tags?: boolean | Prisma.Image$tagsArgs<ExtArgs>
+  likes?: boolean | Prisma.Image$likesArgs<ExtArgs>
+  favorites?: boolean | Prisma.Image$favoritesArgs<ExtArgs>
+  downloads?: boolean | Prisma.Image$downloadsArgs<ExtArgs>
   _count?: boolean | Prisma.ImageCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ImageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1583,6 +2111,9 @@ export type $ImagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     owner: Prisma.$UserPayload<ExtArgs>
     category: Prisma.$CategoryPayload<ExtArgs>
     tags: Prisma.$ImageTagPayload<ExtArgs>[]
+    likes: Prisma.$ImageLikePayload<ExtArgs>[]
+    favorites: Prisma.$FavoritePayload<ExtArgs>[]
+    downloads: Prisma.$DownloadPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2005,6 +2536,9 @@ export interface Prisma__ImageClient<T, Null = never, ExtArgs extends runtime.Ty
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tags<T extends Prisma.Image$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Image$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImageTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  likes<T extends Prisma.Image$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Image$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImageLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favorites<T extends Prisma.Image$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Image$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  downloads<T extends Prisma.Image$downloadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Image$downloadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DownloadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2479,6 +3013,78 @@ export type Image$tagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.ImageTagScalarFieldEnum | Prisma.ImageTagScalarFieldEnum[]
+}
+
+/**
+ * Image.likes
+ */
+export type Image$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImageLike
+   */
+  select?: Prisma.ImageLikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImageLike
+   */
+  omit?: Prisma.ImageLikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImageLikeInclude<ExtArgs> | null
+  where?: Prisma.ImageLikeWhereInput
+  orderBy?: Prisma.ImageLikeOrderByWithRelationInput | Prisma.ImageLikeOrderByWithRelationInput[]
+  cursor?: Prisma.ImageLikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImageLikeScalarFieldEnum | Prisma.ImageLikeScalarFieldEnum[]
+}
+
+/**
+ * Image.favorites
+ */
+export type Image$favoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Favorite
+   */
+  select?: Prisma.FavoriteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Favorite
+   */
+  omit?: Prisma.FavoriteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FavoriteInclude<ExtArgs> | null
+  where?: Prisma.FavoriteWhereInput
+  orderBy?: Prisma.FavoriteOrderByWithRelationInput | Prisma.FavoriteOrderByWithRelationInput[]
+  cursor?: Prisma.FavoriteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FavoriteScalarFieldEnum | Prisma.FavoriteScalarFieldEnum[]
+}
+
+/**
+ * Image.downloads
+ */
+export type Image$downloadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Download
+   */
+  select?: Prisma.DownloadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Download
+   */
+  omit?: Prisma.DownloadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DownloadInclude<ExtArgs> | null
+  where?: Prisma.DownloadWhereInput
+  orderBy?: Prisma.DownloadOrderByWithRelationInput | Prisma.DownloadOrderByWithRelationInput[]
+  cursor?: Prisma.DownloadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DownloadScalarFieldEnum | Prisma.DownloadScalarFieldEnum[]
 }
 
 /**

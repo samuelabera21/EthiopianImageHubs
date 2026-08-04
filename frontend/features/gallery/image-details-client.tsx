@@ -8,7 +8,8 @@ import { Card } from "@/components/ui/card";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { ErrorState } from "@/components/ui/error-state";
 import { useImage, useRelatedImages } from "@/hooks/useImage";
-import { getImageUrl, getImageFilename, downloadImageFile } from "@/lib/media";
+import { downloadImageFile } from "@/lib/media";
+import { useImageInteractions } from "@/hooks/useImageInteractions";
 import type { Image } from "@/types/image";
 
 interface ImageDetailsClientProps {
@@ -24,16 +25,31 @@ export function ImageDetailsClient({ imageId }: ImageDetailsClientProps) {
     4,
   );
 
-  const handleDownload = useCallback(() => {
+  const {
+    isLiked,
+    isFavorited,
+    toggleLike,
+    toggleFavorite,
+    trackDownload,
+    isLiking,
+    isFavoriting,
+    isDownloading,
+  } = useImageInteractions(imageId, !!image?.isLiked, !!image?.isFavorited);
+
+  const handleDownload = useCallback(async () => {
     if (!image) return;
-    const url = getImageUrl(image);
-    const filename = getImageFilename(image);
-    downloadImageFile(url, filename);
-  }, [image]);
+    try {
+      const { downloadUrl, fileName } = await trackDownload();
+      downloadImageFile(downloadUrl, fileName);
+    } catch (err) {
+      console.error("Failed to track download", err);
+      // Fallback or show error
+    }
+  }, [image, trackDownload]);
 
   const handleLike = useCallback(() => {
-    alert("Like functionality coming soon");
-  }, []);
+    toggleLike();
+  }, [toggleLike]);
 
   const handleShare = useCallback(async () => {
     if (!image) return;
@@ -47,8 +63,8 @@ export function ImageDetailsClient({ imageId }: ImageDetailsClientProps) {
   }, [image]);
 
   const handleSave = useCallback(() => {
-    alert("Save to collection coming soon");
-  }, []);
+    toggleFavorite();
+  }, [toggleFavorite]);
 
   const handleRelatedImageClick = useCallback((relatedImage: Image) => {
     router.push(`/images/${relatedImage.id}`);
@@ -97,6 +113,11 @@ export function ImageDetailsClient({ imageId }: ImageDetailsClientProps) {
         onLike={handleLike}
         onShare={handleShare}
         onSave={handleSave}
+        isLiked={isLiked}
+        isFavorited={isFavorited}
+        isLiking={isLiking}
+        isFavoriting={isFavoriting}
+        isDownloading={isDownloading}
       />
       {!relatedLoading && relatedImages.length > 0 && (
         <RelatedImages

@@ -1,6 +1,7 @@
 import sharp from "sharp";
 
 import { imageRepository } from "../repositories/image.repository";
+import { prisma } from "../config/database";
 
 import { storage } from "../storage/storage.factory";
 
@@ -215,7 +216,7 @@ async getImages(query: GetImagesQuery) {
   /**
    * Get image by ID
    */
-  async getImageById(imageId: string) {
+  async getImageById(imageId: string, userId?: string) {
     //------------------------------------
     // Find image
     //------------------------------------
@@ -230,16 +231,36 @@ async getImages(query: GetImagesQuery) {
       throw Object.assign(new Error("Image not found"), { status: 404 });
     }
 
+    let isLiked = false;
+    let isFavorited = false;
+
+    if (userId) {
+      const [like, favorite] = await Promise.all([
+        prisma.imageLike.findUnique({
+          where: { userId_imageId: { userId, imageId } }
+        }),
+        prisma.favorite.findUnique({
+          where: { userId_imageId: { userId, imageId } }
+        })
+      ]);
+      isLiked = !!like;
+      isFavorited = !!favorite;
+    }
+
     //------------------------------------
     // Response
     //------------------------------------
 
+    const serializedData = serializeBigInt(image);
+    
     return {
       success: true,
-
       message: "Image retrieved successfully",
-
-      data: serializeBigInt(image),
+      data: {
+        ...serializedData,
+        isLiked,
+        isFavorited
+      },
     };
   }
 

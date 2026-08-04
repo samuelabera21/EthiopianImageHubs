@@ -5,6 +5,8 @@ import categoryRoutes from "./category.routes";
 import imageRoutes from "./image.routes";
 import contributorRoutes from "./contributor.routes";
 import adminRoutes from "./admin.routes";
+import downloadRoutes from "./download.routes";
+import profileRoutes from "./profile.routes";
 
 const router = Router();
 
@@ -44,5 +46,15 @@ router.use("/contributors", contributorRoutes);
  * Admin
  */
 router.use("/admin/contributor-applications", adminRoutes);
+
+/**
+ * Downloads
+ */
+router.use("/downloads", downloadRoutes);
+
+/**
+ * Profiles
+ */
+router.use("/profiles", profileRoutes);
 
 export default router;
