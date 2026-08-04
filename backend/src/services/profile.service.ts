@@ -10,7 +10,7 @@ export class ProfileService {
       throw Object.assign(new Error("Contributor not found"), { status: 404 });
     }
 
-    const { totalDownloads, totalLikesReceived } = await profileRepository.getContributorStats(user.id);
+    const { totalDownloads, totalLikesReceived, totalFavoritesReceived } = await profileRepository.getContributorStats(user.id);
 
     return {
       success: true,
@@ -27,7 +27,7 @@ export class ProfileService {
             totalUploads: user._count.images,
             totalDownloads,
             totalLikes: totalLikesReceived,
-            totalFavorites: user._count.favorites,
+            totalFavorites: totalFavoritesReceived,
           }
         }
       }

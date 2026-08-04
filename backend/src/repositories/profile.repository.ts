@@ -45,9 +45,20 @@ class ProfileRepository {
       }
     });
 
+    const totalFavoritesReceived = await prisma.favorite.count({
+      where: {
+        image: {
+          ownerId: userId,
+          status: "ACTIVE",
+          visibility: "PUBLIC"
+        }
+      }
+    });
+
     return {
       totalDownloads,
       totalLikesReceived,
+      totalFavoritesReceived,
     };
   }
 }
