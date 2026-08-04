@@ -58,7 +58,7 @@ export class ContributorApplicationService {
     const applications = await contributorApplicationRepository.findMany({
       skip,
       take: limit,
-      status: query.status,
+      status: query.status as any,
     });
 
     return {

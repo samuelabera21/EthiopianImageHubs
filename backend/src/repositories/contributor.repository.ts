@@ -76,7 +76,7 @@ export class ContributorApplicationRepository {
   async findMany(params: {
     skip?: number;
     take?: number;
-    status?: string;
+    status?: "PENDING" | "APPROVED" | "REJECTED";
   }) {
     const { skip, take, status } = params;
 
