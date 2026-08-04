@@ -192,6 +192,13 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
+export type EnumContributorApplicationStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContributorApplicationStatus | Prisma.EnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ContributorApplicationStatus[] | Prisma.ListEnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContributorApplicationStatus[] | Prisma.ListEnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContributorApplicationStatusFilter<$PrismaModel> | $Enums.ContributorApplicationStatus
+}
+
 export type UuidNullableFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
@@ -202,6 +209,16 @@ export type UuidNullableFilter<$PrismaModel = never> = {
   gte?: string | Prisma.StringFieldRefInput<$PrismaModel>
   mode?: Prisma.QueryMode
   not?: Prisma.NestedUuidNullableFilter<$PrismaModel> | string | null
+}
+
+export type EnumContributorApplicationStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContributorApplicationStatus | Prisma.EnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ContributorApplicationStatus[] | Prisma.ListEnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContributorApplicationStatus[] | Prisma.ListEnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContributorApplicationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContributorApplicationStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumContributorApplicationStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumContributorApplicationStatusFilter<$PrismaModel>
 }
 
 export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -530,6 +547,13 @@ export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
+export type NestedEnumContributorApplicationStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContributorApplicationStatus | Prisma.EnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ContributorApplicationStatus[] | Prisma.ListEnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContributorApplicationStatus[] | Prisma.ListEnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContributorApplicationStatusFilter<$PrismaModel> | $Enums.ContributorApplicationStatus
+}
+
 export type NestedUuidNullableFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
@@ -539,6 +563,16 @@ export type NestedUuidNullableFilter<$PrismaModel = never> = {
   gt?: string | Prisma.StringFieldRefInput<$PrismaModel>
   gte?: string | Prisma.StringFieldRefInput<$PrismaModel>
   not?: Prisma.NestedUuidNullableFilter<$PrismaModel> | string | null
+}
+
+export type NestedEnumContributorApplicationStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContributorApplicationStatus | Prisma.EnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ContributorApplicationStatus[] | Prisma.ListEnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContributorApplicationStatus[] | Prisma.ListEnumContributorApplicationStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContributorApplicationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContributorApplicationStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumContributorApplicationStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumContributorApplicationStatusFilter<$PrismaModel>
 }
 
 export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {

@@ -60,7 +60,11 @@ export const ModelName = {
   Category: 'Category',
   Tag: 'Tag',
   Image: 'Image',
-  ImageTag: 'ImageTag'
+  ImageTag: 'ImageTag',
+  UserProfile: 'UserProfile',
+  ImageLike: 'ImageLike',
+  Favorite: 'Favorite',
+  Download: 'Download'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -218,6 +222,54 @@ export const ImageTagScalarFieldEnum = {
 } as const
 
 export type ImageTagScalarFieldEnum = (typeof ImageTagScalarFieldEnum)[keyof typeof ImageTagScalarFieldEnum]
+
+
+export const UserProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  displayName: 'displayName',
+  bio: 'bio',
+  avatarUrl: 'avatarUrl',
+  website: 'website',
+  location: 'location',
+  isPublic: 'isPublic',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
+
+
+export const ImageLikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  imageId: 'imageId',
+  createdAt: 'createdAt'
+} as const
+
+export type ImageLikeScalarFieldEnum = (typeof ImageLikeScalarFieldEnum)[keyof typeof ImageLikeScalarFieldEnum]
+
+
+export const FavoriteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  imageId: 'imageId',
+  createdAt: 'createdAt'
+} as const
+
+export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
+
+
+export const DownloadScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  imageId: 'imageId',
+  ipHash: 'ipHash',
+  userAgent: 'userAgent',
+  downloadedAt: 'downloadedAt'
+} as const
+
+export type DownloadScalarFieldEnum = (typeof DownloadScalarFieldEnum)[keyof typeof DownloadScalarFieldEnum]
 
 
 export const SortOrder = {

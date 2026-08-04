@@ -91,3 +91,23 @@ export type Image = Prisma.ImageModel
  * 
  */
 export type ImageTag = Prisma.ImageTagModel
+/**
+ * Model UserProfile
+ * 
+ */
+export type UserProfile = Prisma.UserProfileModel
+/**
+ * Model ImageLike
+ * 
+ */
+export type ImageLike = Prisma.ImageLikeModel
+/**
+ * Model Favorite
+ * 
+ */
+export type Favorite = Prisma.FavoriteModel
+/**
+ * Model Download
+ * 
+ */
+export type Download = Prisma.DownloadModel

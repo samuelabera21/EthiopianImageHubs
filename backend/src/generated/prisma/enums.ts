@@ -50,3 +50,12 @@ export const StorageProvider = {
 } as const
 
 export type StorageProvider = (typeof StorageProvider)[keyof typeof StorageProvider]
+
+
+export const ContributorApplicationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ContributorApplicationStatus = (typeof ContributorApplicationStatus)[keyof typeof ContributorApplicationStatus]
