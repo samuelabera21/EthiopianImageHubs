@@ -47,6 +47,14 @@ enum StorageProvider {
   CLOUDINARY
 }
 
+enum ContributorApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+
+
 // =======================================================
 // Authentication
 // =======================================================
@@ -90,6 +98,11 @@ model User {
   images Image[]
   contributorApplication ContributorApplication?
 
+  profile                    UserProfile?
+likes                      ImageLike[]
+favorites                  Favorite[]
+downloads                  Download[]
+
   //---------------------------------------
   // Indexes
   //---------------------------------------
@@ -117,7 +130,7 @@ model ContributorApplication {
 
   message String? @db.Text
 
-  status String @default("PENDING") @db.VarChar(20)
+  status ContributorApplicationStatus @default(PENDING)
 
   //---------------------------------------
   // Admin Review
@@ -322,11 +335,16 @@ model Image {
 
   deletedAt DateTime?
 
-  //---------------------------------------
-  // Relations
-  //---------------------------------------
+//---------------------------------------
+// Relations
+//---------------------------------------
 
-  tags ImageTag[]
+tags ImageTag[]
+
+// Sprint 3
+likes ImageLike[]
+favorites Favorite[]
+downloads Download[]
 
   //---------------------------------------
   // Indexes
@@ -339,6 +357,9 @@ model Image {
   @@index([status])
   @@index([visibility, status])
   @@index([createdAt])
+  @@index([ownerId, visibility])
+@@index([ownerId, status])
+@@index([ownerId, visibility, status])
   @@map("images")
 }
 
@@ -355,3 +376,101 @@ model ImageTag {
   @@index([tagId])
   @@map("image_tags")
 }
+
+
+model UserProfile {
+  id String @id @default(uuid()) @db.Uuid
+
+  userId String @unique @db.Uuid
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  displayName String? @db.VarChar(120)
+
+  bio String? @db.Text
+
+  avatarUrl String? @db.VarChar(500)
+
+  website String? @db.VarChar(500)
+
+  location String? @db.VarChar(150)
+
+  isPublic Boolean @default(true)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@map("user_profiles")
+}
+
+model ImageLike {
+  id String @id @default(uuid()) @db.Uuid
+
+  userId String @db.Uuid
+
+  imageId String @db.Uuid
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  image Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, imageId])
+
+  @@index([userId])
+
+  @@index([imageId])
+
+  @@map("image_likes")
+}
+
+model Favorite {
+  id String @id @default(uuid()) @db.Uuid
+
+  userId String @db.Uuid
+
+  imageId String @db.Uuid
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  image Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, imageId])
+
+  @@index([userId])
+
+  @@index([imageId])
+
+  @@map("favorites")
+}
+
+model Download {
+  id String @id @default(uuid()) @db.Uuid
+
+  userId String? @db.Uuid
+
+  imageId String @db.Uuid
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  image Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  ipHash String? @db.VarChar(255)
+
+  userAgent String? @db.Text
+
+  downloadedAt DateTime @default(now())
+
+  @@index([userId])
+
+  @@index([imageId])
+
+  @@index([downloadedAt])
+
+  @@map("downloads")
+}
+
