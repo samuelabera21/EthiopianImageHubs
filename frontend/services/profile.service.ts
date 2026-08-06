@@ -20,4 +20,21 @@ export const profileService = {
     );
     return response.data;
   },
+
+  updateProfile: async (data: { displayName?: string; bio?: string }) => {
+    const response = await apiClient.patch("/profiles/me", data);
+    return response.data;
+  },
+
+  updateAvatar: async (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file); // The backend uploadSingleImage middleware uses "image" field
+
+    const response = await apiClient.patch("/profiles/me/avatar", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  },
 };
