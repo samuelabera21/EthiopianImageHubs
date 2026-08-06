@@ -8,6 +8,9 @@ import { IMAGE_VISIBILITY_OPTIONS, IMAGE_SORT_OPTIONS, IMAGE_SORT_ORDER_OPTIONS 
 export interface FilterState {
   search: string;
   categoryId: string;
+  region: string;
+  city: string;
+  orientation: string;
   visibility: string;
   sortBy: string;
   sortOrder: string;
@@ -34,13 +37,16 @@ export function FilterPanel({
     onFilterChange({
       search: "",
       categoryId: "",
+      region: "",
+      city: "",
+      orientation: "",
       visibility: "",
       sortBy: "createdAt",
       sortOrder: "desc",
     });
   };
 
-  const hasActiveFilters = filters.categoryId || filters.visibility || filters.search;
+  const hasActiveFilters = filters.categoryId || filters.visibility || filters.search || filters.region || filters.city || filters.orientation;
 
   return (
     <aside className={cn("w-full space-y-6", className)} aria-label="Filters">
@@ -90,6 +96,49 @@ export function FilterPanel({
                 {category.name}
               </option>
             ))}
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="filter-region" className="text-sm font-medium text-foreground">
+            Region
+          </label>
+          <input
+            className="h-10 w-full rounded-xl border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-focus focus:outline-none focus:ring-2 focus:ring-focus/20"
+            id="filter-region"
+            placeholder="e.g. Amhara, Oromia..."
+            value={filters.region}
+            onChange={(e) => updateFilter("region", e.target.value)}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="filter-city" className="text-sm font-medium text-foreground">
+            City
+          </label>
+          <input
+            className="h-10 w-full rounded-xl border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-focus focus:outline-none focus:ring-2 focus:ring-focus/20"
+            id="filter-city"
+            placeholder="e.g. Addis Ababa..."
+            value={filters.city}
+            onChange={(e) => updateFilter("city", e.target.value)}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="filter-orientation" className="text-sm font-medium text-foreground">
+            Orientation
+          </label>
+          <select
+            className="h-10 w-full rounded-xl border border-border bg-surface px-3 text-sm text-foreground focus:border-focus focus:outline-none focus:ring-2 focus:ring-focus/20"
+            id="filter-orientation"
+            value={filters.orientation}
+            onChange={(e) => updateFilter("orientation", e.target.value)}
+          >
+            <option value="">Any</option>
+            <option value="landscape">Landscape</option>
+            <option value="portrait">Portrait</option>
+            <option value="square">Square</option>
           </select>
         </div>
 
