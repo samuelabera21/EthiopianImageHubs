@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Download, Heart } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { BackendImage } from "@/components/ui/backend-image";
+import { getAbsoluteUrl } from "@/lib/media";
 import type { PortfolioImage } from "@/types/profile";
 
 interface PortfolioImageCardProps {
@@ -13,8 +14,9 @@ interface PortfolioImageCardProps {
 }
 
 export function PortfolioImageCard({ image, className }: PortfolioImageCardProps) {
+  const imageUrl = getAbsoluteUrl(image.thumbnailUrl);
   // Use BackendImage if it points to localhost/127.0.0.1, else NextImage
-  const isLocalBackend = image.thumbnailUrl.includes("localhost") || image.thumbnailUrl.includes("127.0.0.1");
+  const isLocalBackend = imageUrl.includes("localhost") || imageUrl.includes("127.0.0.1");
 
   return (
     <Link href={`/images/${image.id}`}>
@@ -31,7 +33,7 @@ export function PortfolioImageCard({ image, className }: PortfolioImageCardProps
               className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              src={image.thumbnailUrl}
+              src={imageUrl}
             />
           ) : (
             <NextImage
@@ -39,7 +41,7 @@ export function PortfolioImageCard({ image, className }: PortfolioImageCardProps
               className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              src={image.thumbnailUrl}
+              src={imageUrl}
             />
           )}
 
