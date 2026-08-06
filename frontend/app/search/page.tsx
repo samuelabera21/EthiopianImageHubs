@@ -20,20 +20,26 @@ function SearchPageClient() {
 
   const [filters, setFilters] = useState<FilterState>({
     search: initialQuery,
-    categoryId: searchParams.get("category") ?? "",
+    categoryId: searchParams.get("categoryId") ?? "",
+    region: searchParams.get("region") ?? "",
+    city: searchParams.get("city") ?? "",
+    orientation: searchParams.get("orientation") ?? "",
     visibility: searchParams.get("visibility") ?? "",
-    sortBy: (searchParams.get("sortBy") as FilterState["sortBy"]) ?? "createdAt",
+    sortBy: (searchParams.get("sortBy") as FilterState["sortBy"]) ?? "relevance",
     sortOrder: (searchParams.get("sortOrder") as FilterState["sortOrder"]) ?? "desc",
   });
-  const [showFilters, setShowFilters] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [showFilters, setShowFilters] = useState(true);
 
   const { categories } = useCategories();
 
   const { images, isLoading, isError, error, refetch } = useImages({
     search: filters.search || undefined,
     categoryId: filters.categoryId || undefined,
+    region: filters.region || undefined,
+    city: filters.city || undefined,
+    orientation: (filters.orientation as any) || undefined,
     visibility: (filters.visibility as ImageVisibility) || undefined,
-    sortBy: filters.sortBy as "createdAt" | "title" | "fileSize",
+    sortBy: filters.sortBy as any,
     sortOrder: filters.sortOrder as "asc" | "desc",
     limit: 20,
   });
