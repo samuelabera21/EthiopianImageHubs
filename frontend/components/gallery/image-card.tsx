@@ -3,7 +3,7 @@
 import NextImage from "next/image";
 import { Download, Bookmark, Eye, Heart } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { getImageUrl, getImageFilename, downloadImageFile } from "@/lib/media";
+import { getImageUrl, getImageFilename, downloadImageFile, getAbsoluteUrl } from "@/lib/media";
 import { formatFileSize } from "@/lib/utils";
 import { BackendImage } from "@/components/ui/backend-image";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ interface GalleryImageCardProps {
 }
 
 export function GalleryImageCard({ image, onClick, className }: GalleryImageCardProps) {
-  const imageUrl = getImageUrl(image);
+  const imageUrl = getAbsoluteUrl(getImageUrl(image));
   const isLocalBackend = imageUrl.includes("localhost") || imageUrl.includes("127.0.0.1");
 
   const handleDownload = (e: React.MouseEvent) => {

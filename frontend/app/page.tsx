@@ -35,7 +35,7 @@ export default async function Home() {
     title: c.name,
     description: c.description || "Explore this category",
     count: "View gallery", // We don't have real count from categories endpoint currently
-    href: `/search?categoryId=${c.id}`,
+    href: `/gallery?categoryId=${c.id}`,
   }));
 
   // Fallback to empty state if no categories exist

@@ -1,7 +1,8 @@
-import ImageComponent from "next/image";
+import NextImage from "next/image";
 import { Heart, Download } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { getImageUrl } from "@/lib/media";
+import { getImageUrl, getAbsoluteUrl } from "@/lib/media";
+import { BackendImage } from "@/components/ui/backend-image";
 import type { Image } from "@/types/image";
 
 interface ImageCardProps {
@@ -17,7 +18,8 @@ export function ImageCard({ image, className }: ImageCardProps) {
   else if (ratio < 0.8) aspectClassName = "aspect-[3/4]"; // portrait
   else aspectClassName = "aspect-square";
 
-  const imageSrc = getImageUrl(image);
+  const imageSrc = getAbsoluteUrl(getImageUrl(image));
+  const isLocalBackend = imageSrc.includes("localhost") || imageSrc.includes("127.0.0.1");
 
   return (
     <article
@@ -27,13 +29,23 @@ export function ImageCard({ image, className }: ImageCardProps) {
       )}
     >
       <div className={cn("relative overflow-hidden", aspectClassName)}>
-        <ImageComponent
-          alt={image.title}
-          className="object-cover transition-transform duration-350 ease-out group-hover:scale-[1.03]"
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          src={imageSrc}
-        />
+        {isLocalBackend ? (
+          <BackendImage
+            alt={image.title}
+            className="object-cover transition-transform duration-350 ease-out group-hover:scale-[1.03]"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            src={imageSrc}
+          />
+        ) : (
+          <NextImage
+            alt={image.title}
+            className="object-cover transition-transform duration-350 ease-out group-hover:scale-[1.03]"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            src={imageSrc}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/45 via-foreground/0 to-transparent opacity-0 transition-opacity duration-250 group-hover:opacity-100" />
         <div className="absolute left-4 top-4 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-foreground shadow-card backdrop-blur-sm">
           {image.category?.name || "Uncategorized"}
