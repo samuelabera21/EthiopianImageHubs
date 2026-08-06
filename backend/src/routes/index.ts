@@ -2,6 +2,9 @@ import { Router } from "express";
 
 import authRoutes from "./auth.routes";
 import categoryRoutes from "./category.routes";
+import tagRoutes from "./tag.routes";
+import discoveryRoutes from "./discovery.routes";
+import searchRoutes from "./search.routes";
 import imageRoutes from "./image.routes";
 import contributorRoutes from "./contributor.routes";
 import adminRoutes from "./admin.routes";
@@ -30,10 +33,23 @@ router.get("/health", (_, res) => {
  * Authentication
  */
 router.use("/auth", authRoutes);
+
 /**
  * Categories
  */
 router.use("/categories", categoryRoutes);
+
+/**
+ * Tags
+ */
+router.use("/tags", tagRoutes);
+
+/**
+ * Search & Discovery
+ */
+router.use("/images", discoveryRoutes);
+router.use("/search", searchRoutes);
+
 /**
  * Images
  */
