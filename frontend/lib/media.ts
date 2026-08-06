@@ -1,7 +1,16 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api/v1";
 
 export function getBackendOrigin(): string {
-  return API_BASE_URL.replace(/\/api\/v1\/?$/, "");
+  const origin = API_BASE_URL.replace(/\/api\/v1\/?$/, "");
+  return origin || "http://localhost:5000";
+}
+
+export function getAbsoluteUrl(url: string | null | undefined): string {
+  if (!url) return "";
+  if (url.startsWith("http")) return url;
+  
+  const cleanUrl = url.startsWith("/") ? url.slice(1) : url;
+  return `${getBackendOrigin()}/${cleanUrl}`;
 }
 
 export function getImageUrl(image: {
