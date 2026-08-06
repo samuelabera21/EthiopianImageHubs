@@ -26,7 +26,7 @@ export class AdminUserController {
 
   async updateUserRole(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params;
+      const userId = req.params.userId as string;
       const { roleName } = updateRoleSchema.parse({ body: req.body }).body;
 
       const user = await adminUserService.updateUserRole(userId, roleName);
@@ -43,7 +43,7 @@ export class AdminUserController {
 
   async updateUserStatus(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params;
+      const userId = req.params.userId as string;
       const { status } = updateStatusSchema.parse({ body: req.body }).body;
 
       const user = await adminUserService.updateUserStatus(userId, status);
