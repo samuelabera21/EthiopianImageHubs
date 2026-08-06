@@ -4,7 +4,7 @@ import { Heart, Download, Share2, Bookmark, Camera, MapPin, Tag, FolderOpen, Cal
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { formatDistanceToNow, formatFileSize } from "@/lib/utils";
-import { getImageUrl } from "@/lib/media";
+import { getImageUrl, getAbsoluteUrl } from "@/lib/media";
 import { BackendImage } from "@/components/ui/backend-image";
 import { cn } from "@/lib/cn";
 import Link from "next/link";
@@ -85,7 +85,7 @@ export function ImageDetails({
                 {image.owner.profile?.avatarUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img 
-                    src={image.owner.profile.avatarUrl} 
+                    src={getAbsoluteUrl(image.owner.profile.avatarUrl)} 
                     alt={image.owner.username}
                     className="h-11 w-11 rounded-full object-cover border border-border"
                   />
