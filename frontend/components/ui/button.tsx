@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "outline";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "outline" | "destructive";
 type ButtonSize = "sm" | "md" | "lg" | "icon";
 
 interface ButtonProps {
@@ -28,6 +28,8 @@ const variantClasses: Record<ButtonVariant, string> = {
   ghost: "bg-transparent text-foreground hover:bg-muted",
   outline:
     "border border-border bg-surface text-foreground hover:bg-muted shadow-none",
+  destructive:
+    "bg-red-600 text-white shadow-card hover:-translate-y-0.5 hover:shadow-elevated hover:bg-red-700",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
