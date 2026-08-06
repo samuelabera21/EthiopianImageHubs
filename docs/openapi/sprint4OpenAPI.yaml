@@ -1,0 +1,642 @@
+openapi: 3.1.0
+
+info:
+  title: EthiopiaHub Images API
+  version: 4.0.0
+  description: |
+    EthiopiaHub Images REST API
+
+    Sprint 4 extends the platform with:
+
+      • User Profile Management
+      • Category Administration
+      • Tag Administration
+      • Privacy Enforcement
+      • Search Improvements
+
+    Previous Sprint APIs remain valid.
+    This specification documents only Sprint 4 additions and behavior changes.
+
+contact:
+  name: EthiopiaHub Images Team
+  email: support@ethiopiahub.local
+
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Local Development Server
+
+tags:
+  - name: Profiles
+    description: User profile management
+
+  - name: Categories
+    description: Category administration
+
+  - name: Tags
+    description: Tag administration
+
+security:
+  - BearerAuth: []
+
+paths:
+  /profiles/me:
+    patch:
+      tags:
+        - Profiles
+
+      summary: Update current user profile
+
+      description: |
+        Updates the authenticated user's profile.
+
+      security:
+        - BearerAuth: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /profiles/me:
+    get:
+      tags:
+        - Profiles
+
+      summary: Get current user profile
+
+      security:
+        - BearerAuth: []
+
+      responses:
+        '200':
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileResponse'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /categories:
+    post:
+      tags:
+        - Categories
+
+      summary: Create category
+
+      security:
+        - BearerAuth: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+
+      responses:
+        '201':
+          description: Category created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /categories/{categoryId}:
+    patch:
+      tags:
+        - Categories
+
+      summary: Update category
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/CategoryId'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCategoryRequest'
+
+      responses:
+        '200':
+          description: Category updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /categories/{categoryId}:
+    delete:
+      tags:
+        - Categories
+
+      summary: Delete category
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/CategoryId'
+
+      responses:
+        '204':
+          description: Category deleted
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /tags:
+    post:
+      tags:
+        - Tags
+
+      summary: Create tag
+
+      security:
+        - BearerAuth: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTagRequest'
+
+      responses:
+        '201':
+          description: Tag created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /tags:
+    get:
+      tags:
+        - Tags
+
+      summary: List tags
+
+      responses:
+        '200':
+          description: Tags retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagListResponse'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /tags/{tagId}:
+    patch:
+      tags:
+        - Tags
+
+      summary: Update tag
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/TagId'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTagRequest'
+
+      responses:
+        '200':
+          description: Tag updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagResponse'
+
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /tags/{tagId}:
+    delete:
+      tags:
+        - Tags
+
+      summary: Delete tag
+
+      security:
+        - BearerAuth: []
+
+      parameters:
+        - $ref: '#/components/parameters/TagId'
+
+      responses:
+        '204':
+          description: Tag deleted
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+            /profiles/{username}:
+    get:
+      tags:
+        - Profiles
+
+      summary: Get public contributor profile
+
+      description: |
+        Returns a contributor profile.
+
+        Sprint 4 update:
+        - Private profiles are no longer publicly accessible.
+        - Owners may always access their own profile.
+        - Administrators may bypass privacy restrictions.
+
+      parameters:
+        - $ref: '#/components/parameters/Username'
+
+      responses:
+        '200':
+          description: Profile retrieved successfully
+
+        '403':
+          description: Profile is private
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+            /profiles/{username}/images:
+    get:
+      tags:
+        - Profiles
+
+      summary: Get contributor portfolio
+
+      description: |
+        Sprint 4 updates visibility filtering.
+
+        Public visitors receive only PUBLIC images.
+
+        Owners and administrators may retrieve additional
+        images according to authorization.
+
+      parameters:
+        - $ref: '#/components/parameters/Username'
+
+      responses:
+        '200':
+          description: Portfolio retrieved successfully
+
+        '403':
+          description: Profile is private
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+            /images/{imageId}:
+    get:
+      tags:
+        - Images
+
+      summary: Get image
+
+      description: |
+        Sprint 4 introduces visibility enforcement.
+
+        PUBLIC:
+          Visible to everyone.
+
+        PRIVATE:
+          Owner and administrators only.
+
+        UNLISTED:
+          Accessible only with authorization according
+          to business rules.
+
+      parameters:
+        - $ref: '#/components/parameters/ImageId'
+
+      responses:
+        '200':
+          description: Image retrieved successfully
+
+        '403':
+          description: Access denied
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+            /images/{imageId}/download:
+    get:
+      tags:
+        - Images
+
+      summary: Download image
+
+      description: |
+        Sprint 4 aligns download permissions with image
+        visibility rules.
+
+      parameters:
+        - $ref: '#/components/parameters/ImageId'
+
+      responses:
+        '200':
+          description: Image downloaded successfully
+
+        '403':
+          description: Download not permitted
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+          components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+
+    CategoryId:
+      name: categoryId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    TagId:
+      name: tagId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    ImageId:
+      name: imageId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    Username:
+      name: username
+      in: path
+      required: true
+      schema:
+        type: string
+            Profile:
+      type: object
+
+      properties:
+        id:
+          type: string
+
+        username:
+          type: string
+
+        displayName:
+          type: string
+
+        bio:
+          type: string
+
+        avatarUrl:
+          type: string
+
+        website:
+          type: string
+
+        location:
+          type: string
+
+        isPublic:
+          type: boolean
+              CreateCategoryRequest:
+      type: object
+
+      required:
+        - name
+
+      properties:
+        name:
+          type: string
+
+        description:
+          type: string
+              UpdateCategoryRequest:
+      type: object
+
+      properties:
+        name:
+          type: string
+
+        description:
+          type: string
+              CategoryResponse:
+      type: object
+
+      properties:
+        success:
+          type: boolean
+
+        message:
+          type: string
+
+        data:
+          $ref: '#/components/schemas/Category'
+              Category:
+      type: object
+
+      properties:
+        id:
+          type: string
+
+        name:
+          type: string
+
+        slug:
+          type: string
+
+        description:
+          type: string
+              CreateTagRequest:
+      type: object
+
+      required:
+        - name
+
+      properties:
+        name:
+          type: string
+              UpdateTagRequest:
+      type: object
+
+      properties:
+        name:
+          type: string
+              TagResponse:
+      type: object
+
+      properties:
+        success:
+          type: boolean
+
+        message:
+          type: string
+
+        data:
+          $ref: '#/components/schemas/Tag'
+              TagListResponse:
+      type: object
+
+      properties:
+        success:
+          type: boolean
+
+        message:
+          type: string
+
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+                Tag:
+      type: object
+
+      properties:
+        id:
+          type: string
+
+        name:
+          type: string
+
+        slug:
+          type: string
+            responses:
+
+    ValidationError:
+      description: Validation failed
+
+    UnauthorizedError:
+      description: Authentication required
+
+    Forbidden:
+      description: Access denied
+
+    Conflict:
+      description: Resource already exists
+
+    NotFound:
+      description: Resource not found
+
+    InternalServerError:
+      description: Internal server error
+      
