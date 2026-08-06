@@ -12,16 +12,37 @@ import { SkeletonCard } from "@/components/ui/skeleton-card";
 import { SectionTitle } from "@/components/ui/section-title";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { StatsCard } from "@/components/ui/stats-card";
+import { discoveryService } from "@/services/discovery.service";
+import { getCategories } from "@/services/category.service";
 import {
   collections,
   communityStats,
   featureHighlights,
-  featuredImages,
-  trendingCategories,
   values,
 } from "@/lib/home-data";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch real data
+  const [featuredImagesRes, categoriesRes] = await Promise.all([
+    discoveryService.getFeaturedImages(8),
+    getCategories()
+  ]);
+
+  const featuredImages = featuredImagesRes.data || [];
+  
+  // Transform real categories to match TrendingCategory UI
+  const trendingCategories = (categoriesRes || []).slice(0, 6).map((c) => ({
+    title: c.name,
+    description: c.description || "Explore this category",
+    count: "View gallery", // We don't have real count from categories endpoint currently
+    href: `/search?categoryId=${c.id}`,
+  }));
+
+  // Fallback to empty state if no categories exist
+  const displayCategories = trendingCategories.length > 0 ? trendingCategories : [
+    { title: "No categories yet", description: "Check back soon", count: "", href: "#" }
+  ];
+
   return (
     <div className="min-h-screen">
       <div className="border-b border-border/70 bg-secondary text-secondary-foreground">
@@ -50,10 +71,10 @@ export default function Home() {
               <SectionTitle
                 eyebrow="Trending categories"
                 title="Start exploring the parts of Ethiopia people search for most."
-                description="These category cards act as a reusable pattern for discovery-driven pages and future filtered views."
+                description="Browse through our most popular categories to find exactly what you're looking for."
               />
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                {trendingCategories.map((category) => (
+                {displayCategories.map((category) => (
                   <CategoryCard key={category.title} category={category} />
                 ))}
               </div>
@@ -67,15 +88,24 @@ export default function Home() {
               <SectionTitle
                 eyebrow="Featured images"
                 title="A masonry-style grid that keeps the photography front and center."
-                description="Placeholder visuals are used here so the layout can later connect to real backend content without changing the structure."
+                description="Discover the most downloaded and liked images on the platform."
               />
-              <div className="columns-1 gap-4 space-y-4 sm:columns-2 xl:columns-3 2xl:columns-4">
-                {featuredImages.map((image) => (
-                  <div key={image.title} className="break-inside-avoid pb-4">
-                    <ImageCard image={image} />
-                  </div>
-                ))}
-              </div>
+              {featuredImages.length > 0 ? (
+                <div className="columns-1 gap-4 space-y-4 sm:columns-2 xl:columns-3 2xl:columns-4">
+                  {featuredImages.map((image) => (
+                    <div key={image.id} className="break-inside-avoid pb-4">
+                      <ImageCard image={image} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  title="No featured images yet"
+                  description="Be the first to upload and get featured."
+                  actionLabel="Upload Image"
+                  actionHref="/upload"
+                />
+              )}
             </div>
           </Container>
         </SectionWrapper>
@@ -149,33 +179,10 @@ export default function Home() {
               title="Join EthiopiaHub Images and help shape Ethiopia's visual library."
               description="The home page sets the visual system for the entire product, so future pages can stay consistent and reuse the same components without reinventing the UI."
               primaryLabel="Register interest"
-              primaryHref="#footer"
+              primaryHref="/register"
               secondaryLabel="Contact the team"
               secondaryHref="#footer"
             />
-          </Container>
-        </SectionWrapper>
-
-        <SectionWrapper tone="muted">
-          <Container>
-            <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-start">
-              <div className="space-y-4">
-                <SectionTitle
-                  eyebrow="Loading and empty states"
-                  title="The reusable feedback components are ready for future data-driven pages."
-                  description="They are included in the system now so later routes can show consistent loading, empty, and fallback experiences."
-                />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <EmptyState
-                  title="No images yet"
-                  description="This state will be used when future pages have no results to show."
-                  actionLabel="Browse categories"
-                  actionHref="#trending-categories"
-                />
-                <SkeletonCard lines={3} showAvatar />
-              </div>
-            </div>
           </Container>
         </SectionWrapper>
       </main>
