@@ -26,3 +26,17 @@ export async function createCategory(name: string, slug?: string, description?: 
   });
   return response.data.data;
 }
+
+export async function updateCategory(id: string, name?: string, slug?: string, description?: string): Promise<Category> {
+  const response = await apiClient.patch<{ success: boolean; data: Category }>(`/categories/${id}`, {
+    name,
+    slug,
+    description,
+  });
+  return response.data.data;
+}
+
+export async function deleteCategory(id: string): Promise<boolean> {
+  const response = await apiClient.delete<{ success: boolean }>(`/categories/${id}`);
+  return response.data.success;
+}
