@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { AuthHeader } from "@/components/ui/auth-header";
 import { Footer } from "@/components/ui/footer";
 import { Container } from "@/components/ui/container";
@@ -13,13 +14,30 @@ import { useCategories } from "@/hooks/useCategories";
 import type { Image, ImageVisibility } from "@/types/image";
 
 export default function GalleryPage() {
+  const searchParams = useSearchParams();
+  const q = searchParams.get("q") || "";
+  const initialCategoryId = searchParams.get("categoryId") || "";
+
   const [filters, setFilters] = useState<FilterState>({
-    search: "",
-    categoryId: "",
+    search: q,
+    categoryId: initialCategoryId,
+    region: "",
+    city: "",
+    orientation: "",
     visibility: "",
     sortBy: "createdAt",
     sortOrder: "desc",
   });
+  
+  // Update local state if URL changes (e.g. from search bar in header)
+  useEffect(() => {
+    setFilters(prev => ({
+      ...prev,
+      search: q || prev.search,
+      categoryId: initialCategoryId || prev.categoryId,
+    }));
+  }, [q, initialCategoryId]);
+
   const [showFilters, setShowFilters] = useState(false);
 
   const { categories } = useCategories();
@@ -27,8 +45,11 @@ export default function GalleryPage() {
   const { images, isLoading, isError, error, refetch } = useImages({
     search: filters.search || undefined,
     categoryId: filters.categoryId || undefined,
+    region: filters.region || undefined,
+    city: filters.city || undefined,
+    orientation: (filters.orientation as any) || undefined,
     visibility: (filters.visibility as ImageVisibility) || undefined,
-    sortBy: filters.sortBy as "createdAt" | "title" | "fileSize",
+    sortBy: filters.sortBy as any,
     sortOrder: filters.sortOrder as "asc" | "desc",
     limit: 20,
   });
