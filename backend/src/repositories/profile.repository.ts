@@ -61,6 +61,17 @@ class ProfileRepository {
       totalFavoritesReceived,
     };
   }
+
+  async updateProfile(userId: string, data: { displayName?: string; bio?: string; avatarUrl?: string }) {
+    return prisma.userProfile.upsert({
+      where: { userId },
+      update: data,
+      create: {
+        userId,
+        ...data,
+      },
+    });
+  }
 }
 
 export const profileRepository = new ProfileRepository();
