@@ -10,6 +10,12 @@ export const IMAGE_STATUS_OPTIONS = [
 ] as const;
 
 export const IMAGE_SORT_OPTIONS = [
+  { value: "relevance", label: "Relevance" },
+  { value: "trending", label: "Trending" },
+  { value: "newest", label: "Newest First" },
+  { value: "oldest", label: "Oldest First" },
+  { value: "downloads", label: "Most Downloaded" },
+  { value: "likes", label: "Most Liked" },
   { value: "createdAt", label: "Latest" },
   { value: "title", label: "Title" },
   { value: "fileSize", label: "File size" },
