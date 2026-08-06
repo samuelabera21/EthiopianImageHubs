@@ -181,70 +181,62 @@ async findMany(options: {
   search?: string;
 
   location?: string;
-
+  region?: string;
+  city?: string;
+  orientation?: "landscape" | "portrait" | "square";
   tagId?: string;
-
-  sortBy?: "createdAt" | "title" | "fileSize";
-
+  sortBy?: "createdAt" | "title" | "fileSize" | "relevance" | "newest" | "oldest" | "downloads" | "likes" | "trending";
   sortOrder?: "asc" | "desc";
 }) {
   return prisma.image.findMany({
     where: {
       categoryId: options.categoryId,
-
       ownerId: options.ownerId,
-
       visibility: options.visibility,
-
       status: options.status,
-
-      location: options.location
+      
+      // Combine location, region, and city into OR condition or single field
+      location: (options.location || options.region || options.city)
         ? {
-            contains: options.location,
+            contains: options.location || options.region || options.city,
             mode: "insensitive",
           }
         : undefined,
 
       OR: options.search
         ? [
-            {
-              title: {
-                contains: options.search,
-                mode: "insensitive",
-              },
-            },
-            {
-              description: {
-                contains: options.search,
-                mode: "insensitive",
-              },
-            },
-            {
-              location: {
-                contains: options.search,
-                mode: "insensitive",
-              },
-            },
+            { title: { contains: options.search, mode: "insensitive" } },
+            { description: { contains: options.search, mode: "insensitive" } },
+            { location: { contains: options.search, mode: "insensitive" } },
           ]
         : undefined,
 
       tags: options.tagId
-        ? {
-            some: {
-              tagId: options.tagId,
-            },
-          }
+        ? { some: { tagId: options.tagId } }
         : undefined,
+        
+      // Note: orientation filtering is omitted at the DB level due to Prisma limitations
+      // without schema changes (cannot compare width and height columns directly in where).
     },
 
     skip: options.skip,
-
     take: options.take,
 
-    orderBy: {
-      [options.sortBy ?? "createdAt"]:
-        options.sortOrder ?? "desc",
-    },
+    orderBy: (() => {
+      switch (options.sortBy) {
+        case "newest": return { createdAt: "desc" };
+        case "oldest": return { createdAt: "asc" };
+        case "downloads": return { downloads: { _count: options.sortOrder || "desc" } };
+        case "likes": return { likes: { _count: options.sortOrder || "desc" } };
+        case "trending": return [
+          { downloads: { _count: "desc" } },
+          { likes: { _count: "desc" } },
+          { createdAt: "desc" }
+        ];
+        case "relevance": return { createdAt: "desc" };
+        default: return { [options.sortBy ?? "createdAt"]: options.sortOrder ?? "desc" };
+      }
+    })(),
 
     include: {
       owner: {
@@ -260,15 +252,8 @@ async findMany(options: {
           },
         },
       },
-
       category: true,
-
-      tags: {
-        include: {
-          tag: true,
-        },
-      },
-
+      tags: { include: { tag: true } },
       _count: {
         select: {
           likes: true,
@@ -296,53 +281,35 @@ async count(options: {
   location?: string;
 
   tagId?: string;
+  region?: string;
+  city?: string;
+  orientation?: "landscape" | "portrait" | "square";
 }) {
   return prisma.image.count({
     where: {
       categoryId: options.categoryId,
-
       ownerId: options.ownerId,
-
       visibility: options.visibility,
-
       status: options.status,
 
-      location: options.location
+      // Combine location, region, and city into OR condition or single field
+      location: (options.location || options.region || options.city)
         ? {
-            contains: options.location,
+            contains: options.location || options.region || options.city,
             mode: "insensitive",
           }
         : undefined,
 
       OR: options.search
         ? [
-            {
-              title: {
-                contains: options.search,
-                mode: "insensitive",
-              },
-            },
-            {
-              description: {
-                contains: options.search,
-                mode: "insensitive",
-              },
-            },
-            {
-              location: {
-                contains: options.search,
-                mode: "insensitive",
-              },
-            },
+            { title: { contains: options.search, mode: "insensitive" } },
+            { description: { contains: options.search, mode: "insensitive" } },
+            { location: { contains: options.search, mode: "insensitive" } },
           ]
         : undefined,
 
       tags: options.tagId
-        ? {
-            some: {
-              tagId: options.tagId,
-            },
-          }
+        ? { some: { tagId: options.tagId } }
         : undefined,
     },
   });
