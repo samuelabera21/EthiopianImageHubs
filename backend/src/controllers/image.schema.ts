@@ -9,8 +9,11 @@ export const getImagesQuerySchema = z.object({
   status: z.enum(["ACTIVE", "DELETED"]).optional(),
   search: z.string().optional(),
   location: z.string().optional(),
+  region: z.string().optional(),
+  city: z.string().optional(),
+  orientation: z.enum(["landscape", "portrait", "square"]).optional(),
   tagId: z.string().uuid().optional(),
-  sortBy: z.enum(["createdAt", "title", "fileSize"]).optional(),
+  sortBy: z.enum(["createdAt", "title", "fileSize", "relevance", "newest", "oldest", "downloads", "likes", "trending"]).optional(),
   sortOrder: z.enum(["asc", "desc"]).optional(),
 });
 
