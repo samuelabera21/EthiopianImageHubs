@@ -69,6 +69,11 @@ export interface CurrentUser {
   emailVerified: boolean;
   status: string;
   createdAt: string;
+  profile?: {
+    displayName?: string | null;
+    bio?: string | null;
+    avatarUrl?: string | null;
+  };
 }
 
 export interface GetCurrentUserResponse {
