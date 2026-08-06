@@ -9,6 +9,7 @@ import { formatDistanceToNow } from "@/lib/utils";
 import { Heart, Download, UploadCloud, Calendar, ExternalLink } from "lucide-react";
 import { SectionTitle } from "@/components/ui/section-title";
 import { PortfolioImageCard } from "./portfolio-image-card";
+import { getAbsoluteUrl } from "@/lib/media";
 
 interface ContributorProfileClientProps {
   username: string;
@@ -42,7 +43,7 @@ export function ContributorProfileClient({ username }: ContributorProfileClientP
           <div className="flex flex-col sm:flex-row gap-6 sm:items-end -mt-12 sm:-mt-16 mb-6">
             <div className="h-24 w-24 sm:h-32 sm:w-32 border-4 border-background shadow-md rounded-full overflow-hidden bg-primary/10 flex items-center justify-center text-primary text-2xl font-bold">
               {profile.avatarUrl ? (
-                <img src={profile.avatarUrl} alt={profile.displayName} className="h-full w-full object-cover" />
+                <img src={getAbsoluteUrl(profile.avatarUrl)} alt={profile.displayName} className="h-full w-full object-cover" />
               ) : (
                 profile.displayName.charAt(0).toUpperCase()
               )}
