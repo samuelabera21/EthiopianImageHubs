@@ -100,13 +100,24 @@ export interface GetImagesQuery {
   search?: string;
 
   location?: string;
+  
+  region?: string;
+  city?: string;
+
+  orientation?: "landscape" | "portrait" | "square";
 
   tagId?: string;
 
   sortBy?:
     | "createdAt"
     | "title"
-    | "fileSize";
+    | "fileSize"
+    | "relevance"
+    | "newest"
+    | "oldest"
+    | "downloads"
+    | "likes"
+    | "trending";
 
   sortOrder?:
     | "asc"
