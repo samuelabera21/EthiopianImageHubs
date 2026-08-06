@@ -128,7 +128,10 @@ export interface GetImagesQuery {
   status?: ImageStatus;
   search?: string;
   location?: string;
+  region?: string;
+  city?: string;
+  orientation?: "landscape" | "portrait" | "square";
   tagId?: string;
-  sortBy?: "createdAt" | "title" | "fileSize";
+  sortBy?: "createdAt" | "title" | "fileSize" | "relevance" | "newest" | "oldest" | "downloads" | "likes" | "trending";
   sortOrder?: "asc" | "desc";
 }
