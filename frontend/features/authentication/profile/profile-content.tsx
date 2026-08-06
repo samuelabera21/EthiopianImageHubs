@@ -96,14 +96,22 @@ export function ProfileContent() {
             </div>
           </div>
 
-          <div className="border-t border-border pt-6">
+          <div className="border-t border-border pt-6 flex gap-3">
+            <Button
+              href="/profile/edit"
+              size="lg"
+              variant="outline"
+              className="flex-1"
+            >
+              Edit Profile
+            </Button>
             <Button
               onClick={handleLogout}
               disabled={isLoggingOut}
               isLoading={isLoggingOut}
               size="lg"
               variant="outline"
-              className="w-full"
+              className="flex-1"
             >
               <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
               {isLoggingOut ? "Signing out..." : "Sign out"}
