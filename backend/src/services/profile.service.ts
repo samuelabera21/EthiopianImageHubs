@@ -1,6 +1,7 @@
 import { profileRepository } from "../repositories/profile.repository";
 import { imageRepository } from "../repositories/image.repository";
 import { serializeBigInt } from "../utils/json";
+import { storage } from "../storage/storage.factory";
 
 export class ProfileService {
   async getProfile(username: string) {
@@ -82,6 +83,32 @@ export class ProfileService {
           hasPreviousPage: page > 1,
         }
       }
+    };
+  }
+
+  async updateProfile(userId: string, data: { displayName?: string; bio?: string }) {
+    const updated = await profileRepository.updateProfile(userId, data);
+    return {
+      success: true,
+      message: "Profile updated successfully",
+      data: updated,
+    };
+  }
+
+  async updateAvatar(userId: string, file: Express.Multer.File) {
+    if (!file) {
+      throw new Error("Avatar image is required");
+    }
+
+    const uploaded = await storage.upload({ file });
+
+    const avatarUrl = `/${uploaded.storageKey.replace(/\\/g, "/")}`;
+    const updated = await profileRepository.updateProfile(userId, { avatarUrl });
+
+    return {
+      success: true,
+      message: "Avatar updated successfully",
+      data: updated,
     };
   }
 }
