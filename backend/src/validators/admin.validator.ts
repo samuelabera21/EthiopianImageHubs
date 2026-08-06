@@ -10,7 +10,7 @@ export const updateRoleSchema = z.object({
 export const updateStatusSchema = z.object({
   body: z.object({
     status: z.nativeEnum(UserStatus, {
-      errorMap: () => ({ message: "Invalid status" }),
+      message: "Invalid status",
     }),
   }),
 });
