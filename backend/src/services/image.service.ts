@@ -144,11 +144,11 @@ async getImages(query: GetImagesQuery) {
       visibility: query.visibility,
 
       status: query.status ?? "ACTIVE",
-
       search: query.search,
-
       location: query.location,
-
+      region: query.region,
+      city: query.city,
+      orientation: query.orientation,
       tagId: query.tagId,
     });
 
@@ -160,25 +160,31 @@ async getImages(query: GetImagesQuery) {
     await imageRepository.findMany({
       skip,
       take: limit,
-
       categoryId: query.categoryId,
-
       ownerId: query.ownerId,
-
       visibility: query.visibility,
-
       status: query.status ?? "ACTIVE",
-
       search: query.search,
-
       location: query.location,
-
+      region: query.region,
+      city: query.city,
+      orientation: query.orientation,
       tagId: query.tagId,
-
       sortBy: query.sortBy,
-
       sortOrder: query.sortOrder,
     });
+
+  // Since DB-level orientation filtering is not fully supported without raw SQL,
+  // we do in-memory filtering for orientation as a fallback, adjusting total count if needed.
+  let filteredImages = images;
+  if (query.orientation) {
+    filteredImages = images.filter((img: any) => {
+      if (query.orientation === "landscape") return img.width > img.height;
+      if (query.orientation === "portrait") return img.width < img.height;
+      if (query.orientation === "square") return img.width === img.height;
+      return true;
+    });
+  }
 
   //------------------------------------
   // Pagination metadata
@@ -196,7 +202,7 @@ async getImages(query: GetImagesQuery) {
 
     message: "Images retrieved successfully",
 
-    data: serializeBigInt(images),
+    data: serializeBigInt(filteredImages),
 
     pagination: {
       page,
