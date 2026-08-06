@@ -19,6 +19,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <nav className="flex gap-4">
                   <Link href="/admin/users" className="text-sm font-medium text-muted-foreground hover:text-foreground">Users</Link>
                   <Link href="/admin/applications" className="text-sm font-medium text-muted-foreground hover:text-foreground">Applications</Link>
+                  <Link href="/admin/categories" className="text-sm font-medium text-muted-foreground hover:text-foreground">Categories</Link>
+                  <Link href="/admin/tags" className="text-sm font-medium text-muted-foreground hover:text-foreground">Tags</Link>
                 </nav>
               </div>
               {children}
