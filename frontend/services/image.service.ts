@@ -54,6 +54,9 @@ export async function getImages(
   if (query.status) params.append("status", query.status);
   if (query.search) params.append("search", query.search);
   if (query.location) params.append("location", query.location);
+  if (query.region) params.append("region", query.region);
+  if (query.city) params.append("city", query.city);
+  if (query.orientation) params.append("orientation", query.orientation);
   if (query.tagId) params.append("tagId", query.tagId);
   if (query.sortBy) params.append("sortBy", query.sortBy);
   if (query.sortOrder) params.append("sortOrder", query.sortOrder);
