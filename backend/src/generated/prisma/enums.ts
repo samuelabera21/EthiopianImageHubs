@@ -52,6 +52,15 @@ export const StorageProvider = {
 export type StorageProvider = (typeof StorageProvider)[keyof typeof StorageProvider]
 
 
+export const ModerationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ModerationStatus = (typeof ModerationStatus)[keyof typeof ModerationStatus]
+
+
 export const ContributorApplicationStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',

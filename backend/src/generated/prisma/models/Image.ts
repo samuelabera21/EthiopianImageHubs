@@ -59,6 +59,10 @@ export type ImageMinAggregateOutputType = {
   cameraModel: string | null
   visibility: $Enums.ImageVisibility | null
   status: $Enums.ImageStatus | null
+  moderationStatus: $Enums.ModerationStatus | null
+  moderationNote: string | null
+  moderatedById: string | null
+  moderatedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
@@ -85,6 +89,10 @@ export type ImageMaxAggregateOutputType = {
   cameraModel: string | null
   visibility: $Enums.ImageVisibility | null
   status: $Enums.ImageStatus | null
+  moderationStatus: $Enums.ModerationStatus | null
+  moderationNote: string | null
+  moderatedById: string | null
+  moderatedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
@@ -111,6 +119,10 @@ export type ImageCountAggregateOutputType = {
   cameraModel: number
   visibility: number
   status: number
+  moderationStatus: number
+  moderationNote: number
+  moderatedById: number
+  moderatedAt: number
   createdAt: number
   updatedAt: number
   deletedAt: number
@@ -151,6 +163,10 @@ export type ImageMinAggregateInputType = {
   cameraModel?: true
   visibility?: true
   status?: true
+  moderationStatus?: true
+  moderationNote?: true
+  moderatedById?: true
+  moderatedAt?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -177,6 +193,10 @@ export type ImageMaxAggregateInputType = {
   cameraModel?: true
   visibility?: true
   status?: true
+  moderationStatus?: true
+  moderationNote?: true
+  moderatedById?: true
+  moderatedAt?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -203,6 +223,10 @@ export type ImageCountAggregateInputType = {
   cameraModel?: true
   visibility?: true
   status?: true
+  moderationStatus?: true
+  moderationNote?: true
+  moderatedById?: true
+  moderatedAt?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -316,6 +340,10 @@ export type ImageGroupByOutputType = {
   cameraModel: string | null
   visibility: $Enums.ImageVisibility
   status: $Enums.ImageStatus
+  moderationStatus: $Enums.ModerationStatus
+  moderationNote: string | null
+  moderatedById: string | null
+  moderatedAt: Date | null
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
@@ -365,6 +393,10 @@ export type ImageWhereInput = {
   cameraModel?: Prisma.StringNullableFilter<"Image"> | string | null
   visibility?: Prisma.EnumImageVisibilityFilter<"Image"> | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFilter<"Image"> | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFilter<"Image"> | $Enums.ModerationStatus
+  moderationNote?: Prisma.StringNullableFilter<"Image"> | string | null
+  moderatedById?: Prisma.UuidNullableFilter<"Image"> | string | null
+  moderatedAt?: Prisma.DateTimeNullableFilter<"Image"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Image"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Image"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Image"> | Date | string | null
@@ -397,6 +429,10 @@ export type ImageOrderByWithRelationInput = {
   cameraModel?: Prisma.SortOrderInput | Prisma.SortOrder
   visibility?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  moderationStatus?: Prisma.SortOrder
+  moderationNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  moderatedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -432,6 +468,10 @@ export type ImageWhereUniqueInput = Prisma.AtLeast<{
   cameraModel?: Prisma.StringNullableFilter<"Image"> | string | null
   visibility?: Prisma.EnumImageVisibilityFilter<"Image"> | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFilter<"Image"> | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFilter<"Image"> | $Enums.ModerationStatus
+  moderationNote?: Prisma.StringNullableFilter<"Image"> | string | null
+  moderatedById?: Prisma.UuidNullableFilter<"Image"> | string | null
+  moderatedAt?: Prisma.DateTimeNullableFilter<"Image"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Image"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Image"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Image"> | Date | string | null
@@ -464,6 +504,10 @@ export type ImageOrderByWithAggregationInput = {
   cameraModel?: Prisma.SortOrderInput | Prisma.SortOrder
   visibility?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  moderationStatus?: Prisma.SortOrder
+  moderationNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  moderatedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -498,6 +542,10 @@ export type ImageScalarWhereWithAggregatesInput = {
   cameraModel?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
   visibility?: Prisma.EnumImageVisibilityWithAggregatesFilter<"Image"> | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusWithAggregatesFilter<"Image"> | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusWithAggregatesFilter<"Image"> | $Enums.ModerationStatus
+  moderationNote?: Prisma.StringNullableWithAggregatesFilter<"Image"> | string | null
+  moderatedById?: Prisma.UuidNullableWithAggregatesFilter<"Image"> | string | null
+  moderatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Image"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Image"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Image"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Image"> | Date | string | null
@@ -522,6 +570,10 @@ export type ImageCreateInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -554,6 +606,10 @@ export type ImageUncheckedCreateInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -582,6 +638,10 @@ export type ImageUpdateInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -614,6 +674,10 @@ export type ImageUncheckedUpdateInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -644,6 +708,10 @@ export type ImageCreateManyInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -668,6 +736,10 @@ export type ImageUpdateManyMutationInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -694,6 +766,10 @@ export type ImageUncheckedUpdateManyInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -730,6 +806,10 @@ export type ImageCountOrderByAggregateInput = {
   cameraModel?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  moderationStatus?: Prisma.SortOrder
+  moderationNote?: Prisma.SortOrder
+  moderatedById?: Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -762,6 +842,10 @@ export type ImageMaxOrderByAggregateInput = {
   cameraModel?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  moderationStatus?: Prisma.SortOrder
+  moderationNote?: Prisma.SortOrder
+  moderatedById?: Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -788,6 +872,10 @@ export type ImageMinOrderByAggregateInput = {
   cameraModel?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  moderationStatus?: Prisma.SortOrder
+  moderationNote?: Prisma.SortOrder
+  moderatedById?: Prisma.SortOrder
+  moderatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -916,6 +1004,10 @@ export type EnumImageStatusFieldUpdateOperationsInput = {
   set?: $Enums.ImageStatus
 }
 
+export type EnumModerationStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ModerationStatus
+}
+
 export type ImageCreateNestedOneWithoutTagsInput = {
   create?: Prisma.XOR<Prisma.ImageCreateWithoutTagsInput, Prisma.ImageUncheckedCreateWithoutTagsInput>
   connectOrCreate?: Prisma.ImageCreateOrConnectWithoutTagsInput
@@ -991,6 +1083,10 @@ export type ImageCreateWithoutOwnerInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1021,6 +1117,10 @@ export type ImageUncheckedCreateWithoutOwnerInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1080,6 +1180,10 @@ export type ImageScalarWhereInput = {
   cameraModel?: Prisma.StringNullableFilter<"Image"> | string | null
   visibility?: Prisma.EnumImageVisibilityFilter<"Image"> | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFilter<"Image"> | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFilter<"Image"> | $Enums.ModerationStatus
+  moderationNote?: Prisma.StringNullableFilter<"Image"> | string | null
+  moderatedById?: Prisma.UuidNullableFilter<"Image"> | string | null
+  moderatedAt?: Prisma.DateTimeNullableFilter<"Image"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Image"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Image"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Image"> | Date | string | null
@@ -1104,6 +1208,10 @@ export type ImageCreateWithoutCategoryInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1134,6 +1242,10 @@ export type ImageUncheckedCreateWithoutCategoryInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1188,6 +1300,10 @@ export type ImageCreateWithoutTagsInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1219,6 +1335,10 @@ export type ImageUncheckedCreateWithoutTagsInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1262,6 +1382,10 @@ export type ImageUpdateWithoutTagsInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1293,6 +1417,10 @@ export type ImageUncheckedUpdateWithoutTagsInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1320,6 +1448,10 @@ export type ImageCreateWithoutLikesInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1351,6 +1483,10 @@ export type ImageUncheckedCreateWithoutLikesInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1394,6 +1530,10 @@ export type ImageUpdateWithoutLikesInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1425,6 +1565,10 @@ export type ImageUncheckedUpdateWithoutLikesInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1452,6 +1596,10 @@ export type ImageCreateWithoutFavoritesInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1483,6 +1631,10 @@ export type ImageUncheckedCreateWithoutFavoritesInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1526,6 +1678,10 @@ export type ImageUpdateWithoutFavoritesInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1557,6 +1713,10 @@ export type ImageUncheckedUpdateWithoutFavoritesInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1584,6 +1744,10 @@ export type ImageCreateWithoutDownloadsInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1615,6 +1779,10 @@ export type ImageUncheckedCreateWithoutDownloadsInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1658,6 +1826,10 @@ export type ImageUpdateWithoutDownloadsInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1689,6 +1861,10 @@ export type ImageUncheckedUpdateWithoutDownloadsInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1717,6 +1893,10 @@ export type ImageCreateManyOwnerInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1741,6 +1921,10 @@ export type ImageUpdateWithoutOwnerInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1771,6 +1955,10 @@ export type ImageUncheckedUpdateWithoutOwnerInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1800,6 +1988,10 @@ export type ImageUncheckedUpdateManyWithoutOwnerInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1825,6 +2017,10 @@ export type ImageCreateManyCategoryInput = {
   cameraModel?: string | null
   visibility?: $Enums.ImageVisibility
   status?: $Enums.ImageStatus
+  moderationStatus?: $Enums.ModerationStatus
+  moderationNote?: string | null
+  moderatedById?: string | null
+  moderatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -1849,6 +2045,10 @@ export type ImageUpdateWithoutCategoryInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1879,6 +2079,10 @@ export type ImageUncheckedUpdateWithoutCategoryInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1908,6 +2112,10 @@ export type ImageUncheckedUpdateManyWithoutCategoryInput = {
   cameraModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   visibility?: Prisma.EnumImageVisibilityFieldUpdateOperationsInput | $Enums.ImageVisibility
   status?: Prisma.EnumImageStatusFieldUpdateOperationsInput | $Enums.ImageStatus
+  moderationStatus?: Prisma.EnumModerationStatusFieldUpdateOperationsInput | $Enums.ModerationStatus
+  moderationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moderatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1992,6 +2200,10 @@ export type ImageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   cameraModel?: boolean
   visibility?: boolean
   status?: boolean
+  moderationStatus?: boolean
+  moderationNote?: boolean
+  moderatedById?: boolean
+  moderatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -2025,6 +2237,10 @@ export type ImageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   cameraModel?: boolean
   visibility?: boolean
   status?: boolean
+  moderationStatus?: boolean
+  moderationNote?: boolean
+  moderatedById?: boolean
+  moderatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -2053,6 +2269,10 @@ export type ImageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   cameraModel?: boolean
   visibility?: boolean
   status?: boolean
+  moderationStatus?: boolean
+  moderationNote?: boolean
+  moderatedById?: boolean
+  moderatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -2081,12 +2301,16 @@ export type ImageSelectScalar = {
   cameraModel?: boolean
   visibility?: boolean
   status?: boolean
+  moderationStatus?: boolean
+  moderationNote?: boolean
+  moderatedById?: boolean
+  moderatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
 }
 
-export type ImageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "categoryId" | "title" | "description" | "location" | "storageProvider" | "originalFilename" | "storedFilename" | "storageKey" | "mimeType" | "extension" | "fileSize" | "width" | "height" | "checksum" | "dominantColor" | "cameraModel" | "visibility" | "status" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["image"]>
+export type ImageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "categoryId" | "title" | "description" | "location" | "storageProvider" | "originalFilename" | "storedFilename" | "storageKey" | "mimeType" | "extension" | "fileSize" | "width" | "height" | "checksum" | "dominantColor" | "cameraModel" | "visibility" | "status" | "moderationStatus" | "moderationNote" | "moderatedById" | "moderatedAt" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["image"]>
 export type ImageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -2136,6 +2360,10 @@ export type $ImagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     cameraModel: string | null
     visibility: $Enums.ImageVisibility
     status: $Enums.ImageStatus
+    moderationStatus: $Enums.ModerationStatus
+    moderationNote: string | null
+    moderatedById: string | null
+    moderatedAt: Date | null
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
@@ -2588,6 +2816,10 @@ export interface ImageFieldRefs {
   readonly cameraModel: Prisma.FieldRef<"Image", 'String'>
   readonly visibility: Prisma.FieldRef<"Image", 'ImageVisibility'>
   readonly status: Prisma.FieldRef<"Image", 'ImageStatus'>
+  readonly moderationStatus: Prisma.FieldRef<"Image", 'ModerationStatus'>
+  readonly moderationNote: Prisma.FieldRef<"Image", 'String'>
+  readonly moderatedById: Prisma.FieldRef<"Image", 'String'>
+  readonly moderatedAt: Prisma.FieldRef<"Image", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Image", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Image", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"Image", 'DateTime'>

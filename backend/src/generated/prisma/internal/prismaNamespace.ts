@@ -1617,6 +1617,10 @@ export const ImageScalarFieldEnum = {
   cameraModel: 'cameraModel',
   visibility: 'visibility',
   status: 'status',
+  moderationStatus: 'moderationStatus',
+  moderationNote: 'moderationNote',
+  moderatedById: 'moderatedById',
+  moderatedAt: 'moderatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
@@ -1855,6 +1859,20 @@ export type EnumImageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'ImageStatus[]'
  */
 export type ListEnumImageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ImageStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ModerationStatus'
+ */
+export type EnumModerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModerationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ModerationStatus[]'
+ */
+export type ListEnumModerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModerationStatus[]'>
     
 
 

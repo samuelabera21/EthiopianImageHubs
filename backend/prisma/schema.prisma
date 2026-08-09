@@ -47,6 +47,12 @@ enum StorageProvider {
   CLOUDINARY
 }
 
+enum ModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum ContributorApplicationStatus {
   PENDING
   APPROVED
@@ -318,12 +324,20 @@ model Image {
   cameraModel String? @db.VarChar(150)
 
   //---------------------------------------
-  // Visibility
+  // Visibility & Moderation
   //---------------------------------------
 
   visibility ImageVisibility @default(PUBLIC)
 
   status ImageStatus @default(ACTIVE)
+
+  moderationStatus ModerationStatus @default(PENDING)
+
+  moderationNote String? @db.Text
+
+  moderatedById String? @db.Uuid
+
+  moderatedAt DateTime?
 
   //---------------------------------------
   // Audit

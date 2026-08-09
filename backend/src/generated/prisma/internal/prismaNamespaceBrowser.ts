@@ -208,6 +208,10 @@ export const ImageScalarFieldEnum = {
   cameraModel: 'cameraModel',
   visibility: 'visibility',
   status: 'status',
+  moderationStatus: 'moderationStatus',
+  moderationNote: 'moderationNote',
+  moderatedById: 'moderatedById',
+  moderatedAt: 'moderatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'

@@ -296,6 +296,13 @@ export type EnumImageStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumImageStatusFilter<$PrismaModel> | $Enums.ImageStatus
 }
 
+export type EnumModerationStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.ModerationStatus | Prisma.EnumModerationStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ModerationStatus[] | Prisma.ListEnumModerationStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ModerationStatus[] | Prisma.ListEnumModerationStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumModerationStatusFilter<$PrismaModel> | $Enums.ModerationStatus
+}
+
 export type EnumStorageProviderWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.StorageProvider | Prisma.EnumStorageProviderFieldRefInput<$PrismaModel>
   in?: $Enums.StorageProvider[] | Prisma.ListEnumStorageProviderFieldRefInput<$PrismaModel>
@@ -356,6 +363,16 @@ export type EnumImageStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumImageStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumImageStatusFilter<$PrismaModel>
+}
+
+export type EnumModerationStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ModerationStatus | Prisma.EnumModerationStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ModerationStatus[] | Prisma.ListEnumModerationStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ModerationStatus[] | Prisma.ListEnumModerationStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumModerationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ModerationStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumModerationStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumModerationStatusFilter<$PrismaModel>
 }
 
 export type NestedUuidFilter<$PrismaModel = never> = {
@@ -638,6 +655,13 @@ export type NestedEnumImageStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumImageStatusFilter<$PrismaModel> | $Enums.ImageStatus
 }
 
+export type NestedEnumModerationStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.ModerationStatus | Prisma.EnumModerationStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ModerationStatus[] | Prisma.ListEnumModerationStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ModerationStatus[] | Prisma.ListEnumModerationStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumModerationStatusFilter<$PrismaModel> | $Enums.ModerationStatus
+}
+
 export type NestedEnumStorageProviderWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.StorageProvider | Prisma.EnumStorageProviderFieldRefInput<$PrismaModel>
   in?: $Enums.StorageProvider[] | Prisma.ListEnumStorageProviderFieldRefInput<$PrismaModel>
@@ -709,6 +733,16 @@ export type NestedEnumImageStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumImageStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumImageStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumModerationStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ModerationStatus | Prisma.EnumModerationStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.ModerationStatus[] | Prisma.ListEnumModerationStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ModerationStatus[] | Prisma.ListEnumModerationStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumModerationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ModerationStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumModerationStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumModerationStatusFilter<$PrismaModel>
 }
 
 
