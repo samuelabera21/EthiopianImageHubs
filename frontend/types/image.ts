@@ -49,6 +49,8 @@ export interface Image {
   cameraModel: string | null;
   visibility: ImageVisibility;
   status: ImageStatus;
+  moderationStatus: "PENDING" | "APPROVED" | "REJECTED";
+  moderationNote?: string | null;
   tags: Tag[];
   isLiked?: boolean;
   isFavorited?: boolean;

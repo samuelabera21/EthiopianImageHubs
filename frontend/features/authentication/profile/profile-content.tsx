@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { SkeletonProfile } from "@/components/ui/skeleton-profile";
 import { useAuth } from "@/features/authentication/provider/AuthProvider";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
+import { MyImagesClient } from "./my-images-client";
 
 function getInitials(username: string): string {
   return username
@@ -27,11 +28,14 @@ function formatDate(dateString: string): string {
   });
 }
 
+type TabType = "overview" | "images";
+
 export function ProfileContent() {
   const { currentUser, isLoading, logout } = useAuth();
   useProtectedRoute();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabType>("overview");
 
   if (isLoading) {
     return <SkeletonProfile />;
@@ -120,12 +124,40 @@ export function ProfileContent() {
         </div>
       </Card>
 
-      {/* Account Information Card */}
-      <Card className="p-6 sm:p-8">
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold tracking-tight text-foreground">
-            Account Information
-          </h2>
+      {/* Tabs */}
+      <div className="flex border-b border-border">
+        <button
+          onClick={() => setActiveTab("overview")}
+          className={`px-4 py-2 font-medium text-sm transition-colors ${
+            activeTab === "overview"
+              ? "border-b-2 border-primary text-primary"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          Overview
+        </button>
+        {["CONTRIBUTOR", "ADMIN"].includes(currentUser.role) && (
+          <button
+            onClick={() => setActiveTab("images")}
+            className={`px-4 py-2 font-medium text-sm transition-colors ${
+              activeTab === "images"
+                ? "border-b-2 border-primary text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            My Images
+          </button>
+        )}
+      </div>
+
+      {activeTab === "overview" ? (
+        <>
+          {/* Account Information Card */}
+          <Card className="p-6 sm:p-8">
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold tracking-tight text-foreground">
+                Account Information
+              </h2>
 
           <div className="space-y-4 border-t border-border pt-4">
             {/* Email */}
@@ -228,8 +260,12 @@ export function ProfileContent() {
               </span>
             </div>
           </div>
-        </div>
-      </Card>
+          </div>
+        </Card>
+        </>
+      ) : (
+        <MyImagesClient />
+      )}
 
       {/* Navigation */}
       <div className="flex gap-3">

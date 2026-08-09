@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { Suspense, useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { AuthHeader } from "@/components/ui/auth-header";
 import { Footer } from "@/components/ui/footer";
@@ -13,7 +13,7 @@ import { useImages } from "@/hooks/useImages";
 import { useCategories } from "@/hooks/useCategories";
 import type { Image, ImageVisibility } from "@/types/image";
 
-export default function GalleryPage() {
+function GalleryPageContent() {
   const searchParams = useSearchParams();
   const q = searchParams.get("q") || "";
   const initialCategoryId = searchParams.get("categoryId") || "";
@@ -100,5 +100,17 @@ export default function GalleryPage() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+export default function GalleryPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        Loading gallery...
+      </div>
+    }>
+      <GalleryPageContent />
+    </Suspense>
   );
 }
