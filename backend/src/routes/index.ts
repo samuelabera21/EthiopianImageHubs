@@ -64,6 +64,12 @@ router.use("/contributors", contributorRoutes);
 router.use("/admin", adminRoutes);
 
 /**
+ * Moderation
+ */
+import moderationRoutes from "./moderation.routes";
+router.use("/moderation", moderationRoutes);
+
+/**
  * Downloads
  */
 router.use("/downloads", downloadRoutes);

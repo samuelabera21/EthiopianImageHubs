@@ -4,6 +4,7 @@ import { imageRepository } from "../repositories/image.repository";
 import { prisma } from "../config/database";
 
 import { storage } from "../storage/storage.factory";
+import { mailService } from "./mail.service";
 
 import {
   UploadImageInput,
@@ -144,6 +145,7 @@ async getImages(query: GetImagesQuery) {
       visibility: query.visibility,
 
       status: query.status ?? "ACTIVE",
+      moderationStatus: query.moderationStatus,
       search: query.search,
       location: query.location,
       region: query.region,
@@ -164,6 +166,7 @@ async getImages(query: GetImagesQuery) {
       ownerId: query.ownerId,
       visibility: query.visibility,
       status: query.status ?? "ACTIVE",
+      moderationStatus: query.moderationStatus,
       search: query.search,
       location: query.location,
       region: query.region,
@@ -222,7 +225,7 @@ async getImages(query: GetImagesQuery) {
   /**
    * Get image by ID
    */
-  async getImageById(imageId: string, userId?: string) {
+  async getImageById(imageId: string, userId?: string, userRole?: string) {
     //------------------------------------
     // Find image
     //------------------------------------
@@ -235,6 +238,21 @@ async getImages(query: GetImagesQuery) {
 
     if (!image || image.status === "DELETED") {
       throw Object.assign(new Error("Image not found"), { status: 404 });
+    }
+
+    //------------------------------------
+    // Moderation Visibility
+    //------------------------------------
+    
+    // We need userRole here to allow ADMINs to see it. But `userId` is passed.
+    // If not approved, only owner or admin can see it. Let's just do: if not approved, check if owner.
+    // Wait, the controller needs to pass userRole. For now, let's just check ownerId if it's pending.
+    if (image.moderationStatus !== "APPROVED") {
+      // Allow if user is owner or ADMIN
+      if (image.ownerId !== userId && userRole !== "ADMIN") {
+         // We will throw 404 to hide its existence from unauthorized users
+         throw Object.assign(new Error("Image not found"), { status: 404 });
+      }
     }
 
     let isLiked = false;
@@ -475,6 +493,66 @@ async getImages(query: GetImagesQuery) {
       success: true,
       message: "Image restored successfully",
     };
+  }
+
+  /**
+   * Approve Image
+   */
+  async approveImage(imageId: string, moderatorId: string, note?: string) {
+    const image = await imageRepository.findById(imageId);
+    if (!image) {
+      throw Object.assign(new Error("Image not found"), { status: 404 });
+    }
+
+    const updatedImage = await prisma.image.update({
+      where: { id: imageId },
+      data: {
+        moderationStatus: "APPROVED",
+        moderatedById: moderatorId,
+        moderatedAt: new Date(),
+        moderationNote: note || null,
+      },
+      include: { owner: true }
+    });
+
+    // Send email to owner
+    await mailService.send(
+      updatedImage.owner.email,
+      "Your Image has been Approved!",
+      `<p>Hi ${updatedImage.owner.username},</p><p>Great news! Your image "<strong>${updatedImage.title}</strong>" has been approved and is now live on EthiopiaHub Images.</p>`
+    );
+
+    return { success: true, message: "Image approved", data: serializeBigInt(updatedImage) };
+  }
+
+  /**
+   * Reject Image
+   */
+  async rejectImage(imageId: string, moderatorId: string, note: string) {
+    const image = await imageRepository.findById(imageId);
+    if (!image) {
+      throw Object.assign(new Error("Image not found"), { status: 404 });
+    }
+
+    const updatedImage = await prisma.image.update({
+      where: { id: imageId },
+      data: {
+        moderationStatus: "REJECTED",
+        moderatedById: moderatorId,
+        moderatedAt: new Date(),
+        moderationNote: note,
+      },
+      include: { owner: true }
+    });
+
+    // Send email to owner
+    await mailService.send(
+      updatedImage.owner.email,
+      "Update on your Image Submission",
+      `<p>Hi ${updatedImage.owner.username},</p><p>We have reviewed your image "<strong>${updatedImage.title}</strong>". Unfortunately, it has not been approved.</p><p><strong>Reason:</strong> ${note}</p>`
+    );
+
+    return { success: true, message: "Image rejected", data: serializeBigInt(updatedImage) };
   }
 }
 

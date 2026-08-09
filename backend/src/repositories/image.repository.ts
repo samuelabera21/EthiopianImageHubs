@@ -105,6 +105,8 @@ export class ImageRepository {
 
         visibility: data.visibility,
 
+        moderationStatus: "PENDING",
+
         tags: data.tagIds
           ? {
               create: data.tagIds.map((tagId) => ({
@@ -175,11 +177,9 @@ async findMany(options: {
   ownerId?: string;
 
   visibility?: "PUBLIC" | "PRIVATE" | "UNLISTED";
-
   status?: "ACTIVE" | "DELETED";
-
+  moderationStatus?: "PENDING" | "APPROVED" | "REJECTED";
   search?: string;
-
   location?: string;
   region?: string;
   city?: string;
@@ -194,6 +194,7 @@ async findMany(options: {
       ownerId: options.ownerId,
       visibility: options.visibility,
       status: options.status,
+      moderationStatus: options.moderationStatus,
       
       // Combine location, region, and city into OR condition or single field
       location: (options.location || options.region || options.city)
@@ -273,13 +274,10 @@ async count(options: {
   ownerId?: string;
 
   visibility?: "PUBLIC" | "PRIVATE" | "UNLISTED";
-
   status?: "ACTIVE" | "DELETED";
-
+  moderationStatus?: "PENDING" | "APPROVED" | "REJECTED";
   search?: string;
-
   location?: string;
-
   tagId?: string;
   region?: string;
   city?: string;
@@ -290,7 +288,10 @@ async count(options: {
       categoryId: options.categoryId,
       ownerId: options.ownerId,
       visibility: options.visibility,
+
       status: options.status,
+
+      moderationStatus: options.moderationStatus,
 
       // Combine location, region, and city into OR condition or single field
       location: (options.location || options.region || options.city)

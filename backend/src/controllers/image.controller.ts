@@ -28,16 +28,34 @@ export class ImageController {
 /**
  * Get images
  */
-async getImages(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
-  try {
-    // Validate and parse query parameters
-    const query = getImagesQuerySchema.parse(req.query);
+  async getImages(req: Request, res: Response, next: NextFunction) {
+    try {
+      // Validate and parse query parameters
+      const query = getImagesQuerySchema.parse(req.query);
 
-    const result = await imageService.getImages(query);
+      let userId: string | undefined;
+      let userRole: string | undefined;
+      const authHeader = req.headers.authorization;
+      if (authHeader?.startsWith("Bearer ")) {
+        try {
+          const token = authHeader.split(" ")[1];
+          const payload = verifyAccessToken(token);
+          userId = payload.userId;
+          userRole = payload.role;
+        } catch (e) {
+          // Ignore invalid token for public endpoint
+        }
+      }
+
+      // Enforce moderation visibility
+      if (userRole !== "ADMIN") {
+        if (!userId || query.ownerId !== userId) {
+          // Public or non-owner: only see APPROVED
+          query.moderationStatus = "APPROVED";
+        }
+      }
+
+      const result = await imageService.getImages(query);
 
     // Normalize image paths and tags for web compatibility
     const normalizedImages = result.data.map(image => ({
@@ -64,18 +82,20 @@ async getImages(
       const { imageId } = imageIdParamsSchema.parse(req.params);
 
       let userId: string | undefined;
+      let userRole: string | undefined;
       const authHeader = req.headers.authorization;
       if (authHeader?.startsWith("Bearer ")) {
         try {
           const token = authHeader.split(" ")[1];
           const payload = verifyAccessToken(token);
           userId = payload.userId;
+          userRole = payload.role;
         } catch (e) {
           // Ignore invalid token for public endpoint
         }
       }
 
-      const result = await imageService.getImageById(imageId, userId);
+      const result = await imageService.getImageById(imageId, userId, userRole);
 
       if (!result || !result.data) {
         return res.status(404).json({ success: false, message: "Image not found" });
