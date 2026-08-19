@@ -1,5 +1,4 @@
-import { PrismaClient } from './src/generated/prisma';
-const prisma = new PrismaClient();
+import { prisma } from './src/prisma/client';
 
 async function main() {
   const modRole = await prisma.role.findUnique({ where: { name: 'MODERATOR' } });

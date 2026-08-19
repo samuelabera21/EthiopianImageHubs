@@ -87,3 +87,13 @@ export type Favorite = Prisma.FavoriteModel
  * 
  */
 export type Download = Prisma.DownloadModel
+/**
+ * Model Collection
+ * 
+ */
+export type Collection = Prisma.CollectionModel
+/**
+ * Model CollectionImage
+ * 
+ */
+export type CollectionImage = Prisma.CollectionImageModel

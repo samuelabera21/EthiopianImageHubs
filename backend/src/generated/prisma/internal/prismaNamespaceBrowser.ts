@@ -64,7 +64,9 @@ export const ModelName = {
   UserProfile: 'UserProfile',
   ImageLike: 'ImageLike',
   Favorite: 'Favorite',
-  Download: 'Download'
+  Download: 'Download',
+  Collection: 'Collection',
+  CollectionImage: 'CollectionImage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -274,6 +276,28 @@ export const DownloadScalarFieldEnum = {
 } as const
 
 export type DownloadScalarFieldEnum = (typeof DownloadScalarFieldEnum)[keyof typeof DownloadScalarFieldEnum]
+
+
+export const CollectionScalarFieldEnum = {
+  id: 'id',
+  ownerId: 'ownerId',
+  name: 'name',
+  description: 'description',
+  isPublic: 'isPublic',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum]
+
+
+export const CollectionImageScalarFieldEnum = {
+  collectionId: 'collectionId',
+  imageId: 'imageId',
+  createdAt: 'createdAt'
+} as const
+
+export type CollectionImageScalarFieldEnum = (typeof CollectionImageScalarFieldEnum)[keyof typeof CollectionImageScalarFieldEnum]
 
 
 export const SortOrder = {

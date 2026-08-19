@@ -10,6 +10,7 @@ import contributorRoutes from "./contributor.routes";
 import adminRoutes from "./admin.routes";
 import downloadRoutes from "./download.routes";
 import profileRoutes from "./profile.routes";
+import collectionRoutes from "./collection.routes";
 
 const router = Router();
 
@@ -78,5 +79,10 @@ router.use("/downloads", downloadRoutes);
  * Profiles
  */
 router.use("/profiles", profileRoutes);
+
+/**
+ * Collections
+ */
+router.use("/collections", collectionRoutes);
 
 export default router;

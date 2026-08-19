@@ -248,8 +248,8 @@ async getImages(query: GetImagesQuery) {
     // If not approved, only owner or admin can see it. Let's just do: if not approved, check if owner.
     // Wait, the controller needs to pass userRole. For now, let's just check ownerId if it's pending.
     if (image.moderationStatus !== "APPROVED") {
-      // Allow if user is owner or ADMIN
-      if (image.ownerId !== userId && userRole !== "ADMIN") {
+      // Allow if user is owner, ADMIN, or MODERATOR
+      if (image.ownerId !== userId && userRole !== "ADMIN" && userRole !== "MODERATOR") {
          // We will throw 404 to hide its existence from unauthorized users
          throw Object.assign(new Error("Image not found"), { status: 404 });
       }

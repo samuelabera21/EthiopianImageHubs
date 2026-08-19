@@ -105,9 +105,10 @@ model User {
   contributorApplication ContributorApplication?
 
   profile                    UserProfile?
-likes                      ImageLike[]
-favorites                  Favorite[]
-downloads                  Download[]
+  likes                      ImageLike[]
+  favorites                  Favorite[]
+  downloads                  Download[]
+  collections                Collection[]
 
   //---------------------------------------
   // Indexes
@@ -359,6 +360,7 @@ tags ImageTag[]
 likes ImageLike[]
 favorites Favorite[]
 downloads Download[]
+collectionImages CollectionImage[]
 
   //---------------------------------------
   // Indexes
@@ -486,5 +488,45 @@ model Download {
   @@index([downloadedAt])
 
   @@map("downloads")
+}
+
+// =======================================================
+// Collections
+// Sprint 6
+// =======================================================
+
+model Collection {
+  id String @id @default(uuid()) @db.Uuid
+
+  ownerId String @db.Uuid
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  name String @db.VarChar(150)
+  description String? @db.Text
+  isPublic Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images CollectionImage[]
+
+  @@index([ownerId])
+  @@index([isPublic])
+  @@map("collections")
+}
+
+model CollectionImage {
+  collectionId String @db.Uuid
+  imageId String @db.Uuid
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  image Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@id([collectionId, imageId])
+  @@index([collectionId])
+  @@index([imageId])
+  @@map("collection_images")
 }
 
