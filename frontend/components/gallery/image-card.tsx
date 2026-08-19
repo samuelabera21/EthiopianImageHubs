@@ -9,6 +9,9 @@ import { BackendImage } from "@/components/ui/backend-image";
 import { Button } from "@/components/ui/button";
 import type { Image } from "@/types/image";
 
+import { useState } from "react";
+import { AddToCollectionModal } from "@/components/collections/add-to-collection-modal";
+
 interface GalleryImageCardProps {
   image: Image;
   onClick?: (image: Image) => void;
@@ -16,6 +19,7 @@ interface GalleryImageCardProps {
 }
 
 export function GalleryImageCard({ image, onClick, className }: GalleryImageCardProps) {
+  const [showCollectionModal, setShowCollectionModal] = useState(false);
   const imageUrl = getAbsoluteUrl(getImageUrl(image));
   const isLocalBackend = imageUrl.includes("localhost") || imageUrl.includes("127.0.0.1");
 
@@ -27,7 +31,7 @@ export function GalleryImageCard({ image, onClick, className }: GalleryImageCard
 
   const handleSave = (e: React.MouseEvent) => {
     e.stopPropagation();
-    alert("Save to collection coming soon");
+    setShowCollectionModal(true);
   };
 
   // Calculate raw aspect ratio and clamp to balanced bounds (0.72 min portrait limit, 1.65 max landscape limit)
@@ -157,6 +161,12 @@ export function GalleryImageCard({ image, onClick, className }: GalleryImageCard
           </div>
         </div>
       </div>
+
+      <AddToCollectionModal
+        imageId={image.id}
+        isOpen={showCollectionModal}
+        onClose={() => setShowCollectionModal(false)}
+      />
     </article>
   );
 }
