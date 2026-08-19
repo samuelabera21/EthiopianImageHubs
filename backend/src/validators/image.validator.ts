@@ -96,6 +96,7 @@ export interface GetImagesQuery {
   visibility?: "PUBLIC" | "PRIVATE" | "UNLISTED";
 
   status?: "ACTIVE" | "DELETED";
+  moderationStatus?: "PENDING" | "APPROVED" | "REJECTED";
 
   search?: string;
 

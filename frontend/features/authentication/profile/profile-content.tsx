@@ -8,6 +8,8 @@ import { Card } from "@/components/ui/card";
 import { SkeletonProfile } from "@/components/ui/skeleton-profile";
 import { useAuth } from "@/features/authentication/provider/AuthProvider";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
+import { MyImagesClient } from "./my-images-client";
+import { MyCollectionsClient } from "./my-collections-client";
 
 function getInitials(username: string): string {
   return username
@@ -27,11 +29,14 @@ function formatDate(dateString: string): string {
   });
 }
 
+type TabType = "overview" | "images" | "collections";
+
 export function ProfileContent() {
   const { currentUser, isLoading, logout } = useAuth();
   useProtectedRoute();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabType>("overview");
 
   if (isLoading) {
     return <SkeletonProfile />;
@@ -120,116 +125,160 @@ export function ProfileContent() {
         </div>
       </Card>
 
-      {/* Account Information Card */}
-      <Card className="p-6 sm:p-8">
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold tracking-tight text-foreground">
-            Account Information
-          </h2>
+      {/* Tabs */}
+      <div className="flex border-b border-border">
+        <button
+          onClick={() => setActiveTab("overview")}
+          className={`px-4 py-2 font-medium text-sm transition-colors ${
+            activeTab === "overview"
+              ? "border-b-2 border-primary text-primary"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          Overview
+        </button>
+        {["CONTRIBUTOR", "ADMIN"].includes(currentUser.role) && (
+          <button
+            onClick={() => setActiveTab("images")}
+            className={`px-4 py-2 font-medium text-sm transition-colors ${
+              activeTab === "images"
+                ? "border-b-2 border-primary text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            My Images
+          </button>
+        )}
+        <button
+          onClick={() => setActiveTab("collections")}
+          className={`px-4 py-2 font-medium text-sm transition-colors ${
+            activeTab === "collections"
+              ? "border-b-2 border-primary text-primary"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          My Collections
+        </button>
+      </div>
 
-          <div className="space-y-4 border-t border-border pt-4">
-            {/* Email */}
-            <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-raised">
-                <Mail className="h-5 w-5 text-secondary" aria-hidden="true" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Email Address
-                </p>
-                <p className="mt-1 break-all text-sm text-foreground">
-                  {currentUser.email}
-                </p>
-                {currentUser.emailVerified && (
-                  <p className="mt-1 inline-flex items-center gap-1 text-xs text-emerald-700">
-                    <CheckCircle2 className="h-3 w-3" aria-hidden="true" />
-                    Verified
-                  </p>
-                )}
+      {activeTab === "overview" ? (
+        <>
+          {/* Account Information Card */}
+          <Card className="p-6 sm:p-8">
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold tracking-tight text-foreground">
+                Account Information
+              </h2>
+
+              <div className="space-y-4 border-t border-border pt-4">
+                {/* Email */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-raised">
+                    <Mail className="h-5 w-5 text-secondary" aria-hidden="true" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Email Address
+                    </p>
+                    <p className="mt-1 break-all text-sm text-foreground">
+                      {currentUser.email}
+                    </p>
+                    {currentUser.emailVerified && (
+                      <p className="mt-1 inline-flex items-center gap-1 text-xs text-emerald-700">
+                        <CheckCircle2 className="h-3 w-3" aria-hidden="true" />
+                        Verified
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Role */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-raised">
+                    <Badge className="h-5 w-5 text-secondary" aria-hidden="true" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Account Role
+                    </p>
+                    <p className="mt-1 text-sm text-foreground">
+                      {currentUser.role}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Joined Date */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-raised">
+                    <Calendar className="h-5 w-5 text-secondary" aria-hidden="true" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Joined Date
+                    </p>
+                    <p className="mt-1 text-sm text-foreground">
+                      {joinedDate}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
+          </Card>
 
-            {/* Role */}
-            <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-raised">
-                <Badge className="h-5 w-5 text-secondary" aria-hidden="true" />
-              </div>
-              <div className="flex-1">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Account Role
-                </p>
-                <p className="mt-1 text-sm text-foreground">
-                  {currentUser.role}
-                </p>
+          {/* Account Status Card */}
+          <Card className="p-6 sm:p-8">
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold tracking-tight text-foreground">
+                Account Status
+              </h2>
+
+              <div className="space-y-3 border-t border-border pt-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Status</span>
+                  <span className={`inline-flex items-center gap-1 font-semibold ${
+                    isActive ? "text-emerald-700" : "text-amber-700"
+                  }`}>
+                    {isActive ? (
+                      <>
+                        <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+                        Active
+                      </>
+                    ) : (
+                      <>
+                        <AlertCircle className="h-4 w-4" aria-hidden="true" />
+                        {currentUser.status}
+                      </>
+                    )}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Email Verified</span>
+                  <span className={`inline-flex items-center gap-1 font-semibold ${
+                    currentUser.emailVerified ? "text-emerald-700" : "text-amber-700"
+                  }`}>
+                    {currentUser.emailVerified ? (
+                      <>
+                        <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+                        Yes
+                      </>
+                    ) : (
+                      <>
+                        <AlertCircle className="h-4 w-4" aria-hidden="true" />
+                        No
+                      </>
+                    )}
+                  </span>
+                </div>
               </div>
             </div>
-
-            {/* Joined Date */}
-            <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-raised">
-                <Calendar className="h-5 w-5 text-secondary" aria-hidden="true" />
-              </div>
-              <div className="flex-1">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Joined Date
-                </p>
-                <p className="mt-1 text-sm text-foreground">
-                  {joinedDate}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card>
-
-      {/* Account Status Card */}
-      <Card className="p-6 sm:p-8">
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold tracking-tight text-foreground">
-            Account Status
-          </h2>
-
-          <div className="space-y-3 border-t border-border pt-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Status</span>
-              <span className={`inline-flex items-center gap-1 font-semibold ${
-                isActive ? "text-emerald-700" : "text-amber-700"
-              }`}>
-                {isActive ? (
-                  <>
-                    <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-                    Active
-                  </>
-                ) : (
-                  <>
-                    <AlertCircle className="h-4 w-4" aria-hidden="true" />
-                    {currentUser.status}
-                  </>
-                )}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Email Verified</span>
-              <span className={`inline-flex items-center gap-1 font-semibold ${
-                currentUser.emailVerified ? "text-emerald-700" : "text-amber-700"
-              }`}>
-                {currentUser.emailVerified ? (
-                  <>
-                    <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-                    Yes
-                  </>
-                ) : (
-                  <>
-                    <AlertCircle className="h-4 w-4" aria-hidden="true" />
-                    No
-                  </>
-                )}
-              </span>
-            </div>
-          </div>
-        </div>
-      </Card>
+          </Card>
+        </>
+      ) : activeTab === "images" ? (
+        <MyImagesClient />
+      ) : (
+        <MyCollectionsClient />
+      )}
 
       {/* Navigation */}
       <div className="flex gap-3">

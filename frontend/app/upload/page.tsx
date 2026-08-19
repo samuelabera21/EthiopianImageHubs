@@ -151,15 +151,15 @@ export default function UploadPage() {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-2xl font-semibold text-foreground">
-                    Image published successfully
+                    Image submitted for moderation
                   </h3>
                   <p className="text-muted-foreground">
-                    Your image is now live and discoverable by the community.
+                    Your image has been submitted and is waiting for moderator approval. You can view its status on your profile.
                   </p>
                 </div>
                 <div className="flex gap-3">
-                  <Button href="/gallery" variant="outline" className="flex-1">
-                    View gallery
+                  <Button href="/profile" variant="outline" className="flex-1">
+                    View profile
                   </Button>
                   <Button onClick={handlePublishComplete} className="flex-1">
                     Upload another

@@ -73,3 +73,29 @@ export function authenticate(
     });
   }
 }
+
+/**
+ * Optional Authentication
+ * Attaches user to req if valid token is provided, but does not block if omitted.
+ */
+export function optionalAuthenticate(
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) {
+  try {
+    const authorization = req.headers.authorization;
+    if (authorization && authorization.startsWith("Bearer ")) {
+      const token = authorization.split(" ")[1];
+      const payload = verifyAccessToken(token);
+      req.user = {
+        userId: payload.userId,
+        email: payload.email,
+        role: payload.role,
+      };
+    }
+  } catch {
+    // Ignore error for optional authentication
+  }
+  next();
+}

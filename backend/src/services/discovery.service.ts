@@ -13,6 +13,7 @@ export class DiscoveryService {
       sortOrder: "desc",
       visibility: "PUBLIC",
       status: "ACTIVE",
+      moderationStatus: "APPROVED",
     });
     
     return {
@@ -30,6 +31,7 @@ export class DiscoveryService {
       sortOrder: "desc",
       visibility: "PUBLIC",
       status: "ACTIVE",
+      moderationStatus: "APPROVED",
     });
 
     return {
@@ -60,6 +62,7 @@ export class DiscoveryService {
         id: { not: imageId },
         status: "ACTIVE",
         visibility: "PUBLIC",
+        moderationStatus: "APPROVED",
         OR: [
           { categoryId: image.categoryId },
           { tags: { some: { tagId: { in: tagIds } } } }

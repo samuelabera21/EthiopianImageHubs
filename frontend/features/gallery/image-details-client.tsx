@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
+import { AddToCollectionModal } from "@/components/collections/add-to-collection-modal";
 import { ImageDetails } from "@/components/gallery/image-details";
 import { RelatedImages } from "@/components/gallery/related-images";
 import { Card } from "@/components/ui/card";
@@ -62,9 +63,11 @@ export function ImageDetailsClient({ imageId }: ImageDetailsClientProps) {
     }
   }, [image]);
 
+  const [showCollectionModal, setShowCollectionModal] = useState(false);
+
   const handleSave = useCallback(() => {
-    toggleFavorite();
-  }, [toggleFavorite]);
+    setShowCollectionModal(true);
+  }, []);
 
   const handleRelatedImageClick = useCallback((relatedImage: Image) => {
     router.push(`/images/${relatedImage.id}`);
@@ -125,6 +128,12 @@ export function ImageDetailsClient({ imageId }: ImageDetailsClientProps) {
           onImageClick={handleRelatedImageClick}
         />
       )}
+
+      <AddToCollectionModal
+        imageId={imageId}
+        isOpen={showCollectionModal}
+        onClose={() => setShowCollectionModal(false)}
+      />
     </div>
   );
 }

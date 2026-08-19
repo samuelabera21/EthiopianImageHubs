@@ -232,6 +232,7 @@ export const heroStats = [
 
 export const navigationItems = [
   { label: "Gallery", href: "/gallery" },
+  { label: "Collections", href: "/collections" },
   { label: "Search", href: "/search" },
   { label: "Upload", href: "/upload" },
 ];

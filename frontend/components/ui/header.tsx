@@ -12,9 +12,10 @@ interface HeaderProps {
   variant?: "default" | "minimal";
   user?: { username: string; href?: string };
   isAdmin?: boolean;
+  isModerator?: boolean;
 }
 
-export function Header({ className, variant = "default", user, isAdmin = false }: HeaderProps) {
+export function Header({ className, variant = "default", user, isAdmin = false, isModerator = false }: HeaderProps) {
   const isMinimal = variant === "minimal";
 
   return (
@@ -61,6 +62,14 @@ export function Header({ className, variant = "default", user, isAdmin = false }
                         className="rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted hover:text-secondary"
                       >
                         Admin
+                      </Link>
+                    )}
+                    {(isAdmin || isModerator) && (
+                      <Link
+                        href="/moderation"
+                        className="rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted hover:text-secondary"
+                      >
+                        Moderation
                       </Link>
                     )}
                     <Link

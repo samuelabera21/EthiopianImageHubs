@@ -22,6 +22,7 @@ export function AuthHeader({ variant = "default" }: AuthHeaderProps) {
         href: "/profile",
       }}
       isAdmin={currentUser.role === "ADMIN"}
+      isModerator={currentUser.role === "MODERATOR"}
     />
   );
 }

@@ -7,6 +7,7 @@ export const getImagesQuerySchema = z.object({
   ownerId: z.string().uuid().optional(),
   visibility: z.enum(["PUBLIC", "PRIVATE", "UNLISTED"]).optional(),
   status: z.enum(["ACTIVE", "DELETED"]).optional(),
+  moderationStatus: z.enum(["PENDING", "APPROVED", "REJECTED"]).optional(),
   search: z.string().optional(),
   location: z.string().optional(),
   region: z.string().optional(),
